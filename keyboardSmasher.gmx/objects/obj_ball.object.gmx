@@ -37,9 +37,6 @@ start_position_x = x;
 
 mid_jump = 0;
 mid_fall = 0;
-
-ydir = 1;
-pac_sufit = false;
 </string>
           </argument>
         </arguments>
@@ -64,36 +61,45 @@ pac_sufit = false;
             <kind>1</kind>
             <string>if ( y - last_known_y &gt; 0 &amp;&amp; mid_jump){
     mid_jump = 0;
-    ydir = 1;
 }
 
 
 //bullet collision
 
-for (i = last_known_y; (i&lt;=y)*(1+ydir)+(i&gt;=y)*(1-ydir); i += 32*ydir)
+var y_direction = sign(y-last_known_y);
+if (y_direction == 0) y_direction = 1;
+
+for (i = last_known_y; (i&lt;=y)*(1+y_direction)+(i&gt;=y)*(1-y_direction); i += 31*y_direction)
 {
     var collision_occured = false;
-    while (place_meeting(x, y, obj_ghostfloor))
+    while (position_meeting(x, y+16, obj_ghostfloor))
     {
-        y = ceil(y)-ydir;
+        y = ceil(y)-1;
         collision_occured = true;
+    }
+    while (position_meeting(x, y-16, obj_ghostfloor))
+    {
+        y = floor(y)+1;
+        collision_occured = true;
+    }
+    while (position_meeting(x+16, y, obj_ghostfloor))
+    {
+        x = floor(x)-1;
     }
     if (collision_occured){
         mid_fall = 1;
         mid_jump = 0;
         jump_type = 0;
-        ydir = 1;
         break;
     }
 }
 
 
-if (place_meeting(x, y+1, obj_ghostfloor)){
+if (position_meeting(x, y+17, obj_ghostfloor)){
     mid_fall = 0;
     mid_air_start_x = x;
     mid_air_start_y = y;
     jump_type = 0;
-    ydir = 1;
 }
 else{
     mid_fall = 1;
@@ -101,20 +107,18 @@ else{
 
 
 
-if (place_meeting(x, y-1, obj_ghostfloor)){
+if (position_meeting(x, y-17, obj_ghostfloor)){
     mid_jump = 0;
-    mid_air_start_x = x;
-    mid_air_start_y = y;
-    jump_type = -jump_type;
-    ydir = -1;
+    if (y&lt;last_known_y)
+    {
+        mid_air_start_x = x;
+        mid_air_start_y = y;
+        jump_type = 0;
+    }
 }
 
 
 last_known_y = y;
-
-
-
-
 </string>
           </argument>
         </arguments>
@@ -190,7 +194,7 @@ if (short_jump_key &amp;&amp; !mid_jump &amp;&amp; !mid_fall){
     //mid_air_start_y = y;
     mid_jump = 1;
     jump_type = 1;
-    ydir = -1;
+    //ydir = -1;
 }
 
 if (long_jump_key &amp;&amp; !mid_jump &amp;&amp; !mid_fall){
@@ -198,7 +202,6 @@ if (long_jump_key &amp;&amp; !mid_jump &amp;&amp; !mid_fall){
     //mid_air_start_y = y;
     mid_jump = 1;
     jump_type = 2;
-    ydir = -1;
 }
 
 if (mid_jump || mid_fall){

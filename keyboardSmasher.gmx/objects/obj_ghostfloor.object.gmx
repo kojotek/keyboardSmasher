@@ -48,7 +48,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>y = start_y + 80* cos((view_xview[0]*(-1)+x+100)/(100));
+            <string>//y = start_y + 50* cos((view_xview[0]*(-0.5)+x+100)/(100));
+//`image_angle = 40;
+//y = start_y + 80* cos((view_xview[0])/(100));
 </string>
           </argument>
         </arguments>

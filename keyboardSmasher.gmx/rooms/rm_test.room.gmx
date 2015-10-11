@@ -379,7 +379,20 @@
     <instance objName="obj_ghostfloor" x="2304" y="416" name="inst_FCD52FC3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_ghostfloor" x="2336" y="416" name="inst_F85B3053" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_ghostfloor" x="2368" y="416" name="inst_E2C1E4AA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_bazzinga" x="0" y="0" name="inst_E23470B9" locked="0" code="" scaleX="625" scaleY="24" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1792" y="352" name="inst_307CBDCA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1792" y="320" name="inst_2E7E8FC2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="256" name="inst_4F915A63" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="224" name="inst_152EE9A2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="192" name="inst_AD208DD1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="160" name="inst_212D7592" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="128" name="inst_6F76E200" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="96" name="inst_3CF3BBD0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="64" name="inst_E477208A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="32" name="inst_A2CC64D6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="288" name="inst_AF7B61AF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="320" name="inst_A786E368" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="352" name="inst_C84AF060" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ghostfloor" x="1760" y="384" name="inst_62614C54" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="" x="3456" y="640" w="16" h="16" xo="0" yo="0" id="10000002" name="inst_2A3EFF94" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
