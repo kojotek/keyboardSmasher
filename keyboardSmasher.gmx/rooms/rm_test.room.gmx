@@ -118,7 +118,7 @@
     <instance objName="obj_ghostfloor" x="2112" y="640" name="inst_D201CC92" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_ghostfloor" x="2144" y="640" name="inst_2FE484B9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_ghostfloor" x="2176" y="640" name="inst_B1AF7EDE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_ball" x="160" y="192" name="inst_CA2B6FFD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_ball" x="224" y="128" name="inst_CA2B6FFD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_time_contorller" x="32" y="736" name="inst_C4906990" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_music_controller" x="64" y="736" name="inst_17E5B8FF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_ghostfloor" x="4512" y="640" name="inst_56B64F31" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

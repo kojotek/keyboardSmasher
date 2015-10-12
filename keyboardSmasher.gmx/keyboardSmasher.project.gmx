@@ -21,11 +21,15 @@
     <object>objects\obj_music_controller</object>
     <object>objects\obj_ghostfloor</object>
     <object>objects\obj_time_contorller</object>
-    <object>objects\obj_bazzinga</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_test</room>
   </rooms>
+  <constants number="3">
+    <constant name="macro_go_from_object">ev_user0</constant>
+    <constant name="macro_fall">0</constant>
+    <constant name="macro_jump">1</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>
