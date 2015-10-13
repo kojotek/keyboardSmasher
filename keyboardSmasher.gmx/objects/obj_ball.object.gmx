@@ -42,12 +42,13 @@ blink = 0;
 y_direction = 1;
 next_y = y;
 
-uc = 0;
-dc = 0;
-luc = 0;
-ldc = 0;
-
 collision_occured = false;
+
+dash_length = 128;
+dash_start_x = 0;
+ready_for_dash = false;
+
+x_shift = 0;
 </string>
           </argument>
         </arguments>
@@ -77,11 +78,9 @@ collision_occured = false;
 y_direction = sign(next_y-y);
 collision_occured = false;
 
-last_known_y = y;
-
-if (y_direction != 0) {
+if (y_direction != 0){
     do{
-        if (place_meeting(x,y,obj_ghostfloor)){
+        if (place_meeting(x,y,obj_collidable)){
             collision_occured = true;
             event_perform(ev_other, macro_go_from_object);      //wycofywanie sie z kolizji
             break;
@@ -91,30 +90,31 @@ if (y_direction != 0) {
         }
     }
     until (! ((y&lt;next_y)*(1+y_direction)+(y&gt;next_y)*(1-y_direction)) )
-    
+
     if (!collision_occured)
     {
         y = next_y;
         event_perform(ev_other, macro_go_from_object);      //wycofywanie sie z kolizji
     }
+
 }
 
 
 
-
-if (position_meeting(x, y+17, obj_ghostfloor)){
+if (position_meeting(x, y+17, obj_collidable)){
     mid_air_start_x = x;
     mid_air_start_y = y;
     mid_air_type = macro_fall;
     mid_air = 0;
     jump_height = 300;
+    ready_for_dash = true;
 }
 else{
     mid_air = 1;
 }
 
 
-if (position_meeting(x, y-17, obj_ghostfloor)){
+if (position_meeting(x, y-17, obj_collidable)){
     if (y&lt;last_known_y)
     {
         mid_air_start_x = x;
@@ -124,8 +124,7 @@ if (position_meeting(x, y-17, obj_ghostfloor)){
     }
 }
 
-        show_debug_message(mid_air_start_x);
-
+last_known_y = y;
 </string>
           </argument>
         </arguments>
@@ -151,6 +150,7 @@ if (position_meeting(x, y-17, obj_ghostfloor)){
             <string>last_known_x = 0;
 short_jump_key = keyboard_check(ord('Z'));  //czy wcisniety z
 long_jump_key = keyboard_check(ord('X'));  //czy wcisniety x
+dash_key = keyboard_check(ord('C'));  //czy wcisniety x
 </string>
           </argument>
         </arguments>
@@ -183,7 +183,7 @@ long_jump_key = keyboard_check(ord('X'));  //czy wcisniety x
 
 if (global.current_music_controller.head_position != global.current_music_controller.last_known_head_position){
     //pozycja pilki = wielkosc kafla * BPS * szybkosc pilki * (pozycja glowicy + przesuniecie glowicy);
-    var expected_x = start_position_x + 32 * global.current_music_controller.tempo/60 * h_speed * (global.current_music_controller.head_position + global.current_music_controller.shift);
+    var expected_x = start_position_x + 32 * global.current_music_controller.tempo/60 * h_speed * (global.current_music_controller.head_position + global.current_music_controller.shift) - x_shift;
     speed_factor = 1 - (x - expected_x)/20;
 }
 else{
@@ -194,20 +194,46 @@ else{
 if (short_jump_key &amp;&amp; !mid_air){
     mid_air = 1;
     mid_air_type = macro_jump;
-    jump_height = 96;
+    jump_height = 160;
     jump_length = 32*h_speed;
 }
 
 if (long_jump_key &amp;&amp; !mid_air){
     mid_air = 1;
     mid_air_type = macro_jump;
-    jump_height = 96*2;
+    jump_height = 160*2;
     jump_length = 64*h_speed;
 }
 
-if (mid_air){
-   next_y = mid_air_start_y + (4*(jump_height/(jump_length*jump_length))*(x-mid_air_start_x)*(x-mid_air_start_x) - 4*mid_air_type*(x-mid_air_start_x)*(jump_height/jump_length) );
+if (dash_key &amp;&amp; ready_for_dash){
+    dash_start_x = x;
+    ready_for_dash = false;
 }
+
+if (mid_air_type == macro_fall)
+{
+    jump_height = 160*2;
+    jump_length = 64*h_speed;
+}
+
+
+
+if (x &lt; dash_start_x + dash_length )
+{
+    next_y = y;
+    mid_air_type = macro_fall;
+    mid_air_start_x = x;
+    mid_air_start_y = y;
+}
+else
+{
+    if (mid_air){
+       next_y = mid_air_start_y + (4*(jump_height/(jump_length*jump_length))*(x-mid_air_start_x)*(x-mid_air_start_x) - 4*mid_air_type*(x-mid_air_start_x)*(jump_height/jump_length) );
+    }
+}
+
+
+
 
 blink = (128 - (x mod 128))/256;
 </string>
@@ -232,24 +258,26 @@ blink = (128 - (x mod 128))/256;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>while (position_meeting(x, y+16, obj_ghostfloor))
+            <string>while (position_meeting(x, y+16, obj_collidable))
 {
     y = ceil(y)-1;
 }
-while (position_meeting(x, y-16, obj_ghostfloor))
+while (position_meeting(x, y-16, obj_collidable))
 {
     y = floor(y)+1;
 }
-while (position_meeting(x+16, y, obj_ghostfloor))
+while (position_meeting(x+16, y, obj_collidable))
 {
     x = floor(x)-1;
+    audio_stop_all();
+    room_restart();
 }
-/*
-while (position_meeting(x-16, y, obj_ghostfloor))
+
+while (position_meeting(x-16, y, obj_collidable))
 {
     x = ceil(x)+1;
 }
-*/
+
 </string>
           </argument>
         </arguments>
@@ -275,9 +303,11 @@ while (position_meeting(x-16, y, obj_ghostfloor))
             <string>view_xview[0] = x-200;
 draw_self();
 
+/*
 draw_set_alpha(blink);
 draw_rectangle_colour(0,0,100000,1000,c_white,c_white,c_white,c_white, 0);
 draw_set_alpha(1);
+*/
 </string>
           </argument>
         </arguments>
@@ -286,17 +316,25 @@ draw_set_alpha(1);
     <event eventtype="9" enumb="32">
       <action>
         <libid>1</libid>
-        <id>332</id>
-        <kind>0</kind>
+        <id>603</id>
+        <kind>7</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_end_game</functionname>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>audio_stop_all();
+room_restart();
+</string>
+          </argument>
+        </arguments>
       </action>
     </event>
   </events>
