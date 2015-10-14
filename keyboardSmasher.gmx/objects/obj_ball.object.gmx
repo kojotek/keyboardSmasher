@@ -25,30 +25,23 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>h_speed = 4;
+            <string>start_position_x = x;
+horizontal_speed = 4;
 last_known_y = y;
+next_y = y;
+speed_factor = 1;
+blink = 0;
+
 mid_air_start_x = x;
 mid_air_start_y = y;
 jump_height = 96;
-jump_length = 32*h_speed;
-mid_air_type = 0;
-
-start_position_x = x;
-
-mid_air = 0;
-
-speed_factor = 1;
-blink = 0;
-y_direction = 1;
-next_y = y;
-
-collision_occured = false;
+jump_length = 32 * horizontal_speed;
+mid_air_type = MID_AIR_TYPE_FALL;
+mid_air = false;
 
 dash_length = 256;
 dash_start_x = -1000;
-ready_for_dash = false;
-
-x_shift = 0;
+dash_available = false;
 </string>
           </argument>
         </arguments>
@@ -75,54 +68,78 @@ x_shift = 0;
     BULLET COLLISION
 ************************************************************/
 
-y_direction = sign(next_y-y);
-collision_occured = false;
+var vertical_direction = sign(next_y-y);
+var collision_occured = false;
 
-if (y_direction != 0){
+
+//jezeli obiekt spada, lub porusza sie w gore
+if (vertical_direction != CONSTANT_ALTITUDE){
+
+
+    //petla bullet collision
     do{
         if (place_meeting(x,y,obj_collidable)){
             collision_occured = true;
-            event_perform(ev_other, macro_go_from_object);      //wycofywanie sie z kolizji
+            event_perform(ev_other, GO_OUT_FROM_OBJECT);        //wychodzenie z kolidujacych obiektow
             break;
         }
         else{
-            y += 31 * y_direction;
+            y += 31 * vertical_direction;
         }
     }
-    until (! ((y&lt;next_y)*(1+y_direction)+(y&gt;next_y)*(1-y_direction)) )
-
+    until(  !((y &lt; next_y) &amp;&amp; (vertical_direction == DOWNWARDS)) 
+        &amp;&amp;  !((y &gt; next_y) &amp;&amp; (vertical_direction == UPWARDS)))
+    
+        
+    //jezeli kolizja nie zaszla, ustaw obiekt tam, gdzie powinien finalnie sie znalezc
     if (!collision_occured){
         y = next_y;
     }
+
 }
 
-event_perform(ev_other, macro_go_from_object);      //wycofywanie sie z kolizji
+//po calej petli wychodzimy z kolizji jeszcze raz
+event_perform(ev_other, GO_OUT_FROM_OBJECT);
 
+
+/************************************************************
+    Kontakt z gruntem
+************************************************************/
 
 if (position_meeting(x, y+17, obj_collidable)){
     mid_air_start_x = x;
     mid_air_start_y = y;
-    mid_air_type = macro_fall;
-    mid_air = 0;
-    jump_height = 300;
-    ready_for_dash = true;
+    mid_air_type = MID_AIR_TYPE_FALL;
+    mid_air = false;
+    jump_height = 320;
+    dash_available = true;
 }
 else{
-    mid_air = 1;
+    mid_air = true;
 }
 
+
+/************************************************************
+    Kontakt z sufitem
+************************************************************/
 
 if (position_meeting(x, y-17, obj_collidable)){
     if (y&lt;last_known_y)
     {
         mid_air_start_x = x;
         mid_air_start_y = y;
-        mid_air_type = macro_fall;
+        mid_air_type = MID_AIR_TYPE_FALL;
         jump_height = 300;
+        jump_height = 320;
     }
 }
 
+
+/************************************************************
+************************************************************/
+
 last_known_y = y;
+
 </string>
           </argument>
         </arguments>
@@ -180,12 +197,14 @@ dash_key = keyboard_check(ord('C'));  //czy wcisniety x
 *************************************************************************************************/
 
 if (global.current_music_controller.head_position != global.current_music_controller.last_known_head_position){
-    //pozycja pilki = wielkosc kafla * BPS * szybkosc pilki * (pozycja glowicy + przesuniecie glowicy);
-    var expected_x = start_position_x + 32 * global.current_music_controller.tempo/60 * h_speed * (global.current_music_controller.head_position + global.current_music_controller.shift) - x_shift;
-    speed_factor = 1 - (x - expected_x)/20;
+    
+    //pozycja pilki = pozycja startowa * wielkosc kafla * BPS * szybkosc obiektu * (pozycja glowicy + przesuniecie tasmy);
+    var computed_x = start_position_x + 32 * (global.current_music_controller.tempo / 60) * horizontal_speed * (global.current_music_controller.head_position + global.current_music_controller.shift);
+    speed_factor = 1 - (x - computed_x)/20;
+    speed_factor = clamp(0.5, speed_factor, 1.4);
 }
 else{
-    x += 32 * global.current_music_controller.tempo/60 * h_speed * (global.current_time_controller.frame_time/1000) * speed_factor;
+    x += 32 * global.current_music_controller.tempo/60 * horizontal_speed * (global.current_time_controller.frame_time/1000) * speed_factor;
 }
 
 /*************************************************************************************************
@@ -193,67 +212,80 @@ else{
 *************************************************************************************************/
 
 if (short_jump_key &amp;&amp; !mid_air){
-    mid_air = 1;
-    mid_air_type = macro_jump;
+    mid_air = true;
+    mid_air_type = MID_AIR_TYPE_JUMP;
+    mid_air_star_x = x;
+    mid_air_star_y = y;
     jump_height = 160;
-    jump_length = 32*h_speed;
+    jump_length = 32 * horizontal_speed - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
 }
 
 if (long_jump_key &amp;&amp; !mid_air){
-    mid_air = 1;
-    mid_air_type = macro_jump;
-    jump_height = 160*2;
-    jump_length = 64*h_speed;
+    mid_air = true;
+    mid_air_type = MID_AIR_TYPE_JUMP;
+    mid_air_star_x = x;
+    mid_air_star_y = y;
+    jump_height = 320;
+    jump_length = 64 * horizontal_speed - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
 }
 
 /*************************************************************************************************
-    obsluga dasha
+    obsluga szybowania
 *************************************************************************************************/
 
-if (dash_key &amp;&amp; ready_for_dash){
+if (dash_key &amp;&amp; dash_available){
     dash_start_x = x;
-    ready_for_dash = false;
+    dash_available = false;
 }
 
 /*************************************************************************************************
     a to mozna jeszcze poprawic
 *************************************************************************************************/
 
-if (mid_air_type == macro_fall){
-    jump_height = 160*2;
-    jump_length = 64*h_speed;
+if (mid_air_type == MID_AIR_TYPE_FALL){
+    jump_height = 320;
+    jump_length = 64 * horizontal_speed;
 }
 
 
-var expected_next_y =  mid_air_start_y + (4*(jump_height/(jump_length*jump_length))*(x-mid_air_start_x)*(x-mid_air_start_x) - 4*mid_air_type*(x-mid_air_start_x)*(jump_height/jump_length) );
+/*************************************************************************************************
+    Liczymy nastepna wartosc y.
+*************************************************************************************************/
+
+var computed_next_y =  mid_air_start_y + (4*(jump_height/(jump_length*jump_length))*(x-mid_air_start_x)*(x-mid_air_start_x) - 4*mid_air_type*(x-mid_air_start_x)*(jump_height/jump_length) );
 
 
+/*************************************************************************************************
+    Jezeli szybujemy, nastepny y bedzie taki sam, jak obecny. 
+    Jezeli nie, przypisujemy mu uprzednio wyliczana wartosc.
+*************************************************************************************************/
 
 if (x &lt; dash_start_x + dash_length )
 {
-    if (y mod 32 == 0){ //jezeli juz wpasowalismy sie w dasha
+    //jezeli juz wpasowalismy sie w siatke poziomu...
+    if (y mod 32 == 0){
         next_y = y;
-        mid_air_type = macro_fall;
+        mid_air_type = MID_AIR_TYPE_FALL;
         mid_air_start_x = x;
         mid_air_start_y = y;
     }
     else{
-        var temp_y_dir = (expected_next_y &gt; y);
-        var expected_dash_start = ((y div 32) + temp_y_dir) * 32;
-        if ((temp_y_dir == 1 &amp;&amp; expected_next_y &gt; expected_dash_start) || (temp_y_dir == 0 &amp;&amp; expected_next_y &lt; expected_dash_start)){
-            y = expected_dash_start;
+        //obliczamy wysokosc rozpoczecia szybowania. Jezeli obiekt przekroczy ten pulap, zostanie do niego zrownany
+        var y_increases = (computed_next_y &gt; y);
+        var dash_alititude = ((y div 32) + y_increases) * 32;
+        if ((y_increases &amp;&amp; computed_next_y &gt; dash_alititude) || (!y_increases &amp;&amp; computed_next_y &lt; dash_alititude)){
+            y = dash_alititude;
             next_y = y;
         }
         else{
-            next_y = expected_next_y;
+            next_y = computed_next_y;
         }
     }
-
 }
 else
 {
     if (mid_air){
-       next_y = expected_next_y;//mid_air_start_y + (4*(jump_height/(jump_length*jump_length))*(x-mid_air_start_x)*(x-mid_air_start_x) - 4*mid_air_type*(x-mid_air_start_x)*(jump_height/jump_length) );
+       next_y = computed_next_y;
     }
 }
 

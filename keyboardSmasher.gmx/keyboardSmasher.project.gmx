@@ -28,10 +28,13 @@
   <rooms name="rooms">
     <room>rooms\rm_test</room>
   </rooms>
-  <constants number="3">
-    <constant name="macro_go_from_object">ev_user0</constant>
-    <constant name="macro_fall">0</constant>
-    <constant name="macro_jump">1</constant>
+  <constants number="6">
+    <constant name="GO_OUT_FROM_OBJECT">ev_user0</constant>
+    <constant name="MID_AIR_TYPE_JUMP">1</constant>
+    <constant name="MID_AIR_TYPE_FALL">0</constant>
+    <constant name="UPWARDS">-1</constant>
+    <constant name="CONSTANT_ALTITUDE">0</constant>
+    <constant name="DOWNWARDS">1</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
