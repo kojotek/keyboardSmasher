@@ -28,10 +28,17 @@
   <rooms name="rooms">
     <room>rooms\rm_test</room>
   </rooms>
-  <constants number="6">
-    <constant name="GO_OUT_FROM_OBJECT">ev_user0</constant>
-    <constant name="MID_AIR_TYPE_JUMP">1</constant>
-    <constant name="MID_AIR_TYPE_FALL">0</constant>
+  <constants number="13">
+    <constant name="EVENT_SLIDE">ev_other,rv_user4</constant>
+    <constant name="EVENT_FALL">ev_other,ev_user3</constant>
+    <constant name="EVENT_DASH">ev_other,ev_user2</constant>
+    <constant name="EVENT_JUMP">ev_other,ev_user1</constant>
+    <constant name="EVENT_OUT_FROM_OBJECT">ev_other,ev_user0</constant>
+    <constant name="FALL">0</constant>
+    <constant name="JUMP">1</constant>
+    <constant name="DASH">2</constant>
+    <constant name="SLIDE">3</constant>
+    <constant name="RUN">4</constant>
     <constant name="UPWARDS">-1</constant>
     <constant name="CONSTANT_ALTITUDE">0</constant>
     <constant name="DOWNWARDS">1</constant>
