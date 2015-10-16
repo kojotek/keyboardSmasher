@@ -42,6 +42,11 @@ mid_air = false;
 dash_length = 256;
 dash_start_x = -1000;
 dash_available = false;
+
+short_jump_key = false;
+long_jump_key = false;
+dash_key = false;
+slide_key = false;
 </string>
           </argument>
         </arguments>
@@ -112,6 +117,7 @@ if (position_meeting(x, y+17, obj_collidable)){
     mid_air_type = MID_AIR_TYPE_FALL;
     mid_air = false;
     jump_height = 320;
+    jump_length = 64 * horizontal_speed;
     dash_available = true;
 }
 else{
@@ -129,8 +135,8 @@ if (position_meeting(x, y-17, obj_collidable)){
         mid_air_start_x = x;
         mid_air_start_y = y;
         mid_air_type = MID_AIR_TYPE_FALL;
-        jump_height = 300;
         jump_height = 320;
+        jump_length = 64 * horizontal_speed;
     }
 }
 
@@ -162,10 +168,11 @@ last_known_y = y;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>last_known_x = 0;
-short_jump_key = keyboard_check(ord('Z'));  //czy wcisniety z
-long_jump_key = keyboard_check(ord('X'));  //czy wcisniety x
-dash_key = keyboard_check(ord('C'));  //czy wcisniety x
+            <string>//last_known_x = 0;
+short_jump_key = keyboard_check(ord('Z'));
+long_jump_key = keyboard_check(ord('X'));
+dash_key = keyboard_check(ord('C'));
+slide_key = keyboard_check(ord('V'));
 </string>
           </argument>
         </arguments>
@@ -207,6 +214,7 @@ else{
     x += 32 * global.current_music_controller.tempo/60 * horizontal_speed * (global.current_time_controller.frame_time/1000) * speed_factor;
 }
 
+
 /*************************************************************************************************
     obsluga skokow
 *************************************************************************************************/
@@ -229,22 +237,23 @@ if (long_jump_key &amp;&amp; !mid_air){
     jump_length = 64 * horizontal_speed - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
 }
 
+
 /*************************************************************************************************
     obsluga szybowania
 *************************************************************************************************/
 
-if (dash_key &amp;&amp; dash_available){
+if (dash_key &amp;&amp; dash_available &amp;&amp; mid_air){
     dash_start_x = x;
     dash_available = false;
 }
 
+
 /*************************************************************************************************
-    a to mozna jeszcze poprawic
+    obsluga slizgu
 *************************************************************************************************/
 
-if (mid_air_type == MID_AIR_TYPE_FALL){
-    jump_height = 320;
-    jump_length = 64 * horizontal_speed;
+if (slide_key &amp;&amp; !mid_air){
+    slide_start_x = x;
 }
 
 
@@ -265,7 +274,6 @@ if (x &lt; dash_start_x + dash_length )
     //jezeli juz wpasowalismy sie w siatke poziomu...
     if (y mod 32 == 0){
         next_y = y;
-        mid_air_type = MID_AIR_TYPE_FALL;
         mid_air_start_x = x;
         mid_air_start_y = y;
     }
@@ -276,6 +284,9 @@ if (x &lt; dash_start_x + dash_length )
         if ((y_increases &amp;&amp; computed_next_y &gt; dash_alititude) || (!y_increases &amp;&amp; computed_next_y &lt; dash_alititude)){
             y = dash_alititude;
             next_y = y;
+            jump_height = 320;
+            jump_length = 64 * horizontal_speed;
+            mid_air_type = MID_AIR_TYPE_FALL;
         }
         else{
             next_y = computed_next_y;
