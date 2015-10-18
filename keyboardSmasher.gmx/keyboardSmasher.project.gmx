@@ -11,6 +11,7 @@
     <sprite>sprites\spr_floor</sprite>
     <sprite>sprites\spr_sin_floor</sprite>
     <sprite>sprites\spr_ball</sprite>
+    <sprite>sprites\spr_ball2</sprite>
     <sprite>sprites\spr_bazzinga</sprite>
   </sprites>
   <backgrounds name="background">

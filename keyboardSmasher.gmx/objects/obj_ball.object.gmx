@@ -39,9 +39,10 @@ jump_start_x = x;
 jump_start_y = y;
 fall_start_x = x;
 fall_start_y = y;
-slide_start_x = x;
 dash_start_x = -1000;
-
+slide_start_x = x;
+slide_length = 128;
+actual_slide_length = 128;
 
 short_jump_height = 160;
 short_jump_length = 32 * horizontal_speed;
@@ -54,6 +55,7 @@ actual_jump_height = 0;
 dash_length = 256;
 
 on_ground = false;
+touch_ceiling = false;
 dash_available = false;
 dash_started = false;
 
@@ -62,8 +64,10 @@ long_jump_key = false;
 dash_key = false;
 slide_key = false;
 
-
 movement_type = FALL;
+
+sprite_index = spr_ball2;
+mask_index = spr_ball2;
 </string>
           </argument>
         </arguments>
@@ -128,12 +132,9 @@ event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
     Kontakt z gruntem
 ************************************************************/
 
-if (position_meeting(x, y+17, obj_collidable)){
-    on_ground = true;
-}
-else{
-    on_ground = false;
-}
+on_ground = position_meeting(x, y+17, obj_collidable);
+touch_ceiling = (movement_type != SLIDE) * position_meeting(x, y-49, obj_collidable) + (movement_type == SLIDE) * position_meeting(x, y-17, obj_collidable);
+
 
 if (on_ground &amp;&amp; (movement_type == JUMP || movement_type == FALL) &amp;&amp; vertical_direction == DOWNWARDS)
 {
@@ -141,8 +142,12 @@ if (on_ground &amp;&amp; (movement_type == JUMP || movement_type == FALL) &amp;&
     dash_available = true;
 }
 
-if (!on_ground &amp;&amp; movement_type == RUN)
+if (!on_ground &amp;&amp; (movement_type == RUN || movement_type == SLIDE) )
 {
+    if (movement_type == SLIDE){
+        sprite_index = spr_ball2;
+        mask_index = spr_ball2;
+    }
     fall_start_x = x;
     fall_start_y = y;
     movement_type = FALL;
@@ -153,9 +158,8 @@ if (!on_ground &amp;&amp; movement_type == RUN)
     Kontakt z sufitem
 ************************************************************/
 
-if (position_meeting(x, y-17, obj_collidable)){
-    if (movement_type != FALL)
-    {
+if (touch_ceiling){
+    if (movement_type != FALL &amp;&amp; movement_type != SLIDE){
         fall_start_x = x;
         fall_start_y = y;
         movement_type = FALL;
@@ -246,7 +250,7 @@ else{
     obsluga skokow
 *************************************************************************************************/
 
-if (short_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type != JUMP){
+if (short_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type == RUN){
     movement_type = JUMP;
     on_ground = false;
     actual_jump_height = short_jump_height;
@@ -256,7 +260,7 @@ if (short_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type != JUMP)
 }
 
 
-if (long_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type != JUMP){
+if (long_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type == RUN){
     movement_type = JUMP;
     on_ground = false;
     actual_jump_height = long_jump_height;
@@ -270,7 +274,7 @@ if (long_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type != JUMP){
     obsluga szybowania
 *************************************************************************************************/
 
-if (dash_key&gt;0 &amp;&amp; dash_available &amp;&amp; !on_ground){
+if (dash_key &gt; 0 &amp;&amp; dash_available &amp;&amp; !on_ground){
     dash_available = false;
     dash_started = true;
 }
@@ -280,8 +284,12 @@ if (dash_key&gt;0 &amp;&amp; dash_available &amp;&amp; !on_ground){
     obsluga slizgu
 *************************************************************************************************/
 
-if (slide_key &amp;&amp; on_ground){
+if (slide_key &gt; 0 &amp;&amp; on_ground){
     slide_start_x = x;
+    actual_slide_length = slide_length - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
+    movement_type = SLIDE;
+    sprite_index = spr_ball;
+    mask_index = spr_ball;
 }
 
 
@@ -293,6 +301,10 @@ switch (movement_type)
         
     case DASH:
         event_perform(ev_other, EVENT_DASH);
+        break;
+
+    case SLIDE:
+        event_perform(ev_other, EVENT_SLIDE);
         break;
         
     case FALL:
@@ -323,7 +335,7 @@ long_jump_key -= (global.current_time_controller.frame_time/1000);
 dash_key -= (global.current_time_controller.frame_time/1000);
 slide_key -= (global.current_time_controller.frame_time/1000);
 
-show_debug_message(short_jump_key);
+
 
 blink = (128 - (x mod 128))/256;
 </string>
@@ -368,7 +380,20 @@ blink = (128 - (x mod 128))/256;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
+            <string>if (x &lt; slide_start_x + actual_slide_length ){
+    next_y = y;
+}
+else{
+    if (touch_ceiling){
+        actual_slide_length += 32;
+    }
+    else{
+        sprite_index = spr_ball2;
+        mask_index = spr_ball2;
+        movement_type = RUN;
+    }
+}
+</string>
           </argument>
         </arguments>
       </action>
@@ -457,9 +482,7 @@ blink = (128 - (x mod 128))/256;
     next_y = y;
 }
 else{
-    fall_start_x = x;
-    fall_start_y = y;
-    movement_type = FALL;
+    movement_type = RUN;
 }
 </string>
           </argument>
@@ -551,19 +574,19 @@ else{
     y = floor(y)-1;
 }
 
-while (position_meeting(x, y-16, obj_collidable))
+while (position_meeting(x, y-sprite_height/2, obj_collidable))
 {
     y = ceil(y)+1;
 }
 
-while (position_meeting(x+16, y, obj_collidable))
+while (position_meeting(x+sprite_width/2, y, obj_collidable))
 {
     x = ceil(x)-1;
     audio_stop_all();
     room_restart();
 }
 
-while (position_meeting(x-16, y, obj_collidable))
+while (position_meeting(x-sprite_width, y, obj_collidable))
 {
     x = floor(x)+1;
 }
