@@ -30,18 +30,40 @@ horizontal_speed = 4;
 last_known_y = y;
 next_y = y;
 speed_factor = 1;
+
+//
 blink = 0;
+//
 
-mid_air_start_x = x;
-mid_air_start_y = y;
-jump_height = 96;
-jump_length = 32 * horizontal_speed;
-mid_air_type = MID_AIR_TYPE_FALL;
-mid_air = false;
-
-dash_length = 256;
+jump_start_x = x;
+jump_start_y = y;
+fall_start_x = x;
+fall_start_y = y;
+slide_start_x = x;
 dash_start_x = -1000;
+
+
+short_jump_height = 160;
+short_jump_length = 32 * horizontal_speed;
+long_jump_height = 320;
+long_jump_length = 64 * horizontal_speed;
+fall_height = 320;
+fall_length = 64 * horizontal_speed;
+actual_jump_length = 0;
+actual_jump_height = 0;
+dash_length = 256;
+
+on_ground = false;
 dash_available = false;
+dash_started = false;
+
+short_jump_key = false;
+long_jump_key = false;
+dash_key = false;
+slide_key = false;
+
+
+movement_type = FALL;
 </string>
           </argument>
         </arguments>
@@ -80,7 +102,7 @@ if (vertical_direction != CONSTANT_ALTITUDE){
     do{
         if (place_meeting(x,y,obj_collidable)){
             collision_occured = true;
-            event_perform(ev_other, GO_OUT_FROM_OBJECT);        //wychodzenie z kolidujacych obiektow
+            event_perform(ev_other, EVENT_OUT_FROM_OBJECT);        //wychodzenie z kolidujacych obiektow
             break;
         }
         else{
@@ -99,7 +121,7 @@ if (vertical_direction != CONSTANT_ALTITUDE){
 }
 
 //po calej petli wychodzimy z kolizji jeszcze raz
-event_perform(ev_other, GO_OUT_FROM_OBJECT);
+event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
 
 
 /************************************************************
@@ -107,15 +129,23 @@ event_perform(ev_other, GO_OUT_FROM_OBJECT);
 ************************************************************/
 
 if (position_meeting(x, y+17, obj_collidable)){
-    mid_air_start_x = x;
-    mid_air_start_y = y;
-    mid_air_type = MID_AIR_TYPE_FALL;
-    mid_air = false;
-    jump_height = 320;
-    dash_available = true;
+    on_ground = true;
 }
 else{
-    mid_air = true;
+    on_ground = false;
+}
+
+if (on_ground &amp;&amp; (movement_type == JUMP || movement_type == FALL) &amp;&amp; vertical_direction == DOWNWARDS)
+{
+    movement_type = RUN;
+    dash_available = true;
+}
+
+if (!on_ground &amp;&amp; movement_type == RUN)
+{
+    fall_start_x = x;
+    fall_start_y = y;
+    movement_type = FALL;
 }
 
 
@@ -124,21 +154,17 @@ else{
 ************************************************************/
 
 if (position_meeting(x, y-17, obj_collidable)){
-    if (y&lt;last_known_y)
+    if (movement_type != FALL)
     {
-        mid_air_start_x = x;
-        mid_air_start_y = y;
-        mid_air_type = MID_AIR_TYPE_FALL;
-        jump_height = 300;
-        jump_height = 320;
+        fall_start_x = x;
+        fall_start_y = y;
+        movement_type = FALL;
     }
 }
 
 
 /************************************************************
 ************************************************************/
-
-last_known_y = y;
 
 </string>
           </argument>
@@ -162,10 +188,18 @@ last_known_y = y;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>last_known_x = 0;
-short_jump_key = keyboard_check(ord('Z'));  //czy wcisniety z
-long_jump_key = keyboard_check(ord('X'));  //czy wcisniety x
-dash_key = keyboard_check(ord('C'));  //czy wcisniety x
+            <string>//last_known_x = 0;
+if (keyboard_check_pressed(ord('Z')))
+    short_jump_key = KEY_DURATION;
+
+if (keyboard_check_pressed(ord('X')))
+    long_jump_key = KEY_DURATION;
+
+if (keyboard_check_pressed(ord('C')))
+    dash_key = KEY_DURATION;
+    
+if (keyboard_check_pressed(ord('V')))
+    slide_key = KEY_DURATION;
 </string>
           </argument>
         </arguments>
@@ -201,95 +235,95 @@ if (global.current_music_controller.head_position != global.current_music_contro
     //pozycja pilki = pozycja startowa * wielkosc kafla * BPS * szybkosc obiektu * (pozycja glowicy + przesuniecie tasmy);
     var computed_x = start_position_x + 32 * (global.current_music_controller.tempo / 60) * horizontal_speed * (global.current_music_controller.head_position + global.current_music_controller.shift);
     speed_factor = 1 - (x - computed_x)/20;
-    speed_factor = clamp(0.5, speed_factor, 1.4);
+    speed_factor = clamp(0.5, speed_factor, 5.5);
 }
 else{
     x += 32 * global.current_music_controller.tempo/60 * horizontal_speed * (global.current_time_controller.frame_time/1000) * speed_factor;
 }
 
+
 /*************************************************************************************************
     obsluga skokow
 *************************************************************************************************/
 
-if (short_jump_key &amp;&amp; !mid_air){
-    mid_air = true;
-    mid_air_type = MID_AIR_TYPE_JUMP;
-    mid_air_star_x = x;
-    mid_air_star_y = y;
-    jump_height = 160;
-    jump_length = 32 * horizontal_speed - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
+if (short_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type != JUMP){
+    movement_type = JUMP;
+    on_ground = false;
+    actual_jump_height = short_jump_height;
+    actual_jump_length = short_jump_length - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
+    jump_start_x = x;
+    jump_start_y = y;
 }
 
-if (long_jump_key &amp;&amp; !mid_air){
-    mid_air = true;
-    mid_air_type = MID_AIR_TYPE_JUMP;
-    mid_air_star_x = x;
-    mid_air_star_y = y;
-    jump_height = 320;
-    jump_length = 64 * horizontal_speed - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
+
+if (long_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type != JUMP){
+    movement_type = JUMP;
+    on_ground = false;
+    actual_jump_height = long_jump_height;
+    actual_jump_length = long_jump_length - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
+    jump_start_x = x;
+    jump_start_y = y;
 }
+
 
 /*************************************************************************************************
     obsluga szybowania
 *************************************************************************************************/
 
-if (dash_key &amp;&amp; dash_available){
-    dash_start_x = x;
+if (dash_key&gt;0 &amp;&amp; dash_available &amp;&amp; !on_ground){
     dash_available = false;
-}
-
-/*************************************************************************************************
-    a to mozna jeszcze poprawic
-*************************************************************************************************/
-
-if (mid_air_type == MID_AIR_TYPE_FALL){
-    jump_height = 320;
-    jump_length = 64 * horizontal_speed;
+    dash_started = true;
 }
 
 
 /*************************************************************************************************
-    Liczymy nastepna wartosc y.
+    obsluga slizgu
 *************************************************************************************************/
 
-var computed_next_y =  mid_air_start_y + (4*(jump_height/(jump_length*jump_length))*(x-mid_air_start_x)*(x-mid_air_start_x) - 4*mid_air_type*(x-mid_air_start_x)*(jump_height/jump_length) );
+if (slide_key &amp;&amp; on_ground){
+    slide_start_x = x;
+}
 
 
-/*************************************************************************************************
-    Jezeli szybujemy, nastepny y bedzie taki sam, jak obecny. 
-    Jezeli nie, przypisujemy mu uprzednio wyliczana wartosc.
-*************************************************************************************************/
-
-if (x &lt; dash_start_x + dash_length )
+switch (movement_type)
 {
-    //jezeli juz wpasowalismy sie w siatke poziomu...
-    if (y mod 32 == 0){
+    case JUMP:
+        event_perform(ev_other, EVENT_JUMP);
+        break;
+        
+    case DASH:
+        event_perform(ev_other, EVENT_DASH);
+        break;
+        
+    case FALL:
+        event_perform(ev_other, EVENT_FALL);
+        break;
+}
+
+
+if (dash_started)
+{
+    //obliczamy wysokosc rozpoczecia szybowania. Jezeli obiekt przekroczy ten pulap, zostanie do niego zrownany
+    var y_increases = (next_y &gt; y);
+    var dash_alititude = ((y div 32) + y_increases) * 32;
+    if ((y_increases &amp;&amp; next_y &gt; dash_alititude) || (!y_increases &amp;&amp; next_y &lt; dash_alititude)){
+        y = dash_alititude;
         next_y = y;
-        mid_air_type = MID_AIR_TYPE_FALL;
-        mid_air_start_x = x;
-        mid_air_start_y = y;
-    }
-    else{
-        //obliczamy wysokosc rozpoczecia szybowania. Jezeli obiekt przekroczy ten pulap, zostanie do niego zrownany
-        var y_increases = (computed_next_y &gt; y);
-        var dash_alititude = ((y div 32) + y_increases) * 32;
-        if ((y_increases &amp;&amp; computed_next_y &gt; dash_alititude) || (!y_increases &amp;&amp; computed_next_y &lt; dash_alititude)){
-            y = dash_alititude;
-            next_y = y;
-        }
-        else{
-            next_y = computed_next_y;
-        }
-    }
-}
-else
-{
-    if (mid_air){
-       next_y = computed_next_y;
+        movement_type = DASH;
+        dash_start_x = x;
+        dash_started = false;
     }
 }
 
 
+
+
+short_jump_key -= (global.current_time_controller.frame_time/1000);
+long_jump_key -= (global.current_time_controller.frame_time/1000);
+dash_key -= (global.current_time_controller.frame_time/1000);
+slide_key -= (global.current_time_controller.frame_time/1000);
+
+show_debug_message(short_jump_key);
 
 blink = (128 - (x mod 128))/256;
 </string>
@@ -297,7 +331,205 @@ blink = (128 - (x mod 128))/256;
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="14">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>slide</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string></string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="13">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>fall</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(x-fall_start_x)*(x-fall_start_x);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="12">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>dash</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (x &lt; dash_start_x + dash_length ){
+    next_y = y;
+}
+else{
+    fall_start_x = x;
+    fall_start_y = y;
+    movement_type = FALL;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>jump</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>next_y = jump_start_y + (4*(actual_jump_height/(actual_jump_length*actual_jump_length))*(x-jump_start_x)*(x-jump_start_x) - 4*(x-jump_start_x)*(actual_jump_height/actual_jump_length) );
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>go out from colliding objects</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -316,24 +548,24 @@ blink = (128 - (x mod 128))/256;
             <kind>1</kind>
             <string>while (position_meeting(x, y+16, obj_collidable))
 {
-    y = ceil(y)-1;
+    y = floor(y)-1;
 }
 
 while (position_meeting(x, y-16, obj_collidable))
 {
-    y = floor(y)+1;
+    y = ceil(y)+1;
 }
 
 while (position_meeting(x+16, y, obj_collidable))
 {
-    x = floor(x)-1;
+    x = ceil(x)-1;
     audio_stop_all();
     room_restart();
 }
 
 while (position_meeting(x-16, y, obj_collidable))
 {
-    x = ceil(x)+1;
+    x = floor(x)+1;
 }
 </string>
           </argument>
