@@ -9,13 +9,12 @@
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\spr_floor</sprite>
-    <sprite>sprites\spr_sin_floor</sprite>
     <sprite>sprites\spr_ball</sprite>
     <sprite>sprites\spr_ball2</sprite>
-    <sprite>sprites\spr_bazzinga</sprite>
+    <sprite>sprites\spr_runner</sprite>
   </sprites>
   <backgrounds name="background">
-    <background>background\background0</background>
+    <background>background\background1</background>
   </backgrounds>
   <paths name="paths"/>
   <objects name="objects">
@@ -23,13 +22,11 @@
     <object>objects\obj_music_controller</object>
     <object>objects\obj_collidable</object>
     <object>objects\obj_time_contorller</object>
-    <object>objects\obj_sinus_floor</object>
-    <object>objects\obj_sinus_floor_2</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_test</room>
+    <room>rooms\room1</room>
   </rooms>
-  <constants number="14">
+  <constants number="15">
     <constant name="UPWARDS">-1</constant>
     <constant name="CONSTANT_ALTITUDE">0</constant>
     <constant name="DOWNWARDS">1</constant>
@@ -43,6 +40,7 @@
     <constant name="EVENT_DASH">ev_user2</constant>
     <constant name="EVENT_FALL">ev_user3</constant>
     <constant name="EVENT_SLIDE">ev_user4</constant>
+    <constant name="EVENT_RUN">ev_user5</constant>
     <constant name="KEY_DURATION">0.15</constant>
   </constants>
   <help>
