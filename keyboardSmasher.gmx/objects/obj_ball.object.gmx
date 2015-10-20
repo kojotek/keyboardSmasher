@@ -62,7 +62,7 @@ dash_key = false;
 slide_key = false;
 
 movement_type = FALL;
-image_speed = 0.01;
+image_speed = 0;
 mask_index = spr_ball2;
 </string>
           </argument>
@@ -130,6 +130,11 @@ event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
 
 on_ground = position_meeting(x-sprite_width/2, y+sprite_height/2, obj_collidable) || position_meeting(x+sprite_width/2, y+sprite_height/2, obj_collidable);
 touch_ceiling = position_meeting(x-sprite_width/2, y-sprite_height/2-1, obj_collidable) || position_meeting(x+sprite_width/2, y-sprite_height/2-1, obj_collidable);
+
+
+
+view_xview[0] = x-200;
+image_index = (floor(x)/16) mod image_number
 </string>
           </argument>
         </arguments>
@@ -200,9 +205,9 @@ if (global.current_music_controller.head_position != global.current_music_contro
     speed_factor = 1 - (x - computed_x)/20;
     speed_factor = clamp(0.5, speed_factor, 5.5);
 }
-else{
+//else{
     x += 32 * global.current_music_controller.tempo/60 * horizontal_speed * (global.current_time_controller.frame_time/1000) * speed_factor;
-}
+//}
 
 
 /*************************************************************************************************
@@ -557,7 +562,7 @@ if (dash_started)
 {
     //obliczamy wysokosc rozpoczecia szybowania. Jezeli obiekt przekroczy ten pulap, zostanie do niego zrownany
     var dash_alititude = ((y div 32) + (vertical_direction==DOWNWARDS)) * 32;
-    if ((vertical_direction == UPWARDS &amp;&amp; next_y &gt; dash_alititude) || (vertical_direction != UPWARDS &amp;&amp; next_y &lt; dash_alititude)){
+    if ((vertical_direction == UPWARDS &amp;&amp; next_y &lt; dash_alititude) || (vertical_direction == DOWNWARDS &amp;&amp; next_y &gt; dash_alititude)){
         y = dash_alititude;
         next_y = y;
         movement_type = DASH;
@@ -653,8 +658,7 @@ y = floor(y)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>view_xview[0] = x-200;
-draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,image_angle,image_blend,image_alpha);
+            <string>draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,image_angle,image_blend,image_alpha);
 //show_debug_message(x)
 </string>
           </argument>
