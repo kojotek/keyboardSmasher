@@ -49,7 +49,7 @@ fall_height = 320;
 fall_length = 64 * horizontal_speed;
 actual_jump_length = 0;
 actual_jump_height = 0;
-dash_length = 256;
+dash_length = 128;
 
 on_ground = false;
 touch_ceiling = false;
@@ -134,7 +134,14 @@ touch_ceiling = position_meeting(x-sprite_width/2, y-sprite_height/2-1, obj_coll
 
 
 view_xview[0] = x-200;
-image_index = (floor(x)/16) mod image_number
+image_index = (floor(x)/16) mod image_number;
+
+if (sprite_index == spr_ball){
+    image_angle = -2*x;
+}
+else{
+    image_angle = 0;
+}
 </string>
           </argument>
         </arguments>
@@ -659,6 +666,7 @@ y = floor(y)
           <argument>
             <kind>1</kind>
             <string>draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,image_angle,image_blend,image_alpha);
+
 //show_debug_message(x)
 </string>
           </argument>

@@ -26,8 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>global.current_music_controller = id;
-tempo = 130; //tempo utworu
-shift = 0.71; //przesuniecie poczatka utworu
+tempo = 152; //tempo utworu
+shift = 0; //przesuniecie poczatka utworu
 last_known_head_position = 0; //poprzednia pozycja glowicy na tasmie
 head_position = 0; //pozycja glowicy na tasmie
 track = audio_play_sound(msc_test, 100, false);
