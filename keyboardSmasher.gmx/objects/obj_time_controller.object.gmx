@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -26,14 +26,15 @@
           <argument>
             <kind>1</kind>
             <string>global.current_time_controller = id;
-past_time = current_time;
-game_speed = 1;
+last_known_time = 0;
+actual_time = current_time;
+frame_time = 0;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="3" enumb="1">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -50,10 +51,9 @@ game_speed = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>curr_time = current_time;
-factor = .001*game_speed;
-frame_time = (curr_time-past_time) * factor;
-past_time = curr_time;
+            <string>last_known_time = actual_time;
+actual_time = current_time;
+frame_time = actual_time - last_known_time;
 </string>
           </argument>
         </arguments>
