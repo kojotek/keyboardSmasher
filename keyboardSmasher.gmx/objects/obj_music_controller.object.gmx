@@ -26,11 +26,12 @@
           <argument>
             <kind>1</kind>
             <string>global.current_music_controller = id;
-tempo = 152; //tempo utworu
+tempo = 120; //tempo utworu
 shift = 0; //przesuniecie poczatka utworu
 last_known_head_position = 0; //poprzednia pozycja glowicy na tasmie
 head_position = 0; //pozycja glowicy na tasmie
 track = audio_play_sound(msc_test, 100, false);
+
 </string>
           </argument>
         </arguments>
@@ -92,29 +93,6 @@ if (keyboard_check(ord('K')))
     with(global.pilka) { event_perform(ev_other, ev_user1); }
 }
 */
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="11">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>show_debug_message("dupa")
 </string>
           </argument>
         </arguments>

@@ -26,6 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>start_position_x = x;
+
+start_position_beat = 0;
+
 horizontal_speed = 8;
 last_known_y = y;
 next_y = y;
@@ -34,11 +37,15 @@ vertical_direction = DOWNWARDS;
 
 jump_start_x = x;
 jump_start_y = y;
+jump_start_beat = 0;
 fall_start_x = x;
 fall_start_y = y;
+fall_start_beat = 0;
 dash_start_x = -1000;
+dash_start_beat = 0;
 slide_start_x = x;
 slide_length = 128;
+slide_start_beat = 0;
 actual_slide_length = 128;
 
 short_jump_height = 160;
@@ -208,6 +215,7 @@ if (keyboard_check_pressed(ord('V')))
     o odleglosc wynikajaca z dlugosci klatki.
 *************************************************************************************************/
 
+/*
 if (global.current_music_controller.head_position != global.current_music_controller.last_known_head_position){
     
     //pozycja pilki = pozycja startowa * wielkosc kafla * BPS * szybkosc obiektu * (pozycja glowicy + przesuniecie tasmy);
@@ -217,7 +225,7 @@ if (global.current_music_controller.head_position != global.current_music_contro
 }
 
 x += 32 * global.current_music_controller.tempo/60 * horizontal_speed * (global.current_time_controller.frame_time/1000) * speed_factor;
-
+*/
 
 /*************************************************************************************************
     obsluga skokow
@@ -227,9 +235,10 @@ if (short_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type == RUN){
     movement_type = JUMP;
     on_ground = false;
     actual_jump_height = short_jump_height;
-    actual_jump_length = short_jump_length - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
+    actual_jump_length = short_jump_length;// - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
     jump_start_x = x;
     jump_start_y = y;
+    jump_start_beat = global.room_controller.beats;
     sprite_index = spr_jumper;
     mask_index = spr_mask_big;
     animation_start_x = x-250;
@@ -240,7 +249,7 @@ if (long_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type == RUN){
     movement_type = JUMP;
     on_ground = false;
     actual_jump_height = long_jump_height;
-    actual_jump_length = long_jump_length - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
+    actual_jump_length = long_jump_length;// - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
     jump_start_x = x;
     jump_start_y = y;
     sprite_index = spr_jumper;
@@ -275,7 +284,7 @@ if (dash_key &gt; 0 &amp;&amp; dash_available &amp;&amp; !on_ground){
 
 if (slide_key &gt; 0 &amp;&amp; on_ground){
     slide_start_x = x;
-    actual_slide_length = slide_length - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
+    actual_slide_length = slide_length;// - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
     movement_type = SLIDE;
     sprite_index = spr_ball;
     mask_index = spr_mask_small;
@@ -473,7 +482,9 @@ else{
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(x-fall_start_x)*(x-fall_start_x);
+            <string>next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(global.room_controller.beats - fall_start_beat)*(global.room_controller.beats - fall_start_beat);
+
+show_debug_message(next_y);
 
 if (on_ground &amp;&amp; vertical_direction == DOWNWARDS){
     movement_type = RUN;
@@ -576,7 +587,7 @@ else{
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>next_y = jump_start_y + (4*(actual_jump_height/(actual_jump_length*actual_jump_length))*(x-jump_start_x)*(x-jump_start_x) - 4*(x-jump_start_x)*(actual_jump_height/actual_jump_length) );
+            <string>next_y = jump_start_y + (4*(actual_jump_height/(actual_jump_length*actual_jump_length))*(global.room_controller.beats - jump_start_beat)*(global.room_controller.beats - jump_start_beat) - 4*(global.room_controller.beats - jump_start_beat)*(actual_jump_height/actual_jump_length) );
 
 if (on_ground &amp;&amp; vertical_direction == DOWNWARDS){
     movement_type = RUN;
@@ -585,6 +596,7 @@ if (on_ground &amp;&amp; vertical_direction == DOWNWARDS){
     animation_start_x = x;
 }
 
+/*
 if (touch_ceiling){
     if (abs(x - (jump_start_x+actual_jump_height/2))&gt; 31)
     {
@@ -593,6 +605,7 @@ if (touch_ceiling){
         movement_type = FALL;
     }
 }
+*/
 </string>
           </argument>
         </arguments>
