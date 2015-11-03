@@ -2,7 +2,7 @@
 <object>
   <spriteName>spr_camera</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -28,6 +28,9 @@
             <string>origin_path = 0;
 segment_number = 0;
 segments[0] = 0;
+stop = false;
+shake_x = 0;
+shake_y = 0;
 </string>
           </argument>
         </arguments>
@@ -78,18 +81,32 @@ segments[0] = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.room_controller.beats &gt;= segments[segment_number].end_beat){
-    path_end();
-    segment_number++;
-    path_start(segments[segment_number].path,0,1,true);
-    path_position = 0;
+            <string>if (!stop){
+    if (global.room_controller.beats &gt;= segments[segment_number].end_beat){
+        path_end();
+        segment_number++;
+        path_start(segments[segment_number].path,0,1,true);
+        path_position = 0;
+    }
+    
+    path_position = (global.room_controller.beats - segments[segment_number].start_beat) / (segments[segment_number].end_beat - segments[segment_number].start_beat);
+
+    view_xview[0] = x - view_wview[0]/2;
+    view_yview[0] = y - view_hview[0]/2;
 }
 
-path_position = (global.room_controller.beats - segments[segment_number].start_beat) / (segments[segment_number].end_beat - segments[segment_number].start_beat);
+if (shake_x &gt; 0 || shake_y &gt; 0){
+    var dir = choose(0,1);
+    if (dir &amp;&amp; shake_x &gt; 0){
+        view_xview[0] = x - view_wview[0]/2 - choose(1,-1) * shake_x;
+        shake_x--;
+    }
+    if (!dir &amp;&amp; shake_y &gt; 0){
+        view_yview[0] = y - view_hview[0]/2 - choose(1,-1) * shake_y;
+        shake_y--;
+    }
+}
 
-
-view_xview[0] = x - view_wview[0]/2;
-view_yview[0] = y - view_hview[0]/2;
 </string>
           </argument>
         </arguments>

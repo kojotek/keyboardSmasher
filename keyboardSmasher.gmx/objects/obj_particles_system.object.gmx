@@ -25,20 +25,16 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>music_controller = instance_create(0,0, obj_music_controller);
-time_controller = instance_create(0,0, obj_time_controller);
-
-global.room_controller = id;
-
-beats = 0;
-bars = 0;
-beats_speed_factor = 0;
+            <string>system = part_system_create();
+part_system_position(system, x, y);
+part_system_automatic_draw(system, true);
+part_system_automatic_update(system,true);
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="1" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -55,23 +51,13 @@ beats_speed_factor = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (music_controller.head_position != music_controller.last_known_head_position){
-    
-    //tykniecia = _wielkosc kafla_ * BPS * _szybkosc obiektu_ * (pozycja glowicy + przesuniecie tasmy);
-    var computed_beats = 1 * (music_controller.tempo / 60) * 1 * (music_controller.head_position + music_controller.shift);
-    beats_speed_factor = 1 - (beats - computed_beats)/5;
-}
-
-beats += music_controller.tempo/60 * 1 * (time_controller.frame_time/1000) * beats_speed_factor;
-bars = floor(beats/4);
-
-//show_debug_message(bars);
+            <string>part_system_destroy(system);
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="32">
+    <event eventtype="7" enumb="10">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -88,9 +74,7 @@ bars = floor(beats/4);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>audio_stop_all();
-room_restart();
-
+            <string>part_particles_create(system, x, y, pt_shape_explosion, 5000);
 </string>
           </argument>
         </arguments>

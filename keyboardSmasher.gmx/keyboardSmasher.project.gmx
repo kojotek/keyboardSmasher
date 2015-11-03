@@ -23,6 +23,7 @@
       <sprite>sprites\spr_bullet</sprite>
       <sprite>sprites\spr_stand</sprite>
     </sprites>
+    <sprite>sprites\spr_ghost</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -30,8 +31,12 @@
   <paths name="paths">
     <path>paths\path0</path>
   </paths>
+  <scripts name="scripts">
+    <script>scripts\hero_start_jump.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\obj_hero</object>
+    <object>objects\obj_collidable_dynamic</object>
     <object>objects\obj_collidable</object>
     <objects name="controllers">
       <object>objects\obj_camera_controller</object>
@@ -40,13 +45,14 @@
       <object>objects\obj_room_controller</object>
       <object>objects\obj_path_controller</object>
     </objects>
+    <object>objects\obj_invisible_wall</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room1</room>
   </rooms>
-  <constants number="15">
-    <constant name="UPWARDS">-1</constant>
+  <constants number="19">
     <constant name="CONSTANT_ALTITUDE">0</constant>
+    <constant name="UPWARDS">-1</constant>
     <constant name="DOWNWARDS">1</constant>
     <constant name="FALL">0</constant>
     <constant name="JUMP">1</constant>
@@ -59,7 +65,11 @@
     <constant name="EVENT_FALL">ev_user3</constant>
     <constant name="EVENT_SLIDE">ev_user4</constant>
     <constant name="EVENT_RUN">ev_user5</constant>
+    <constant name="EVENT_DIE">ev_user6</constant>
     <constant name="KEY_DURATION">0.15</constant>
+    <constant name="MASK_SMALL_HEIGHT">32</constant>
+    <constant name="MASK_BIG_HEIGHT">64</constant>
+    <constant name="MASK_WIDTH">32</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

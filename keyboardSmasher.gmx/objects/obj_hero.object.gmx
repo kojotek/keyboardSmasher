@@ -25,42 +25,40 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>start_position_x = x;
-start_position_beat = 0;
+            <string>start_position_beat = 0;
 
 horizontal_speed = 0;
-last_known_y = y;
 next_y = y;
+next_x = x;
 vertical_direction = DOWNWARDS;
 horizontal_direction = 1;
 
-movement_type = FALL;
+enviroment_vertical_speed = 0;
+enviroment_horizontal_speed = 0;
 
-jump_start_x = x;
+movement_type = FALL;
 jump_start_y = y;
 jump_start_beat = 0;
 short_jump_height = 224;
-short_jump_length = 2;//32 * horizontal_speed;
-long_jump_height = 320;
-long_jump_length = 4;//64 * horizontal_speed;
+short_jump_length = 2;
 actual_jump_length = 0;
+actual_jump_height = 0;
 
-fall_start_x = x;
 fall_start_y = y;
 fall_start_beat = 0;
 fall_height = 320;
-fall_length = 2;//64 * horizontal_speed;
+fall_length = 2;
 
 dash_start_x = -1000;
 dash_start_beat = 0;
 dash_length = 4;
+dash_actual_length = 4;
 dash_available = false;
-dash_started = false;
 
-slide_start_x = x;
 slide_start_beat = 0;
-slide_length = 2;
-actual_slide_length = 2;
+slide_length = 4;
+slide_actual_length = 4;
+slide_available = true;
 
 on_ground = false;
 touch_ceiling = false;
@@ -72,12 +70,16 @@ slide_key = false;
 left_key = false;
 right_key = false;
 
-image_speed = 0;
 sprite_index = spr_runner;
 mask_index = spr_mask_big;
+mask_w = MASK_WIDTH;
+mask_h = MASK_BIG_HEIGHT;
 
 animation_start_x = 0;
 animation_start_beat = 0;
+sprite_rotation = 0;
+
+colliding_object = noone;
 </string>
           </argument>
         </arguments>
@@ -101,60 +103,68 @@ animation_start_beat = 0;
           <argument>
             <kind>1</kind>
             <string>/************************************************************
-    BULLET COLLISION
+    COLLISION
 ************************************************************/
 
+
 vertical_direction = sign(next_y-y);
-var collision_occured = false;
+//var collision_occured = false;
+
+next_y += enviroment_vertical_speed;
+y += enviroment_vertical_speed;
+next_x += enviroment_horizontal_speed;
+x += enviroment_horizontal_speed;
+
+var shift_x = 0;
+var shift_y = 0;
 
 
-//jezeli obiekt spada, lub porusza sie w gore
-if (vertical_direction != CONSTANT_ALTITUDE){
-
-
-    //petla bullet collision
-    do{
-        if (place_meeting(x,y,obj_collidable)){
-            collision_occured = true;
-            event_perform(ev_other, EVENT_OUT_FROM_OBJECT);        //wychodzenie z kolidujacych obiektow
-            break;
-        }
-        else{
-            y += 31 * vertical_direction;
-        }
-    }
-    until(  !((y &lt; next_y) &amp;&amp; (vertical_direction == DOWNWARDS)) 
-        &amp;&amp;  !((y &gt; next_y) &amp;&amp; (vertical_direction == UPWARDS)))
-    
-        
-    //jezeli kolizja nie zaszla, ustaw obiekt tam, gdzie powinien finalnie sie znalezc
-    if (!collision_occured){
-        y = next_y;
-    }
-
+while ( place_meeting(x,next_y, obj_collidable)){
+    next_y -= (vertical_direction+0.5);
+    shift_y++;
 }
 
-//po calej petli wychodzimy z kolizji jeszcze raz
-event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
+if (shift_y &gt; mask_h*2){
+    event_perform(ev_other, EVENT_DIE);
+}
+
+y = next_y;
+
+while ( place_meeting(next_x,y, obj_collidable)){
+    next_x -= sign(next_x-x);
+    horizontal_speed = 0;
+    shift_x++;
+}
+
+if (shift_x &gt; mask_w){
+    event_perform(ev_other, EVENT_DIE);
+}
+
+x = next_x;
 
 
 /************************************************************
     Kontakt z gruntem
 ************************************************************/
 
-on_ground = position_meeting(x-sprite_width/2, y+sprite_height/2, obj_collidable) || position_meeting(x+sprite_width/2, y+sprite_height/2, obj_collidable);
-touch_ceiling = position_meeting(x-sprite_width/2, y-sprite_height/2-1, obj_collidable) || position_meeting(x+sprite_width/2, y-sprite_height/2-1, obj_collidable);
+on_ground = (position_meeting(x-15, y+mask_h/2+1, obj_collidable)
+            || position_meeting(x-8, y+mask_h/2+1, obj_collidable)
+            || position_meeting(x+8, y+mask_h/2+1, obj_collidable)
+            || position_meeting(x+15, y+mask_h/2+1, obj_collidable));
 
+touch_ceiling = 2 &lt;= (position_meeting(x-15, y-mask_h/2-1, obj_collidable)
+            + position_meeting(x-8, y-mask_h/2-1, obj_collidable)
+            + position_meeting(x+8, y-mask_h/2-1, obj_collidable)
+            + position_meeting(x+15, y-mask_h/2-1, obj_collidable));
 
-
-//view_xview[0] = x-200;
+    
 image_index = (floor(global.room_controller.beats*image_number-animation_start_beat)) mod image_number;
 
 if (sprite_index == spr_ball){
-    image_angle = -2*x;
+    sprite_rotation = -2*x;
 }
 else{
-    image_angle = 0;
+    sprite_rotation = 0;
 }
 </string>
           </argument>
@@ -192,6 +202,10 @@ if (keyboard_check_pressed(ord('V')))
 
 left_key = keyboard_check(vk_left);
 right_key = keyboard_check(vk_right);
+
+enviroment_vertical_speed = 0;
+enviroment_horizontal_speed = 0;
+enviroment_speed_factor = 1;
 </string>
           </argument>
         </arguments>
@@ -220,7 +234,8 @@ right_key = keyboard_check(vk_right);
 
 if (right_key != left_key){
     horizontal_direction = (right_key - left_key);
-    horizontal_speed = clamp(-10,horizontal_speed+horizontal_direction/2,10);
+    var max_speed = 9*enviroment_speed_factor;
+    horizontal_speed = clamp(-max_speed,horizontal_speed+horizontal_direction/2,max_speed);
 }
 else{
     if (abs(horizontal_speed) &lt; 1)
@@ -229,7 +244,7 @@ else{
         horizontal_speed -= sign(horizontal_speed)/2;
 }
 
-x += horizontal_speed;
+next_x = x+horizontal_speed;
 
 if (movement_type == RUN){
     if (abs(horizontal_speed) &lt; 2)
@@ -244,31 +259,11 @@ image_xscale = sign(horizontal_direction);
     obsluga skokow
 *************************************************************************************************/
 
-if (short_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; (movement_type == RUN || movement_type == SLIDE) ){
-    movement_type = JUMP;
-    on_ground = false;
-    actual_jump_height = short_jump_height;
-    actual_jump_length = short_jump_length;// - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
-    jump_start_x = x;
-    jump_start_y = y;
-    jump_start_beat = global.room_controller.beats;
-    sprite_index = spr_jumper;
-    mask_index = spr_mask_big;
-    animation_start_beat = global.room_controller.beats;
-}
 
-
-if (long_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type == RUN){
-    movement_type = JUMP;
-    on_ground = false;
-    actual_jump_height = long_jump_height;
-    actual_jump_length = long_jump_length;// - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
-    jump_start_x = x;
-    jump_start_y = y;
-    jump_start_beat = global.room_controller.beats;
-    sprite_index = spr_jumper;
-    mask_index = spr_mask_big;
-    animation_start_beat = global.room_controller.beats;
+if (short_jump_key &gt; 0 
+    &amp;&amp; on_ground &amp;&amp; !touch_ceiling 
+    &amp;&amp; (movement_type == RUN || movement_type == SLIDE) ){
+        hero_start_jump(id, short_jump_length, short_jump_height);
 }
 
 
@@ -277,19 +272,7 @@ if (long_jump_key &gt; 0 &amp;&amp; on_ground &amp;&amp; movement_type == RUN){
 *************************************************************************************************/
 
 if (dash_key &gt; 0 &amp;&amp; dash_available &amp;&amp; !on_ground){
-    dash_available = false;
-    //obliczamy wysokosc rozpoczecia szybowania
-    var dash_alititude = ((y div 32) + (vertical_direction==DOWNWARDS)) * 32;
-    y = dash_alititude;
-    next_y = y;
-    movement_type = DASH;
-    dash_start_x = x;
-    dash_start_beat = global.room_controller.beats;
-    dash_started = false;
-    sprite_index = spr_bullet;
-    mask_index = spr_mask_small;
-    animation_start_beat = global.room_controller.beats;
-    audio_play_sound(snd_shot,100,0);
+    hero_start_dash(id, dash_length);
 }
 
 
@@ -298,14 +281,7 @@ if (dash_key &gt; 0 &amp;&amp; dash_available &amp;&amp; !on_ground){
 *************************************************************************************************/
 
 if (slide_key &gt; 0 &amp;&amp; on_ground){
-    slide_start_x = x;
-    slide_start_beat = global.room_controller.beats;
-    actual_slide_length = slide_length;// - ((x mod 32) &lt; 16) * (x mod 32) + ((x mod 32) &gt; 16) * (32-(x mod 32));
-    movement_type = SLIDE;
-    sprite_index = spr_ball;
-    mask_index = spr_mask_small;
-    animation_start_beat = global.room_controller.beats;
-    y += 30;
+    hero_start_slide(id, slide_length);
 }
 
 
@@ -333,8 +309,7 @@ switch (movement_type)
 }
 
 
-if (on_ground)
-{
+if (on_ground){
     dash_available = true;
 }
 
@@ -364,8 +339,63 @@ slide_key -= (global.current_time_controller.frame_time/1000);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>audio_stop_all();
-room_restart();
+            <string>event_perform(ev_other, EVENT_DIE);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="16">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>die</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var inst = instance_find(obj_camera_controller,0);
+if (inst != noone){
+    if (inst.stop == false){
+        inst.stop = true;
+        inst.shake_x = 15;
+        inst.shake_y = 15;
+        effect_create_above(ef_firework,x,y, 1, c_yellow);
+        effect_create_above(ef_firework,x+16,y, 1, c_yellow);
+        effect_create_above(ef_firework,x-16,y, 1, c_yellow);
+        effect_create_above(ef_firework,x,y-16, 1, c_yellow);
+        effect_create_above(ef_firework,x,y+16, 1, c_yellow);
+        instance_destroy();
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -409,11 +439,10 @@ room_restart();
           <argument>
             <kind>1</kind>
             <string>if (on_ground){
-    next_y = y;
+    next_y = y;    
 }
 else{
     movement_type = FALL;
-    fall_start_x = x;
     fall_start_y = y;
     fall_start_beat = global.room_controller.beats;
 }
@@ -459,27 +488,22 @@ else{
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (! on_ground){
-    sprite_index = spr_runner;
-    mask_index = spr_mask_big;
-    animation_start_beat = global.room_controller.beats;
-    movement_type = FALL;
-    fall_start_x = x;
-    fall_start_y = y;
-    fall_start_beat = global.room_controller.beats;
+            <string>if (!on_ground){
+    hero_start_fall(id);
+    slide_available = true;
 }
 
-if (global.room_controller.beats &lt; slide_start_beat + actual_slide_length ){
+if (global.room_controller.beats &lt; slide_start_beat + slide_actual_length ){
     next_y = y;
 }
 else{
-    if (touch_ceiling){
+    if (touch_ceiling ){
         actual_slide_length++;
     }
     else{
-        sprite_index = spr_runner;
-        mask_index = spr_mask_big;
-        movement_type = RUN;
+        y -= MASK_SMALL_HEIGHT/2;
+        next_y -= MASK_SMALL_HEIGHT/2;
+        hero_start_run(id);
     }
 }
 </string>
@@ -526,13 +550,14 @@ else{
             <kind>1</kind>
             <string>next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(global.room_controller.beats - fall_start_beat)*(global.room_controller.beats - fall_start_beat);
 
-show_debug_message(next_y);
+//&amp;&amp; vertical_direction == DOWNWARDS
 
-if (on_ground &amp;&amp; vertical_direction == DOWNWARDS){
+if (on_ground){
     movement_type = RUN;
     sprite_index = spr_runner;
     mask_index = spr_mask_big;
-    animation_start_x = x;
+    mask_h = MASK_BIG_HEIGHT;
+    animation_start_beat = global.room_controller.beats;
 }
 </string>
           </argument>
@@ -576,17 +601,18 @@ if (on_ground &amp;&amp; vertical_direction == DOWNWARDS){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.room_controller.beats &lt; dash_start_beat + dash_length ){
+            <string>if (global.room_controller.beats &lt; dash_start_beat + dash_actual_length ){
     next_y = y;
     horizontal_speed = 10*horizontal_direction;
+    var inst = instance_find(obj_camera_controller,0);
 }
 else{
     movement_type = FALL;
-    fall_start_x = x;
     fall_start_y = y;
     fall_start_beat = global.room_controller.beats;
     sprite_index = spr_jumper;
     mask_index = spr_mask_big;
+    mask_h = MASK_BIG_HEIGHT;
     animation_start_beat = global.room_controller.beats;
 }
 </string>
@@ -631,25 +657,19 @@ else{
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>next_y = jump_start_y + (4*(actual_jump_height/(actual_jump_length*actual_jump_length))*(global.room_controller.beats - jump_start_beat)*(global.room_controller.beats - jump_start_beat) - 4*(global.room_controller.beats - jump_start_beat)*(actual_jump_height/actual_jump_length) );
+            <string>next_y = jump_start_y 
+        + (4*(actual_jump_height/(actual_jump_length*actual_jump_length))
+            *power((global.room_controller.beats - jump_start_beat), 2)
+        - 4*(global.room_controller.beats - jump_start_beat)
+            *(actual_jump_height/actual_jump_length) );
 
 if (on_ground &amp;&amp; vertical_direction == DOWNWARDS){
-    movement_type = RUN;
-    sprite_index = spr_runner;
-    mask_index = spr_mask_big;
-    animation_start_x = x;
+    hero_start_run(id);
 }
 
-/*
 if (touch_ceiling){
-    if (abs(x - (jump_start_x+actual_jump_height/2))&gt; 31)
-    {
-        fall_start_x = x;
-        fall_start_y = y;
-        movement_type = FALL;
-    }
+    hero_start_fall(id);
 }
-*/
 </string>
           </argument>
         </arguments>
@@ -692,30 +712,33 @@ if (touch_ceiling){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-while (position_meeting(x, y+sprite_height/2-1, obj_collidable))
+            <string>var mask_size = 0;
+if (mask_index == spr_mask_big) mask_size = 32;
+else                            mask_size = 16;
+
+while (position_meeting(x, y+mask_size, obj_collidable))
 {
     y = y-1;
 }
 
-while (position_meeting(x, y-sprite_height/2+1, obj_collidable))
+while (position_meeting(x, y-mask_size, obj_collidable))
 {
     y = y+1;
 }
 
-while (position_meeting(x+sprite_width/2-1, y-sprite_height/4, obj_collidable) 
-    || position_meeting(x+sprite_width/2-1, y+sprite_height/4, obj_collidable))
+while (position_meeting(x+15, y-mask_size/2, obj_collidable) 
+    || position_meeting(x+15, y+mask_size/2, obj_collidable))
 {
     x = x-1;
 }
 
-while (position_meeting(x-sprite_width/2+1, y-sprite_height/4, obj_collidable) 
-    || position_meeting(x-sprite_width/2+1, y+sprite_height/4, obj_collidable))
+while (position_meeting(x-15, y-mask_size/2, obj_collidable) 
+    || position_meeting(x-15, y+mask_size/2, obj_collidable))
 {
     x = x+1;
 }
 
-y = floor(y)
+//y = floor(y)
 </string>
           </argument>
         </arguments>
@@ -738,35 +761,11 @@ y = floor(y)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,image_angle,image_blend,image_alpha);
+            <string>draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,sprite_rotation,image_blend,image_alpha);
 
 if (global.room_controller.beats - dash_start_beat &lt; sprite_get_number(spr_smoke)/10){
     draw_sprite_ext(spr_smoke, (global.room_controller.beats-dash_start_beat)*10, dash_start_x,y,1,1,0,image_blend,1);
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="32">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>audio_stop_all();
-room_restart();
 </string>
           </argument>
         </arguments>
