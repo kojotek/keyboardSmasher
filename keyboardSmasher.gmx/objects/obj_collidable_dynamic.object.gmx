@@ -26,10 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>start_y = y;
-last_known_y = y;
 next_y = y;
 start_x = x;
-last_known_x = x;
 next_x = x;
 </string>
           </argument>
@@ -98,8 +96,6 @@ if (place_meeting(x-2,y, obj_hero)){
     inst.enviroment_horizontal_speed_speed = x-last_known_x;
 }
 */
-last_known_y = y;
-last_known_x = x;
 
 y = next_y;
 x = next_x;

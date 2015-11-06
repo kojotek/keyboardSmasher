@@ -51,7 +51,7 @@ fall_length = 2;
 
 dash_start_x = -1000;
 dash_start_beat = 0;
-dash_length = 4;
+dash_length = 40;
 dash_actual_length = 4;
 dash_available = false;
 
@@ -103,25 +103,42 @@ colliding_object = noone;
           <argument>
             <kind>1</kind>
             <string>/************************************************************
-    COLLISION
+    KOLIZJE
 ************************************************************/
 
 
 vertical_direction = sign(next_y-y);
-//var collision_occured = false;
 
-next_y += enviroment_vertical_speed;
-y += enviroment_vertical_speed;
-next_x += enviroment_horizontal_speed;
-x += enviroment_horizontal_speed;
+if (movement_type != DASH){
+    next_y += enviroment_vertical_speed;
+    y += enviroment_vertical_speed;
+    next_x += enviroment_horizontal_speed;
+    x += enviroment_horizontal_speed;
+}
 
-var shift_x = 0;
+var shift_x = 0;    //Jeżeli przesuniecie wywolane kolizja jest zbyt duze, uznajemy, ze doszlo do zmiazdzenia posaci
 var shift_y = 0;
 
 
-while ( place_meeting(x,next_y, obj_collidable)){
-    next_y -= (vertical_direction+0.5);
-    shift_y++;
+/************************************************************
+    KOLIZJE PIONOWE
+************************************************************/
+
+if (vertical_direction != CONSTANT_ALTITUDE){
+    while ( place_meeting(x,next_y, obj_collidable)){
+        next_y -= (vertical_direction+0.5);
+        shift_y++;
+    }
+}
+else{
+    var counter = 1;
+    var sig = -1;
+    while(place_meeting(x,next_y,obj_collidable)){
+        next_y += sig * counter;
+        sig = -sig;
+        counter++;
+        shift_y++;
+    }
 }
 
 if (shift_y &gt; mask_h*2){
@@ -130,18 +147,21 @@ if (shift_y &gt; mask_h*2){
 
 y = next_y;
 
-while ( place_meeting(next_x,y, obj_collidable)){
-    next_x -= sign(next_x-x);
-    horizontal_speed = 0;
-    shift_x++;
-}
+/************************************************************
+    KOLIZJE POZIOME
+************************************************************/
 
+while ( place_meeting(next_x,y, obj_collidable)){
+       next_x -= sign(next_x-x);
+       horizontal_speed = 0;
+       shift_x++;
+   }
+   
 if (shift_x &gt; mask_w){
     event_perform(ev_other, EVENT_DIE);
 }
-
-x = next_x;
-
+   
+   x = next_x;
 
 /************************************************************
     Kontakt z gruntem
@@ -157,7 +177,7 @@ touch_ceiling = 2 &lt;= (position_meeting(x-15, y-mask_h/2-1, obj_collidable)
             + position_meeting(x+8, y-mask_h/2-1, obj_collidable)
             + position_meeting(x+15, y-mask_h/2-1, obj_collidable));
 
-    
+                
 image_index = (floor(global.room_controller.beats*image_number-animation_start_beat)) mod image_number;
 
 if (sprite_index == spr_ball){
@@ -607,6 +627,7 @@ if (on_ground){
     var inst = instance_find(obj_camera_controller,0);
 }
 else{
+    hero_start_fall(id);/*
     movement_type = FALL;
     fall_start_y = y;
     fall_start_beat = global.room_controller.beats;
@@ -614,6 +635,7 @@ else{
     mask_index = spr_mask_big;
     mask_h = MASK_BIG_HEIGHT;
     animation_start_beat = global.room_controller.beats;
+*/
 }
 </string>
           </argument>

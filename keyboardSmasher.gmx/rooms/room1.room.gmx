@@ -53,7 +53,6 @@
   <instances>
     <instance objName="obj_room_controller" x="96" y="768" name="inst_5FD19C5E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_camera_controller" x="64" y="800" name="inst_268CEBB8" locked="0" code="path = path0;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_hero" x="352" y="384" name="inst_9C7B1BE4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="32" y="32" name="inst_BA17E40C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="32" y="64" name="inst_C78FF4DD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="32" y="96" name="inst_D64C61C3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -283,6 +282,7 @@
     <instance objName="obj_collidable_dynamic" x="2208" y="256" name="inst_50E5206A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable_dynamic" x="2240" y="256" name="inst_27ED03C5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_invisible_wall" x="864" y="416" name="inst_3D08D194" locked="0" code="" scaleX="20" scaleY="50" colour="4294967295" rotation="0"/>
+    <instance objName="obj_hero" x="288" y="352" name="inst_74799BAE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

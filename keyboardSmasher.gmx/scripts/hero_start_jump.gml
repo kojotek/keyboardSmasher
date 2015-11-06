@@ -74,6 +74,9 @@ with(argument0){
 //argument0 - hero_id
 
 with(argument0){
+    if (movement_type == DASH){
+        y -= MASK_SMALL_HEIGHT/2;
+    }
     movement_type = FALL;
     fall_start_y = y;
     fall_start_beat = global.room_controller.beats;
