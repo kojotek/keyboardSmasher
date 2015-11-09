@@ -51,7 +51,7 @@ next_x = x;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>next_y = start_y + (100*sin(global.room_controller.beats));
+            <string>next_y = start_y + (150*sin(global.room_controller.beats));
 </string>
           </argument>
         </arguments>
@@ -78,13 +78,12 @@ next_x = x;
     var inst = instance_place(x,next_y, obj_hero);
     inst.enviroment_vertical_speed = next_y-y;
     //inst.enviroment_horizontal_speed = x-last_known_x;
-}
-
-if (place_meeting(x,y-(next_y-y)-1, obj_hero)){
-    var inst = instance_place(x,y-(next_y-y)-1, obj_hero);
-    inst.enviroment_vertical_speed = (next_y-y);
-}
-
+}else
+    if (place_meeting(x,2*y-next_y-(MASK_SMALL_HEIGHT/2)*sign(next_y-y), obj_hero)){
+        var inst = instance_place(x,2*y-next_y-(MASK_SMALL_HEIGHT/2)*sign(next_y-y), obj_hero);
+        inst.enviroment_vertical_speed = (next_y-y);
+    }
+    
 /*
 if (place_meeting(x+2,y, obj_hero)){
     var inst = instance_place(x+2,y, obj_hero);

@@ -59,6 +59,8 @@ shake_y = 0;
         instance_destroy();
    }
 }
+
+path_delete(origin_path);
 </string>
           </argument>
         </arguments>
@@ -129,21 +131,21 @@ if (shake_x &gt; 0 || shake_y &gt; 0){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for (i=0; i&lt;path_get_number(path)-1;i++){
+            <string>for (i=0; i&lt;path_get_number(origin_path)-1;i++){
     segments[i] = instance_create(0,0, obj_path_controller);
     segments[i].path = path_add();
-    path_add_point(segments[i].path, path_get_point_x(path, i), path_get_point_y(path, i), 0);
-    path_add_point(segments[i].path, path_get_point_x(path, i+1), path_get_point_y(path, i+1), 0);
+    path_add_point(segments[i].path, path_get_point_x(origin_path, i), path_get_point_y(origin_path, i), 0);
+    path_add_point(segments[i].path, path_get_point_x(origin_path, i+1), path_get_point_y(origin_path, i+1), 0);
     path_set_closed(segments[i].path, false);
     path_set_kind(segments[i].path, 0);
     path_set_precision(segments[i].path, 1);
     if (i == 0){
         segments[i].start_beat = 0;
-        segments[i].end_beat = segments[i].start_beat + path_get_point_speed(path, i+1);
+        segments[i].end_beat = segments[i].start_beat + path_get_point_speed(origin_path, i+1);
     }
     else{
         segments[i].start_beat = segments[i-1].end_beat;
-        segments[i].end_beat = segments[i].start_beat + path_get_point_speed(path, i+1);
+        segments[i].end_beat = segments[i].start_beat + path_get_point_speed(origin_path, i+1);
     }
 }
 

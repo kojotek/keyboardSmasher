@@ -50,14 +50,14 @@ fall_height = 320;
 fall_length = 2;
 
 dash_start_x = -1000;
-dash_start_beat = 0;
-dash_length = 40;
-dash_actual_length = 4;
+dash_start_beat = -200;
+dash_length = 1;
+dash_actual_length = 0;
 dash_available = false;
 
 slide_start_beat = 0;
-slide_length = 4;
-slide_actual_length = 4;
+slide_length = 1;
+slide_actual_length = 0;
 slide_available = true;
 
 on_ground = false;
@@ -112,8 +112,8 @@ vertical_direction = sign(next_y-y);
 if (movement_type != DASH){
     next_y += enviroment_vertical_speed;
     y += enviroment_vertical_speed;
-    next_x += enviroment_horizontal_speed;
-    x += enviroment_horizontal_speed;
+    //next_x += enviroment_horizontal_speed;
+    //x += enviroment_horizontal_speed;
 }
 
 var shift_x = 0;    //Jeżeli przesuniecie wywolane kolizja jest zbyt duze, uznajemy, ze doszlo do zmiazdzenia posaci
@@ -124,24 +124,24 @@ var shift_y = 0;
     KOLIZJE PIONOWE
 ************************************************************/
 
-if (vertical_direction != CONSTANT_ALTITUDE){
-    while ( place_meeting(x,next_y, obj_collidable)){
-        next_y -= (vertical_direction+0.5);
-        shift_y++;
-    }
-}
-else{
+if  (movement_type == DASH){
     var counter = 1;
     var sig = -1;
     while(place_meeting(x,next_y,obj_collidable)){
         next_y += sig * counter;
         sig = -sig;
-        counter++;
-        shift_y++;
+        counter += 0.5;
+        shift_y = counter;
+    }
+}
+else{
+    while ( place_meeting(x,next_y, obj_collidable)){
+        next_y -= (vertical_direction+0.5);
+        shift_y -= (vertical_direction+0.5);
     }
 }
 
-if (shift_y &gt; mask_h*2){
+if (abs(shift_y) &gt; mask_h){
     event_perform(ev_other, EVENT_DIE);
 }
 
@@ -186,6 +186,9 @@ if (sprite_index == spr_ball){
 else{
     sprite_rotation = 0;
 }
+
+image_xscale = sign(horizontal_speed)*(horizontal_speed != 0) 
+            + sign(horizontal_direction)*(horizontal_speed == 0);
 </string>
           </argument>
         </arguments>
@@ -252,28 +255,20 @@ enviroment_speed_factor = 1;
     obsluga ruchu
 *************************************************************************************************/
 
-if (right_key != left_key){
-    horizontal_direction = (right_key - left_key);
-    var max_speed = 9*enviroment_speed_factor;
-    horizontal_speed = clamp(-max_speed,horizontal_speed+horizontal_direction/2,max_speed);
-}
-else{
-    if (abs(horizontal_speed) &lt; 1)
-        horizontal_speed = 0;
-    else
-        horizontal_speed -= sign(horizontal_speed)/2;
-}
-
-next_x = x+horizontal_speed;
-
-if (movement_type == RUN){
-    if (abs(horizontal_speed) &lt; 2)
-        sprite_index = spr_stand;
-    else
-        sprite_index = spr_runner;
+if (movement_type != DASH){
+    if (right_key != left_key){
+        horizontal_direction = (right_key - left_key);
+        var max_speed = 15*enviroment_speed_factor;
+        horizontal_speed = clamp(-max_speed,horizontal_speed+horizontal_direction/2,max_speed);
+    }
+    else{
+        if (abs(horizontal_speed) &lt; 1)
+            horizontal_speed = 0;
+        else
+            horizontal_speed -= sign(horizontal_speed)/2;
+    }
 }
 
-image_xscale = sign(horizontal_direction);
 
 /*************************************************************************************************
     obsluga skokow
@@ -291,7 +286,7 @@ if (short_jump_key &gt; 0
     obsluga szybowania
 *************************************************************************************************/
 
-if (dash_key &gt; 0 &amp;&amp; dash_available &amp;&amp; !on_ground){
+if (dash_key &gt; 0 &amp;&amp; dash_available){
     hero_start_dash(id, dash_length);
 }
 
@@ -300,7 +295,7 @@ if (dash_key &gt; 0 &amp;&amp; dash_available &amp;&amp; !on_ground){
     obsluga slizgu
 *************************************************************************************************/
 
-if (slide_key &gt; 0 &amp;&amp; on_ground){
+if (slide_key &gt; 0 &amp;&amp; movement_type == RUN){
     hero_start_slide(id, slide_length);
 }
 
@@ -329,9 +324,11 @@ switch (movement_type)
 }
 
 
-if (on_ground){
+if (dash_start_beat + dash_length + 0.45 &lt;= global.room_controller.beats ){
     dash_available = true;
 }
+
+next_x = x+horizontal_speed;
 
 short_jump_key -= (global.current_time_controller.frame_time/1000);
 long_jump_key -= (global.current_time_controller.frame_time/1000);
@@ -466,6 +463,21 @@ else{
     fall_start_y = y;
     fall_start_beat = global.room_controller.beats;
 }
+
+if (abs(horizontal_speed) &lt; 3){
+    sprite_index = spr_stand;
+}
+else{
+    if (sign(horizontal_speed) == ((-1)*right_key + left_key)
+    || horizontal_speed != 0 &amp;&amp; right_key == left_key){
+        sprite_index = spr_brake;
+    }
+    else{
+        sprite_index = spr_runner;
+    }
+}
+
+// || abs(horizontal_speed) &lt; 2 &amp;&amp; right_key == left_key
 </string>
           </argument>
         </arguments>
@@ -623,19 +635,11 @@ if (on_ground){
             <kind>1</kind>
             <string>if (global.room_controller.beats &lt; dash_start_beat + dash_actual_length ){
     next_y = y;
-    horizontal_speed = 10*horizontal_direction;
+    horizontal_speed = 15*horizontal_direction;
     var inst = instance_find(obj_camera_controller,0);
 }
 else{
-    hero_start_fall(id);/*
-    movement_type = FALL;
-    fall_start_y = y;
-    fall_start_beat = global.room_controller.beats;
-    sprite_index = spr_jumper;
-    mask_index = spr_mask_big;
-    mask_h = MASK_BIG_HEIGHT;
-    animation_start_beat = global.room_controller.beats;
-*/
+    hero_start_fall(id);
 }
 </string>
           </argument>

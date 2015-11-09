@@ -7,14 +7,10 @@
   <sounds name="sound">
     <sound>sound\msc_test</sound>
     <sound>sound\snd_shot</sound>
+    <sound>sound\snd_hey</sound>
+    <sound>sound\snd_empty</sound>
   </sounds>
   <sprites name="sprites">
-    <sprite>sprites\spr_floor</sprite>
-    <sprite>sprites\spr_mask_big</sprite>
-    <sprite>sprites\spr_mask_small</sprite>
-    <sprite>sprites\spr_smoke</sprite>
-    <sprite>sprites\spr_path</sprite>
-    <sprite>sprites\spr_camera</sprite>
     <sprites name="hero">
       <sprite>sprites\spr_runner</sprite>
       <sprite>sprites\spr_dash_end</sprite>
@@ -22,11 +18,36 @@
       <sprite>sprites\spr_ball</sprite>
       <sprite>sprites\spr_bullet</sprite>
       <sprite>sprites\spr_stand</sprite>
+      <sprite>sprites\spr_brake</sprite>
     </sprites>
-    <sprite>sprites\spr_ghost</sprite>
+    <sprites name="tiles">
+      <sprite>sprites\spr_ghost</sprite>
+      <sprite>sprites\spr_floor</sprite>
+    </sprites>
+    <sprites name="effects">
+      <sprite>sprites\spr_smoke</sprite>
+    </sprites>
+    <sprites name="miscellaneous">
+      <sprite>sprites\spr_path</sprite>
+      <sprite>sprites\spr_camera</sprite>
+      <sprite>sprites\spr_mask_small</sprite>
+      <sprite>sprites\spr_mask_big</sprite>
+      <sprite>sprites\spr_room</sprite>
+      <sprite>sprites\spr_music</sprite>
+      <sprite>sprites\spr_time</sprite>
+    </sprites>
+    <sprites name="hazard">
+      <sprite>sprites\spr_spikes</sprite>
+      <sprite>sprites\spr_saw</sprite>
+    </sprites>
+    <sprites name="pickups">
+      <sprite>sprites\spr_energy_ball</sprite>
+      <sprite>sprites\spr_hey</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
+    <background>background\test_room</background>
   </backgrounds>
   <paths name="paths">
     <path>paths\path0</path>
@@ -36,8 +57,6 @@
   </scripts>
   <objects name="objects">
     <object>objects\obj_hero</object>
-    <object>objects\obj_collidable_dynamic</object>
-    <object>objects\obj_collidable</object>
     <objects name="controllers">
       <object>objects\obj_camera_controller</object>
       <object>objects\obj_music_controller</object>
@@ -45,12 +64,26 @@
       <object>objects\obj_room_controller</object>
       <object>objects\obj_path_controller</object>
     </objects>
-    <object>objects\obj_invisible_wall</object>
+    <objects name="collidables">
+      <object>objects\obj_invisible_wall</object>
+      <object>objects\obj_collidable_dynamic</object>
+      <object>objects\obj_collidable</object>
+    </objects>
+    <objects name="hazard">
+      <object>objects\obj_hazard</object>
+      <object>objects\obj_spikes</object>
+      <object>objects\obj_saw</object>
+    </objects>
+    <objects name="pickups">
+      <object>objects\obj_pickup</object>
+      <object>objects\obj_energy_ball</object>
+      <object>objects\obj_hey</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room1</room>
   </rooms>
-  <constants number="19">
+  <constants number="23">
     <constant name="CONSTANT_ALTITUDE">0</constant>
     <constant name="UPWARDS">-1</constant>
     <constant name="DOWNWARDS">1</constant>
@@ -59,6 +92,9 @@
     <constant name="DASH">2</constant>
     <constant name="SLIDE">3</constant>
     <constant name="RUN">4</constant>
+    <constant name="EVENT_PLAY_SONG">ev_user0</constant>
+    <constant name="EVENT_PAUSE_SONG">ev_user1</constant>
+    <constant name="EVENT_STOP_SONG">ev_user2</constant>
     <constant name="EVENT_OUT_FROM_OBJECT">ev_user0</constant>
     <constant name="EVENT_JUMP">ev_user1</constant>
     <constant name="EVENT_DASH">ev_user2</constant>
@@ -66,6 +102,7 @@
     <constant name="EVENT_SLIDE">ev_user4</constant>
     <constant name="EVENT_RUN">ev_user5</constant>
     <constant name="EVENT_DIE">ev_user6</constant>
+    <constant name="EVENT_PICKUP">ev_user15</constant>
     <constant name="KEY_DURATION">0.15</constant>
     <constant name="MASK_SMALL_HEIGHT">32</constant>
     <constant name="MASK_BIG_HEIGHT">64</constant>
