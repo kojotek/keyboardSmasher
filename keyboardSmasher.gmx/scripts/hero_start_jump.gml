@@ -56,8 +56,11 @@ with(argument0){
     animation_start_beat = global.room_controller.beats;
     slide_available = false;
     
-    y += MASK_SMALL_HEIGHT/2;
-    //next_y += MASK_SMALL_HEIGHT/2;
+    while (!place_meeting(x,y+1,obj_collidable)){
+        y = floor(y+1);
+        next_y = y;
+    }
+    
 }
 
 #define hero_start_run

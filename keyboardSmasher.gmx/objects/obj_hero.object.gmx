@@ -28,6 +28,7 @@
             <string>start_position_beat = 0;
 
 horizontal_speed = 0;
+horizontal_max_speed = 0;
 next_y = y;
 next_x = x;
 vertical_direction = DOWNWARDS;
@@ -63,12 +64,12 @@ slide_available = true;
 on_ground = false;
 touch_ceiling = false;
 
-short_jump_key = false;
-long_jump_key = false;
-dash_key = false;
-slide_key = false;
-left_key = false;
-right_key = false;
+jump_key_pressed = 0;
+dash_key_pressed = 0;
+slide_key_pressed = 0;
+slide_key_down = 0;
+left_key_down = 0;
+right_key_down = 0;
 
 sprite_index = spr_runner;
 mask_index = spr_mask_big;
@@ -141,7 +142,7 @@ else{
     }
 }
 
-if (abs(shift_y) &gt; mask_h){
+if (abs(shift_y) &gt; mask_h*1.6){
     event_perform(ev_other, EVENT_DIE);
 }
 
@@ -172,7 +173,7 @@ on_ground = (position_meeting(x-15, y+mask_h/2+1, obj_collidable)
             || position_meeting(x+8, y+mask_h/2+1, obj_collidable)
             || position_meeting(x+15, y+mask_h/2+1, obj_collidable));
 
-touch_ceiling = 2 &lt;= (position_meeting(x-15, y-mask_h/2-1, obj_collidable)
+touch_ceiling = 1 &lt;= (position_meeting(x-15, y-mask_h/2-1, obj_collidable)
             + position_meeting(x-8, y-mask_h/2-1, obj_collidable)
             + position_meeting(x+8, y-mask_h/2-1, obj_collidable)
             + position_meeting(x+15, y-mask_h/2-1, obj_collidable));
@@ -212,19 +213,18 @@ image_xscale = sign(horizontal_speed)*(horizontal_speed != 0)
           <argument>
             <kind>1</kind>
             <string>if (keyboard_check_pressed(ord('Z')))
-    short_jump_key = KEY_DURATION;
+    jump_key_pressed = KEY_DURATION;
 
 if (keyboard_check_pressed(ord('X')))
-    long_jump_key = KEY_DURATION;
+    dash_key_pressed = KEY_DURATION;
 
 if (keyboard_check_pressed(ord('C')))
-    dash_key = KEY_DURATION;
-    
-if (keyboard_check_pressed(ord('V')))
-    slide_key = KEY_DURATION;
+    slide_key_pressed = KEY_DURATION;
 
-left_key = keyboard_check(vk_left);
-right_key = keyboard_check(vk_right);
+slide_key_down = keyboard_check(ord('C'));
+
+left_key_down = keyboard_check(vk_left);
+right_key_down = keyboard_check(vk_right);
 
 enviroment_vertical_speed = 0;
 enviroment_horizontal_speed = 0;
@@ -256,9 +256,10 @@ enviroment_speed_factor = 1;
 *************************************************************************************************/
 
 if (movement_type != DASH){
-    if (right_key != left_key){
-        horizontal_direction = (right_key - left_key);
-        var max_speed = 15*enviroment_speed_factor;
+    if (right_key_down != left_key_down){
+        horizontal_direction = (right_key_down - left_key_down);
+        horizontal_max_speed = ((global.room_controller.music_controller.tempo/60)/room_speed) * 8 * 32 * 1.2;
+        var max_speed = horizontal_max_speed*enviroment_speed_factor;
         horizontal_speed = clamp(-max_speed,horizontal_speed+horizontal_direction/2,max_speed);
     }
     else{
@@ -275,7 +276,7 @@ if (movement_type != DASH){
 *************************************************************************************************/
 
 
-if (short_jump_key &gt; 0 
+if (jump_key_pressed &gt; 0 
     &amp;&amp; on_ground &amp;&amp; !touch_ceiling 
     &amp;&amp; (movement_type == RUN || movement_type == SLIDE) ){
         hero_start_jump(id, short_jump_length, short_jump_height);
@@ -286,7 +287,7 @@ if (short_jump_key &gt; 0
     obsluga szybowania
 *************************************************************************************************/
 
-if (dash_key &gt; 0 &amp;&amp; dash_available){
+if (dash_key_pressed &gt; 0 &amp;&amp; dash_available){
     hero_start_dash(id, dash_length);
 }
 
@@ -295,7 +296,7 @@ if (dash_key &gt; 0 &amp;&amp; dash_available){
     obsluga slizgu
 *************************************************************************************************/
 
-if (slide_key &gt; 0 &amp;&amp; movement_type == RUN){
+if (slide_key_pressed &gt; 0 &amp;&amp; movement_type == RUN){
     hero_start_slide(id, slide_length);
 }
 
@@ -330,10 +331,9 @@ if (dash_start_beat + dash_length + 0.45 &lt;= global.room_controller.beats ){
 
 next_x = x+horizontal_speed;
 
-short_jump_key -= (global.current_time_controller.frame_time/1000);
-long_jump_key -= (global.current_time_controller.frame_time/1000);
-dash_key -= (global.current_time_controller.frame_time/1000);
-slide_key -= (global.current_time_controller.frame_time/1000);
+jump_key_pressed -= (global.current_time_controller.frame_time/1000);
+dash_key_pressed -= (global.current_time_controller.frame_time/1000);
+slide_key_pressed -= (global.current_time_controller.frame_time/1000);
 </string>
           </argument>
         </arguments>
@@ -399,19 +399,20 @@ slide_key -= (global.current_time_controller.frame_time/1000);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var inst = instance_find(obj_camera_controller,0);
+            <string>var inst = global.room_controller.camera_controller;
 if (inst != noone){
-    if (inst.stop == false){
-        inst.stop = true;
-        inst.shake_x = 15;
-        inst.shake_y = 15;
-        effect_create_above(ef_firework,x,y, 1, c_yellow);
-        effect_create_above(ef_firework,x+16,y, 1, c_yellow);
-        effect_create_above(ef_firework,x-16,y, 1, c_yellow);
-        effect_create_above(ef_firework,x,y-16, 1, c_yellow);
-        effect_create_above(ef_firework,x,y+16, 1, c_yellow);
-        instance_destroy();
+    inst.shake_x = 15;
+    inst.shake_y = 15;
+    effect_create_above(ef_firework,x,y, 1, c_yellow);
+    effect_create_above(ef_firework,x+16,y, 1, c_yellow);
+    effect_create_above(ef_firework,x-16,y, 1, c_yellow);
+    effect_create_above(ef_firework,x,y-16, 1, c_yellow);
+    effect_create_above(ef_firework,x,y+16, 1, c_yellow);
+    with(global.room_controller.music_controller){
+        event_perform(ev_other, EVENT_STOP_SONG);
     }
+    audio_play_sound(snd_badum,80,0);
+    instance_destroy();
 }
 </string>
           </argument>
@@ -468,8 +469,8 @@ if (abs(horizontal_speed) &lt; 3){
     sprite_index = spr_stand;
 }
 else{
-    if (sign(horizontal_speed) == ((-1)*right_key + left_key)
-    || horizontal_speed != 0 &amp;&amp; right_key == left_key){
+    if (sign(horizontal_speed) == ((-1)*right_key_down + left_key_down)
+    || horizontal_speed != 0 &amp;&amp; right_key_down == left_key_down){
         sprite_index = spr_brake;
     }
     else{
@@ -529,8 +530,8 @@ if (global.room_controller.beats &lt; slide_start_beat + slide_actual_length ){
     next_y = y;
 }
 else{
-    if (touch_ceiling ){
-        actual_slide_length++;
+    if (touch_ceiling || slide_key_down){
+        slide_actual_length += 0.2;
     }
     else{
         y -= MASK_SMALL_HEIGHT/2;
@@ -582,7 +583,12 @@ else{
             <kind>1</kind>
             <string>next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(global.room_controller.beats - fall_start_beat)*(global.room_controller.beats - fall_start_beat);
 
-//&amp;&amp; vertical_direction == DOWNWARDS
+if( place_meeting(x,y+1, obj_collidable) ){
+    var inst = instance_place(x,y+1, obj_collidable)
+    y = inst.y - inst.sprite_height/2;
+    next_y = y;
+    on_ground = true;
+}
 
 if (on_ground){
     movement_type = RUN;
@@ -635,11 +641,24 @@ if (on_ground){
             <kind>1</kind>
             <string>if (global.room_controller.beats &lt; dash_start_beat + dash_actual_length ){
     next_y = y;
-    horizontal_speed = 15*horizontal_direction;
+    horizontal_max_speed = ((global.room_controller.music_controller.tempo/60)/room_speed) * 8 * 32 * 1.5;
+    horizontal_speed = horizontal_max_speed*horizontal_direction;
     var inst = instance_find(obj_camera_controller,0);
 }
 else{
-    hero_start_fall(id);
+    if (touch_ceiling){
+        if (on_ground){
+            show_debug_message( dash_actual_length)
+            dash_actual_length += 0.2;
+        }
+        else{
+            y += MASK_SMALL_HEIGHT/2;
+            next_y = y;
+        }
+    }
+    else{
+        hero_start_fall(id);
+    }
 }
 </string>
           </argument>

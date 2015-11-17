@@ -30,7 +30,9 @@ shift = 0; //przesuniecie poczatka utworu
 last_known_head_position = 0; //poprzednia pozycja glowicy na tasmie
 head_position = 0; //pozycja glowicy na tasmie
 song = 0;
+loop = false;
 track_id = -1;
+paused = true;
 </string>
           </argument>
         </arguments>
@@ -85,6 +87,98 @@ track_id = -1;
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="14">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>fade music in</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (track_id != -1){
+    audio_sound_gain(track_id, 1, 1000);
+}
+//paused = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="13">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>fade music out</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (track_id != -1){
+    audio_sound_gain(track_id, 0, 1000);
+}
+//paused = true;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="12">
       <action>
         <libid>1</libid>
@@ -122,12 +216,14 @@ track_id = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (track_id == -1){
+            <string>if (track_id != -1){
     audio_stop_sound(track_id);
     track_id = -1;
     last_known_head_position = 0;
     head_position = 0;
 }
+
+paused = true;
 </string>
           </argument>
         </arguments>
@@ -173,6 +269,7 @@ track_id = -1;
             <string>if (track_id != -1){
     audio_resume_sound(track_id);
 }
+paused = true;
 </string>
           </argument>
         </arguments>
@@ -216,11 +313,13 @@ track_id = -1;
           <argument>
             <kind>1</kind>
             <string>if (track_id == -1){
-    track_id = audio_play_sound(song, 100, false);
+    track_id = audio_play_sound(song, 100, loop);
 }
 else{
     audio_resume_sound(track_id);
 }
+
+paused = false;
 </string>
           </argument>
         </arguments>

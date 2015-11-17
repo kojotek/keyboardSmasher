@@ -9,6 +9,9 @@
     <sound>sound\snd_shot</sound>
     <sound>sound\snd_hey</sound>
     <sound>sound\snd_empty</sound>
+    <sound>sound\snd_badum</sound>
+    <sound>sound\msc_goofy</sound>
+    <sound>sound\snd_heavy_fall</sound>
   </sounds>
   <sprites name="sprites">
     <sprites name="hero">
@@ -21,7 +24,8 @@
       <sprite>sprites\spr_brake</sprite>
     </sprites>
     <sprites name="tiles">
-      <sprite>sprites\spr_ghost</sprite>
+      <sprite>sprites\spr_ghost_red</sprite>
+      <sprite>sprites\spr_ghost_green</sprite>
       <sprite>sprites\spr_floor</sprite>
     </sprites>
     <sprites name="effects">
@@ -29,7 +33,9 @@
     </sprites>
     <sprites name="miscellaneous">
       <sprite>sprites\spr_path</sprite>
-      <sprite>sprites\spr_camera</sprite>
+      <sprite>sprites\spr_camera_red</sprite>
+      <sprite>sprites\spr_camera_green</sprite>
+      <sprite>sprites\spr_camera_yellow</sprite>
       <sprite>sprites\spr_mask_small</sprite>
       <sprite>sprites\spr_mask_big</sprite>
       <sprite>sprites\spr_room</sprite>
@@ -44,6 +50,7 @@
       <sprite>sprites\spr_energy_ball</sprite>
       <sprite>sprites\spr_hey</sprite>
     </sprites>
+    <sprite>sprites\spr_metronome</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -54,11 +61,15 @@
   </paths>
   <scripts name="scripts">
     <script>scripts\hero_start_jump.gml</script>
+    <script>scripts\set_camera_controller.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_hero</object>
     <objects name="controllers">
       <object>objects\obj_camera_controller</object>
+      <object>objects\obj_camera_controller_path</object>
+      <object>objects\obj_camera_controller_static</object>
+      <object>objects\obj_camera_controller_follower</object>
       <object>objects\obj_music_controller</object>
       <object>objects\obj_time_controller</object>
       <object>objects\obj_room_controller</object>
@@ -79,11 +90,22 @@
       <object>objects\obj_energy_ball</object>
       <object>objects\obj_hey</object>
     </objects>
+    <objects name="room_1">
+      <object>objects\obj_music_starter_room_1</object>
+      <object>objects\obj_metronome</object>
+      <object>objects\obj_platform_type1_room1</object>
+      <object>objects\obj_music_fader_room_1</object>
+    </objects>
+    <objects name="triggers">
+      <object>objects\obj_trigger</object>
+      <object>objects\obj_trigger_deactivator</object>
+      <object>objects\obj_trigger_activator</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room1</room>
   </rooms>
-  <constants number="23">
+  <constants number="27">
     <constant name="CONSTANT_ALTITUDE">0</constant>
     <constant name="UPWARDS">-1</constant>
     <constant name="DOWNWARDS">1</constant>
@@ -92,9 +114,13 @@
     <constant name="DASH">2</constant>
     <constant name="SLIDE">3</constant>
     <constant name="RUN">4</constant>
+    <constant name="EVENT_TRIGGER_ACTION">ev_user0</constant>
+    <constant name="EVENT_INSTALL_PATH">ev_user0</constant>
     <constant name="EVENT_PLAY_SONG">ev_user0</constant>
     <constant name="EVENT_PAUSE_SONG">ev_user1</constant>
     <constant name="EVENT_STOP_SONG">ev_user2</constant>
+    <constant name="EVENT_SONG_FADE_OUT">ev_user3</constant>
+    <constant name="EVENT_SONG_FADE_IN">ev_user4</constant>
     <constant name="EVENT_OUT_FROM_OBJECT">ev_user0</constant>
     <constant name="EVENT_JUMP">ev_user1</constant>
     <constant name="EVENT_DASH">ev_user2</constant>

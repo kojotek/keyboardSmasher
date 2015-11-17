@@ -51,7 +51,7 @@ next_x = x;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>next_y = start_y + (150*sin(global.room_controller.beats));
+            <string>next_y = start_y + (250*sin(global.room_controller.beats));
 </string>
           </argument>
         </arguments>
