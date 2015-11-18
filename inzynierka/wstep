@@ -1,0 +1,25 @@
+    Wraz z rozwojem technologii komputerowych i inżynierii oprogramowania, tworzenie gier komputerowych staje się łatwiejsze dzięki szerokiemu asortymentowi przyjaznych dla użytkownika silników, środowisk programistycznych i narzędzi. Przystępność dostępnych rozwiązań sprawia, że dostawcami gier coraz częściej stają się małe, niezależne zespoły, czy nawet pojedynczy programiści. Przy lawinowo rosnącej ilości dostępnych tytułów gracze coraz chętniej sięgają po gry oparte na oryginalnym pomyśle, dzięki czemu na rynku mają możliwość zaistnieć niskobudżetowe, amatorskie produkcje.
+    Podczas pracy nad stworzeniem rytmicznej gry platformowej kierowała mną chęć wejścia na rynek gier niezależnych w stosunkowo niewykorzystanej jego niszy. Dodatkową motywacją była perspektywa pracy nad projektem pokrywającym się z moimi zainteresowaniami, a więc wymagająca samodzielnego zapoznania się i zrealizowania wszystkich etapów procesu tworzenia gry komputerowej, oraz wykorzystania podstawowej wiedzy z zakresu teorii muzyki.
+
+
+Cel i zakres pracy
+    Celem niniejszej pracy jest opis kluczowych zagadnień dotyczących procesu powstawania wczesnej wersji rytmicznej gry komputerowej dla systemu Windows z wykorzystaniem darmowych narzędzi. Omówione zostaną koncepcja i zasady gry, narzędzia wykorzystane w projekcie, mechanizmy rozgrywki oraz odpowiadające za nie algorytmy wraz z implementacją i objaśnieniem. Problemy pojawiające się na kolejnych etapach powstawania projektu zostaną zestawione z moimi propozycjami rozwiązań. Praca objaśnia również sposoby przygotowania materiałów multimedialnych wykorzystanych w projekcie, ze szczególnym uwzględnieniem metod i narzędzi obróbki plików dźwiękowych.
+
+    "A Theory of Fun for Game Design"
+    "Music Theory for computer musicians"
+    Dokumentacje
+    Time stretching / Pitch scaling
+    
+    W treści pracy określenia "gra muzyczna" i "gra rytmiczna" są używane zamiennie, ze względu na fakt, iż projekt swoją formą obejmuje elementy obu gatunków.
+
+    Pracę otwiera rozdział poświęcony charakterystyce gier komputerowych z wyróżnieniem gier muzycznych i rytmicznych. Wyszczególniono w nim kluczowe elementy, które musi posiadać program komputerowy aby można było nazwać go grą. W rozdziale zawarto również przykłady gier rytmicznych i muzycznych.
+
+    W rozdziale drugim omówiono założenia i główną koncepcję gry. Przedstawiono zasady rozgrywki, wyzwania stawiane przed graczem, cele gry, sposoby ich osiągania oraz pojawiające się w grze byty i ich znaczenie dla przebiegu rozgrywki. Zaprezentowano również wszystkie narzędzia użyte podczas pracy nad programem wraz z krótkim opisem najważniejszych funkcjonalności.
+
+    Rozdział trzeci poświęcono omówieniu zagadnień tempa i rytmu utworów muzycznych oraz przełożenia tych elementów na płaszczyznę gry. Przedstawiono również proces przygotowania pliku muzycznego przed wdrożeniem go do gry.
+    
+    W rozdziale czwartym zawarto informacje na temat najważniejszych mechanizmów gry. Podano metody synchronizacji wybranych obiektów gry z muzyką. Przedstawiono najważniejsze algorytmy, w tym algorytmy poruszania się bohatera i wykrywania oraz obsługi kolizji wraz z objaśnieniem. Uzasadniono wybór konkretnych rozwiązań. Osobny punkt poświęcono na przedstawienie usprawnień zwiększających komfort gry.
+    
+    Rodział piąty zawiera opis, budowę i zasady działania elementów pierwszej planszy gry z uwzględnieniem ich znaczenia dla rozgrywki.
+    
+    Pracę zamyka podsumowanie, w którym przedstawiono koncepcje odrzucone w trakcie projektowania lub implementacji z uzasadnieniem tych decyzji. Określono stopień realizacji założeń projektu, zawarto również zarys dalszych planów rozwoju.

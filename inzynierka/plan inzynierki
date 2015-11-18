@@ -1,0 +1,61 @@
+Temat: Rytmiczna gra platformowa
+
+1. Charakterystyka gier rytmicznych.
+
+    1.1. Cech charakterystyczne gry komputerowej
+        - Omówienie podstawowych cech gier komputerowych (problematyka gry, wyzwanie, narzędzia gracza, mechanizm kary i nagrody). 
+    1.2. Założenia gier rytmicznych.
+        - różnica między grą rytmiczną a muzyczną
+        - Objaśnienie terminu "gra rytmiczna/muzyczna". - Ujęcie wcześniej wymienionych cech gier w odniesieniu do gry rytmicznej. 
+    1.3. Przykłady gier rytmicznych i ich odbiór na rynku.
+        - Krótka prezentacja kilku popularnych gier rytmicznych. - Oceny, odbiór społeczności 
+
+2. Założenia projektu.
+
+    2.1. Zamysł projektu
+        - Przedstawienie ogólnej idei projektu
+    2.2. Zasady gry
+        - Omówienie celu gry, trudności, nagród i kar
+        - screen z gry wraz z wypunktowaniem co jest co (kolce, bohater, kamera)
+    2.3. opis narzędzi
+        2.3.1. Game Maker
+            - game engine stworzony z myślą o grach 2D. Omówienie podstawowych cech środowiska
+        2.3.2. Spriter
+            - software pozwalający na tworzenie animacji szkieletowych z sprite'ów
+        2.3.3. Pozostałe (BPM Meter, PIXLR, Fruity Loop)
+
+3. Cechy utworów muzycznych i plików muzycznych oraz ich wpływ na projektowanie gry
+
+    3.1. Tempo i rytm utworu, przełożenie tych cech na płaszczyznę gry
+        - Wyjaśnienie analogii między budową planszy a pięciolinią
+    3.2. Przygotowanie do pracy z plikami dźwiękowymi (mp3) - Cisza na początku utworów - Problemy z odczytem pozycji głowicy - Kompresja dźwięku w Game Maker - Określanie tempa utworu za pomocą odpowiedniego software'u
+
+4. Mechanizmy gry (problemy i rozwiązania)
+
+    4.1. Użycie plejera do zbudowania zegara gry
+        - Wzór wraz z objaśnieniem
+        4.1.1. Problemy z odczytem pozycji głowicy
+            - Przełożenie niedokładności odczytu na odczucia podczas gry
+        4.1.2. interpolowanie pozycji głowicy za pomocą zegara
+            - propozycja rozwiązania problemu niedokładnego odczytu pozycji głowicy - pseudokod z objaśnieniem
+    4.2. Zależność między ilością wyświetlanych klatek na sekundę a spójnością mechanizmów gry
+        - przedstawienie kilku znanych rozwiązań - przedstawienie rozwiązania zastosowanego w grze (ruch jako wykres funkcji matematycznej) 
+    4.3. Mechanizmy ruchu
+        4.3.1. skok
+        4.3.2. szybowanie
+        4.3.3. ślizg
+            - wzory powyższych wraz z objaśnieniem 
+    4.4. ułatwienia dla graczy: Wsteczne wykrywanie klawiszy i moderowana długość ruchów
+        - wyjaśnienie sposobów na pozbycie się elementów wprowadzających frustrację grą (poprawka na czynnik ludzki) 
+    4.5. Kolizje typu bullet
+        - wyjaśnienie i pseudokod
+    4.6. Obsługa kolizji 
+    4.7. animacje i efekty graficzne 
+
+5. Projektowanie poziomów
+
+    - opis mechanizmów działania kilku wybranych interaktywnych elementów poziomu gry 
+
+6. Podsumowanie
+
+    - co się udało zrobić - co się nie udało - efekty pracy 

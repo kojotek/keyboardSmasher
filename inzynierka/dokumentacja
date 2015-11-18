@@ -1,0 +1,19 @@
+obj_camera_controller_follower
+    nadpisać 
+    follower_object - id obiektu za którym ma nadążać;
+    max_left_dist - maksymalna odległość obiektu od środka ekranu w lewo
+    max_right_dist
+    max_up_dist
+    max_down_dist
+
+trigger
+    nadpisać
+    colliding_object = obiekt, z którym kolizja ma wywołać trigger
+    event user 0 = wstawić kod do wykonania po kolizji z triggerem
+    
+trigger deactivator / activator
+    colliding_object = hero_0;
+    upper_boundary = -20;
+    lower_height = room_height + 20;
+    left_boundary = 0;
+    right_height = 0;
