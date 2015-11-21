@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>self</parentName>
+  <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -60,8 +60,8 @@ else{
     y = start_y + (sin(global.room_controller.beats*pi)) * 50 * image_yscale;
     if (instance_exists(hero_0)){
         if (global.room_controller.beats mod 16 &gt; 15.95){
-            global.room_controller.camera_controller.shake_x = 20 * max(((2000-distance_to_object(hero_0))/2000),0);
-            global.room_controller.camera_controller.shake_y = 20 * max(((2000-distance_to_object(hero_0))/2000),0);
+            global.room_controller.camera_controller.shake_x = 15 * max(((2000-distance_to_object(hero_0))/2000),0);
+            global.room_controller.camera_controller.shake_y = 15 * max(((2000-distance_to_object(hero_0))/2000),0);
             if (play_sound &amp;&amp; !audio_is_playing(snd_heavy_fall)){
                 audio_play_sound_at(snd_heavy_fall, hero_0.x-x ,hero_0.y-y, 0,200, 2000, 1, 0, 20);
             }

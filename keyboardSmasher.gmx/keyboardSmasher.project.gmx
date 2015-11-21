@@ -30,6 +30,7 @@
     </sprites>
     <sprites name="effects">
       <sprite>sprites\spr_smoke</sprite>
+      <sprite>sprites\spr_explosion</sprite>
     </sprites>
     <sprites name="miscellaneous">
       <sprite>sprites\spr_path</sprite>
@@ -51,6 +52,7 @@
       <sprite>sprites\spr_hey</sprite>
     </sprites>
     <sprite>sprites\spr_metronome</sprite>
+    <sprite>sprites\spr_mine</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -62,9 +64,12 @@
   <scripts name="scripts">
     <script>scripts\hero_start_jump.gml</script>
     <script>scripts\set_camera_controller.gml</script>
+    <script>scripts\instance_get_first.gml</script>
   </scripts>
   <objects name="objects">
+    <object>objects\obj_character</object>
     <object>objects\obj_hero</object>
+    <object>objects\obj_hero_dummy</object>
     <objects name="controllers">
       <object>objects\obj_camera_controller</object>
       <object>objects\obj_camera_controller_path</object>
@@ -84,6 +89,7 @@
       <object>objects\obj_hazard</object>
       <object>objects\obj_spikes</object>
       <object>objects\obj_saw</object>
+      <object>objects\obj_mine</object>
     </objects>
     <objects name="pickups">
       <object>objects\obj_pickup</object>
@@ -95,6 +101,9 @@
       <object>objects\obj_metronome</object>
       <object>objects\obj_platform_type1_room1</object>
       <object>objects\obj_music_fader_room_1</object>
+      <object>objects\obj_smasher_starter_room1</object>
+      <object>objects\obj_smasher_room1</object>
+      <object>objects\obj_dummy_starter_room1</object>
     </objects>
     <objects name="triggers">
       <object>objects\obj_trigger</object>
