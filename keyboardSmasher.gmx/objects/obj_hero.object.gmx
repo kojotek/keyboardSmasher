@@ -153,16 +153,16 @@ y = next_y;
 ************************************************************/
 
 while ( place_meeting(next_x,y, obj_collidable)){
-       next_x -= sign(next_x-x);
+       next_x -= sign(next_x-x)/2;
        horizontal_speed = 0;
-       shift_x++;
+       shift_x += 1/2;
    }
    
 if (shift_x &gt; mask_w){
     event_perform(ev_other, EVENT_DIE);
 }
    
-   x = next_x;
+x = next_x;
 
 /************************************************************
     Kontakt z gruntem
@@ -408,11 +408,15 @@ if (inst != noone){
     effect_create_above(ef_firework,x-16,y, 1, c_yellow);
     effect_create_above(ef_firework,x,y-16, 1, c_yellow);
     effect_create_above(ef_firework,x,y+16, 1, c_yellow);
-    with(global.room_controller.music_controller){
-        event_perform(ev_other, EVENT_STOP_SONG);
-    }
     audio_play_sound(snd_badum,80,0);
     instance_destroy();
+    
+    var inst = instance_get_first(obj_hero);
+    if (inst == noone){
+        with(global.room_controller.music_controller){
+            event_perform(ev_other, EVENT_STOP_SONG);
+        }
+    }
 }
 </string>
           </argument>
