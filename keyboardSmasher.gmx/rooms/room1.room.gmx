@@ -52,7 +52,7 @@
   </views>
   <instances>
     <instance objName="obj_camera_controller_path" x="32" y="928" name="camera_controller_1" locked="0" code="origin_path = path_add();&#xA;path_add_point(origin_path, 10224+view_wview[0]/4, 384, 1);&#xA;path_add_point(origin_path, 127476, 384, 458);&#xA;path_set_closed(origin_path, false);&#xA;path_set_kind(origin_path, 0);&#xA;event_perform(ev_other, EVENT_INSTALL_PATH);&#xA;instance_deactivate_object(id);" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_camera_controller_follower" x="32" y="896" name="camera_controller_0" locked="0" code="followed_object = instance_find(obj_hero,0);&#xA;max_left_dist = view_wview[0]/4;&#xA;max_right_dist = -view_wview[0]/4;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_camera_controller_follower" x="32" y="896" name="camera_controller_0" locked="0" code="followed_object = instance_find(obj_hero_controllable,0);&#xA;max_left_dist = view_wview[0]/4;&#xA;max_right_dist = -view_wview[0]/4;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_music_controller" x="96" y="928" name="music_controller_1" locked="0" code="song = msc_test;&#xA;tempo = 120;&#xA;instance_deactivate_object(id);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_time_controller" x="64" y="896" name="time_controller_0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_room_controller" x="128" y="896" name="room_controller_0" locked="0" code="music_controller = music_controller_0;&#xA;time_controller = time_controller_0;&#xA;camera_controller = camera_controller_0;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -556,7 +556,6 @@
     <instance objName="obj_spikes" x="16136" y="640" name="inst_9CF693B1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="90"/>
     <instance objName="obj_spikes" x="16136" y="672" name="inst_3AD23596" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="90"/>
     <instance objName="obj_spikes" x="16136" y="704" name="inst_AA8365CA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="90"/>
-    <instance objName="obj_hero" x="128" y="608" name="hero_0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="17032" y="736" name="inst_D001D6E7" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="17064" y="736" name="inst_BE91F7AE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="17096" y="736" name="inst_A3EB27CE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -802,12 +801,18 @@
     <instance objName="obj_spikes" x="2912" y="768" name="inst_C55227AB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="90"/>
     <instance objName="obj_smasher_room1" x="3680" y="-384" name="smasher_0" locked="0" code="" scaleX="6" scaleY="25" colour="4294967295" rotation="0"/>
     <instance objName="obj_smasher_starter_room1" x="3104" y="416" name="inst_A7F9E439" locked="0" code="colliding_object = hero_0;&#xA;smasher = smasher_0;&#xA;" scaleX="4.25" scaleY="20" colour="4294967295" rotation="0"/>
-    <instance objName="obj_dummy_starter_room1" x="3104" y="416" name="inst_FB380549" locked="0" code="colliding_object = hero_0;&#xA;dummy = dummy_0;&#xA;" scaleX="4" scaleY="20" colour="4294967295" rotation="0"/>
+    <instance objName="obj_dummy_starter_room1" x="3104" y="416" name="inst_FB380549" locked="0" code="colliding_object = hero_0;&#xA;dummy = dummy_0;&#xA;dummy_move_right = true;&#xA;" scaleX="4" scaleY="20" colour="4294967295" rotation="0"/>
     <instance objName="obj_hero_dummy" x="3392" y="672" name="dummy_0" locked="0" code="horizontal_direction = -1;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="8448" y="768" name="inst_B44B7E16" locked="0" code="" scaleX="211" scaleY="3" colour="4294967295" rotation="0"/>
-    <instance objName="obj_collidable" x="5664" y="640" name="inst_7ABBF284" locked="0" code="" scaleX="5" scaleY="5" colour="4294967295" rotation="0"/>
-    <instance objName="obj_collidable" x="6464" y="576" name="inst_42BCA201" locked="0" code="" scaleX="5" scaleY="9" colour="4294967295" rotation="0"/>
-    <instance objName="obj_mine" x="1024" y="704" name="inst_DCFFFD26" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="5664" y="512" name="inst_7ABBF284" locked="0" code="" scaleX="5" scaleY="11" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="6240" y="576" name="inst_42BCA201" locked="0" code="" scaleX="5" scaleY="9" colour="4294967295" rotation="0"/>
+    <instance objName="obj_hero_controllable" x="5344" y="512" name="hero_0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_mine" x="6208" y="416" name="inst_AF31A4E9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_mine" x="6272" y="416" name="inst_27F1CB9A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_hero_dummy" x="5664" y="288" name="dummy_1" locked="0" code="horizontal_direction = -1;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_dummy_starter_room1" x="5664" y="288" name="inst_5F397A0D" locked="0" code="colliding_object = hero_0;&#xA;dummy = dummy_1;&#xA;dummy_move_right = true;&#xA;dummy_dash = true;&#xA;" scaleX="5" scaleY="3" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="5504" y="608" name="inst_C2C8350C" locked="0" code="" scaleX="5" scaleY="5" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="5952" y="128" name="inst_A32284D6" locked="0" code="" scaleX="23" scaleY="7" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="test_room" x="0" y="608" w="128" h="128" xo="0" yo="0" id="10000001" name="inst_BF560F54" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

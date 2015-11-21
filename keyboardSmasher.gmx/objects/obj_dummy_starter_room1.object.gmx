@@ -27,6 +27,11 @@
             <kind>1</kind>
             <string>event_inherited();
 dummy = noone;
+dummy_move_left = false;
+dummy_move_right = false;
+dummy_jump = false;
+dummy_slide = false;
+dummy_dash = false;
 </string>
           </argument>
         </arguments>
@@ -49,7 +54,11 @@ dummy = noone;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>dummy.simulated_right = true;
+            <string>dummy.simulated_left = dummy_move_left;
+dummy.simulated_right = dummy_move_right;
+dummy.simulated_jump = dummy_jump;
+dummy.simulated_slide = dummy_slide;
+dummy.simulated_dash = dummy_dash;
 </string>
           </argument>
         </arguments>

@@ -64,12 +64,12 @@ slide_available = true;
 on_ground = false;
 touch_ceiling = false;
 
-jump_key_pressed = 0;
-dash_key_pressed = 0;
-slide_key_pressed = 0;
-slide_key_down = 0;
-left_key_down = 0;
-right_key_down = 0;
+jump_input_edge = 0;
+dash_input_edge = 0;
+slide_input_edge = 0;
+slide_input_constant = 0;
+left_input_constant = 0;
+right_input_constant = 0;
 
 sprite_index = spr_runner;
 mask_index = spr_mask_big;
@@ -80,7 +80,7 @@ animation_start_x = 0;
 animation_start_beat = 0;
 sprite_rotation = 0;
 
-colliding_object = noone;
+//colliding_object = noone;
 </string>
           </argument>
         </arguments>
@@ -212,21 +212,7 @@ image_xscale = sign(horizontal_speed)*(horizontal_speed != 0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (keyboard_check_pressed(ord('Z')))
-    jump_key_pressed = KEY_DURATION;
-
-if (keyboard_check_pressed(ord('X')))
-    dash_key_pressed = KEY_DURATION;
-
-if (keyboard_check_pressed(ord('C')))
-    slide_key_pressed = KEY_DURATION;
-
-slide_key_down = keyboard_check(ord('C'));
-
-left_key_down = keyboard_check(vk_left);
-right_key_down = keyboard_check(vk_right);
-
-enviroment_vertical_speed = 0;
+            <string>enviroment_vertical_speed = 0;
 enviroment_horizontal_speed = 0;
 enviroment_speed_factor = 1;
 </string>
@@ -256,8 +242,8 @@ enviroment_speed_factor = 1;
 *************************************************************************************************/
 
 if (movement_type != DASH){
-    if (right_key_down != left_key_down){
-        horizontal_direction = (right_key_down - left_key_down);
+    if (right_input_constant != left_input_constant){
+        horizontal_direction = (right_input_constant - left_input_constant);
         horizontal_max_speed = ((global.room_controller.music_controller.tempo/60)/room_speed) * 8 * 32 * 1.2;
         var max_speed = horizontal_max_speed*enviroment_speed_factor;
         horizontal_speed = clamp(-max_speed,horizontal_speed+horizontal_direction/2,max_speed);
@@ -276,7 +262,7 @@ if (movement_type != DASH){
 *************************************************************************************************/
 
 
-if (jump_key_pressed &gt; 0 
+if (jump_input_edge &gt; 0 
     &amp;&amp; on_ground &amp;&amp; !touch_ceiling 
     &amp;&amp; (movement_type == RUN || movement_type == SLIDE) ){
         hero_start_jump(id, short_jump_length, short_jump_height);
@@ -287,7 +273,7 @@ if (jump_key_pressed &gt; 0
     obsluga szybowania
 *************************************************************************************************/
 
-if (dash_key_pressed &gt; 0 &amp;&amp; dash_available){
+if (dash_input_edge &gt; 0 &amp;&amp; dash_available){
     hero_start_dash(id, dash_length);
 }
 
@@ -296,7 +282,7 @@ if (dash_key_pressed &gt; 0 &amp;&amp; dash_available){
     obsluga slizgu
 *************************************************************************************************/
 
-if (slide_key_pressed &gt; 0 &amp;&amp; movement_type == RUN){
+if (slide_input_edge &gt; 0 &amp;&amp; movement_type == RUN){
     hero_start_slide(id, slide_length);
 }
 
@@ -331,32 +317,9 @@ if (dash_start_beat + dash_length + 0.45 &lt;= global.room_controller.beats ){
 
 next_x = x+horizontal_speed;
 
-jump_key_pressed -= (global.current_time_controller.frame_time/1000);
-dash_key_pressed -= (global.current_time_controller.frame_time/1000);
-slide_key_pressed -= (global.current_time_controller.frame_time/1000);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="40">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>event_perform(ev_other, EVENT_DIE);
+jump_input_edge -= (global.current_time_controller.frame_time/1000);
+dash_input_edge -= (global.current_time_controller.frame_time/1000);
+slide_input_edge -= (global.current_time_controller.frame_time/1000);
 </string>
           </argument>
         </arguments>
@@ -408,15 +371,7 @@ if (inst != noone){
     effect_create_above(ef_firework,x-16,y, 1, c_yellow);
     effect_create_above(ef_firework,x,y-16, 1, c_yellow);
     effect_create_above(ef_firework,x,y+16, 1, c_yellow);
-    audio_play_sound(snd_badum,80,0);
     instance_destroy();
-    
-    var inst = instance_get_first(obj_hero);
-    if (inst == noone){
-        with(global.room_controller.music_controller){
-            event_perform(ev_other, EVENT_STOP_SONG);
-        }
-    }
 }
 </string>
           </argument>
@@ -473,16 +428,14 @@ if (abs(horizontal_speed) &lt; 3){
     sprite_index = spr_stand;
 }
 else{
-    if (sign(horizontal_speed) == ((-1)*right_key_down + left_key_down)
-    || horizontal_speed != 0 &amp;&amp; right_key_down == left_key_down){
+    if (sign(horizontal_speed) == ((-1)*right_input_constant + left_input_constant)
+    || horizontal_speed != 0 &amp;&amp; right_input_constant == left_input_constant){
         sprite_index = spr_brake;
     }
     else{
         sprite_index = spr_runner;
     }
 }
-
-// || abs(horizontal_speed) &lt; 2 &amp;&amp; right_key == left_key
 </string>
           </argument>
         </arguments>
@@ -534,7 +487,7 @@ if (global.room_controller.beats &lt; slide_start_beat + slide_actual_length ){
     next_y = y;
 }
 else{
-    if (touch_ceiling || slide_key_down){
+    if (touch_ceiling || slide_input_constant){
         slide_actual_length += 0.2;
     }
     else{
@@ -651,6 +604,7 @@ if (on_ground){
 }
 else{
     if (touch_ceiling){
+        show_debug_message("touches!")
         if (on_ground){
             show_debug_message( dash_actual_length)
             dash_actual_length += 0.2;
@@ -719,75 +673,6 @@ if (on_ground &amp;&amp; vertical_direction == DOWNWARDS){
 if (touch_ceiling){
     hero_start_fall(id);
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="10">
-      <action>
-        <libid>1</libid>
-        <id>605</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>go out from colliding objects</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>var mask_size = 0;
-if (mask_index == spr_mask_big) mask_size = 32;
-else                            mask_size = 16;
-
-while (position_meeting(x, y+mask_size, obj_collidable))
-{
-    y = y-1;
-}
-
-while (position_meeting(x, y-mask_size, obj_collidable))
-{
-    y = y+1;
-}
-
-while (position_meeting(x+15, y-mask_size/2, obj_collidable) 
-    || position_meeting(x+15, y+mask_size/2, obj_collidable))
-{
-    x = x-1;
-}
-
-while (position_meeting(x-15, y-mask_size/2, obj_collidable) 
-    || position_meeting(x-15, y+mask_size/2, obj_collidable))
-{
-    x = x+1;
-}
-
-//y = floor(y)
 </string>
           </argument>
         </arguments>
