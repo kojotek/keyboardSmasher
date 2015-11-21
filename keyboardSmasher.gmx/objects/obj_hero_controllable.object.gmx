@@ -8,35 +8,6 @@
   <parentName>obj_hero</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
-    <event eventtype="0" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>event_inherited();
-simulated_left = false;
-simulated_right = false;
-simulated_jump = false;
-simulated_slide = false;
-simulated_dash = false;
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="3" enumb="1">
       <action>
         <libid>1</libid>
@@ -54,25 +25,26 @@ simulated_dash = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>left_input_constant = simulated_left;
-right_input_constant = simulated_right;
-jump_input_edge = simulated_jump;
-dash_input_edge = simulated_dash;
-slide_input_edge = simulated_slide;
-slide_input_constant = simulated_slide;
+            <string>event_inherited();
 
-simulated_jump = false;
-simulated_slide = false;
-simulated_dash = false;
+if (keyboard_check_pressed(ord('Z')))
+    jump_input_edge = KEY_DURATION;
 
+if (keyboard_check_pressed(ord('X')))
+    dash_input_edge = KEY_DURATION;
 
-event_inherited();
+if (keyboard_check_pressed(ord('C')))
+    slide_input_edge = KEY_DURATION;
+    slide_input_constant = keyboard_check(ord('C'));
+
+left_input_constant = keyboard_check(vk_left);
+right_input_constant = keyboard_check(vk_right);
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="7" enumb="40">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -89,10 +61,58 @@ event_inherited();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,sprite_rotation,make_colour_rgb(255,255,25),image_alpha);
+            <string>event_perform(ev_other, EVENT_DIE);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="16">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>die</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_inherited();
 
-if (global.room_controller.beats - dash_start_beat &lt; sprite_get_number(spr_smoke)/10){
-    draw_sprite_ext(spr_smoke, (global.room_controller.beats-dash_start_beat)*10, dash_start_x,y,1,1,0,image_blend,1);
+audio_play_sound(snd_badum,80,0);
+
+var inst = instance_get_first(obj_hero_controllable);
+if (inst == noone){
+    with(global.room_controller.music_controller){
+        event_perform(ev_other, EVENT_STOP_SONG);
+    }
 }
 </string>
           </argument>

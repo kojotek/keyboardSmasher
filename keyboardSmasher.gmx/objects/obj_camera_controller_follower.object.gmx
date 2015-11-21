@@ -78,7 +78,7 @@ max_y = room_height;
     }
 }
 else{
-    var inst = instance_get_first(obj_hero);
+    var inst = instance_get_first(obj_hero_controllable);
     if (inst != noone){
         followed_object = inst;
     }

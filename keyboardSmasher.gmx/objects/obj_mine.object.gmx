@@ -28,6 +28,7 @@
             <string>touched = false;
 animation_start = 0;
 animation_step = 0;
+firing_other_mines = false;
 </string>
           </argument>
         </arguments>
@@ -54,14 +55,34 @@ animation_step = 0;
     if (place_meeting(x,y,obj_hero)){
         touched = true;
         animation_start = global.room_controller.beats;
+        audio_play_sound(snd_mine,80,false);
+        mask_index = spr_explosion;
+        event_inherited();
     }
-    event_inherited();
+    
+    if (place_meeting(x,y, obj_mine)){
+        var inst = instance_place(x,y, obj_mine);
+        if (inst.firing_other_mines){
+            touched = true;
+            animation_start = global.room_controller.beats;
+            audio_play_sound(snd_mine,80,false);
+            mask_index = spr_explosion;
+            event_inherited();
+        }
+    }
 }
 else{
-    if (animation_step &gt;= sprite_get_number(spr_explosion)-3){
-        instance_destroy();
+    
+    if (!firing_other_mines
+    &amp;&amp; global.room_controller.beats - animation_start &gt;= 0.5 
+    &amp;&amp; (global.room_controller.beats mod 1) &gt;= 0.1){
+        firing_other_mines = true;
+        mask_index = spr_explosion;
     }
-}
+    if (animation_step &gt;= sprite_get_number(spr_explosion) - 3){
+        instance_destroy();
+    }   
+}   
 </string>
           </argument>
         </arguments>

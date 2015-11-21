@@ -12,6 +12,7 @@
     <sound>sound\snd_badum</sound>
     <sound>sound\msc_goofy</sound>
     <sound>sound\snd_heavy_fall</sound>
+    <sound>sound\snd_mine</sound>
   </sounds>
   <sprites name="sprites">
     <sprites name="hero">
@@ -67,9 +68,6 @@
     <script>scripts\instance_get_first.gml</script>
   </scripts>
   <objects name="objects">
-    <object>objects\obj_character</object>
-    <object>objects\obj_hero</object>
-    <object>objects\obj_hero_dummy</object>
     <objects name="controllers">
       <object>objects\obj_camera_controller</object>
       <object>objects\obj_camera_controller_path</object>
@@ -109,6 +107,11 @@
       <object>objects\obj_trigger</object>
       <object>objects\obj_trigger_deactivator</object>
       <object>objects\obj_trigger_activator</object>
+    </objects>
+    <objects name="characters">
+      <object>objects\obj_hero</object>
+      <object>objects\obj_hero_controllable</object>
+      <object>objects\obj_hero_dummy</object>
     </objects>
   </objects>
   <rooms name="rooms">
