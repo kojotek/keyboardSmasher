@@ -1,3 +1,5 @@
+1.1. Cechy charakterystyczne gry komputerowej
+
 Jako najogólniejszą definicję gry komputerowej można przyjąć stwierdzenie "Grą komputerową nazywamy każdy program komputerowy stworzony dla celów rozrywkowych, angażujący użytkownika w rozwiązywanie różnego rodzaju zadań". Uściślanie tej definicji w wielu przypadkach doprowadza do zawężenia jej do różnych podgrup i gatunków gier komputerowych, z czego wynika trudność zdefiniowania jednoznacznaj listy cech charakterystycznych. Stosując jednak pewne uogólnienia, można podać kilka kluczowych i powszechnych składowych gier.
 - Gry są w swej naturze interaktywne, zatem konieczna jest obsługa urządzenia wejścia - gracz przekazuje programowi komendy za pomocą standardowych urządzeń wejściowych, takich jak mysz i klawiatura, lub urządzeń dedykowanych grom komputerowym, np. drążków, joypadów. Niektóre gry (szczególnie konsolowe) jako urządzenia wejścia wykorzystują kamery, mikrofony, lub tzw. kontrolery ruchowe.
 - W większości przypadków gry komunikują się z użytkownikiem za pomocą warstwy wizualnej. Istnieją jednak produkcje, które pozbawione są jakichkolwiek elementów graficznych, wymuszając u gracza posługiwanie się zmysłem słuchu.
@@ -5,5 +7,32 @@ Jako najogólniejszą definicję gry komputerowej można przyjąć stwierdzenie 
 - System motywacyjny - skutkiem realizacji wytyczonych zadań jest, w zależności od wyniku, adekwatna kara lub nagroda.
 - Obecność sztucznego środowiska, czyli tzw. świata gry. W zależności od skali gry może być to całkowicie fikcyjne miejsce, np. miasto, kraina geograficzna, lub bardzo niewielkie środowisko, takie jak szachownica czy stół bilardowy.
 
-osób zawodowo zajmujących się projektowaniem gier. Katie Salen i Eric Zimmerman (twórca Sissyfight 2000) napisali w swojej książce "Rules of Play", "gra to system, w którym gracze angażują się na zdefiniowanych zasadach w sztucznie stworzony konfilkt, kończący się wymiernym wynikiem". <potrzebne źródło>
-Sid Meier (serie Civilization, Pirates, Railroads) podaje uogólnioną definicję wg. której gry to "ciąg znaczących wyborów" (wg. innych źródeł "ciąg interesujących wyborów"). Z kolei Ernest Adams i Andrew Rollings w książce "Andrew Rollings and Ernest Adams on Game Design" określają gry jako "jeden lub więcej luźno połączonych ciągów wyzwań w zasymulowanym środowisku".
+___podaję wypowiedzi___ osób zawodowo zajmujących się projektowaniem gier. Katie Salen i Eric Zimmerman napisali w swojej książce "Rules of Play", "gra to system, w którym gracze angażują się na zdefiniowanych zasadach w sztucznie stworzony konfilkt, kończący się wymiernym wynikiem". <potrzebne źródło>
+Sid Meier (serie Civilization, Pirates, Railroads) podaje uogólnioną definicję wg. której gry to "ciąg znaczących wyborów" (wg. innych źródeł "ciąg interesujących wyborów"). Z kolei Andrew Rollings i Ernest Adams w książce "Andrew Rollings and Ernest Adams on Game Design" określają gry jako "jeden lub więcej luźno połączonych ciągów wyzwań w zasymulowanym środowisku".
+Ludyczną naturę gier objaśnia Raph Koster w książce "Thoery of Fun in Game Design". Autor przedstawia gry komputerowe jako zestawy powiązanych ze sobą wzorców, których gracz odruchowo poszukuje i od opanowania których zależy sukces w grze. Dzięki ludzkiej zdolności do poszukiwania analogii między sytuacjami i uczenia się reagowania na dane wzorce gracz uczy się poruszania w świcie gier.
+
+<zdjęcia postaci z gier skaczących nad przepaściami>
+podpis: jeden ze standardowych wzorców w grach platformowych - przerwy między platformami. Porażka po wpadnięciu w dół uczy gracza, że poprawną reakcją na ten wzorzec jest skok nad przepaścią, lub poszukanie innej drogi.
+
+Według Kostera postęp rozgrywki jest ściśle związany z rozwojem występujących w grze wzorców. Poprawne przyporządkowywanie nowych sytuacji do znanych już wzorców i opanowywanie ich ma wywoływać u gracza poczucie satysfakcji. Dobrze opanowany wzorzec przestaje być wyzwaniem i jeżeli nie ewoluuje, zaczyna wywoływać znużenie. Z drugiej strony, zbyt szybka ewolucja wzorca powoduje, że użytkownik przestaje widzieć zależności między sytuacjami. Nauka nie przynosi wtedy oczekiwanych rezultatów a gracz odczuwa frustrację.
+
+1.2. Założenia gier rytmicznych i muzycznych
+
+Zarówno w grach muzycznych jak i rytmicznych jednym z najistotniejszych elementów rozgrywki są reakcje gracza na zachowania warstwy dźwiękowej programu. Różnica między tymi dwoma gatunkami leży w nacisku położonym na różne cechy utworów tła. Należy przy tym pamiętać, że wiele gier łączy w sobie cechy obu tych gatunków i zwyczajowo obie nazwy używane są zamiennie, a rozgraniczenie następuje praktycznie tylko przy próbie dokładnego zaklasyfikowania produkcji do podgatunku.
+Gry muzyczne zazwyczaj wynagradzają gracza za dobrą znajomość utworu muzycznego, umiejętnośc reagowania na mocniejsze akcenty czy zmiany melodii. Nierzadko gry takie wymagają dodatkowych akcesoriów w postaci mikrofonów lub kontrolerów imitujących intrumenty muzyczne (seria Guitar Hero).
+W grach rytmicznych mniej ważna jest znajomość utworu, bardziej natomiast liczy się wyczucie rytmu i umiejętność wykonywania przedstawionych zadań synchronicznie z taktami tła muzycznego. Aby osignąć w grze sukces, gracz musi przywiązywać uwagę przede wszystkim do ścieżki perkusyjnej (Elite Beat Agents).
+
+1.3. Gry platformowe
+
+Gry platformowe (platformery) są podgatunkiem gier zręcznościowych. Charakteryzują się zazwyczaj dwuwymiarową grafiką, horyzontalną budową poziomów, obecnością statycznych i ruchomych platform oraz obiektów, za kontakt z którymi gracz może zostać ukarany (np. utratą punktów, powrotem na początek poziomu) lub wynagrodzony (ułtawieniami w grze, punktami). Podstawową i najważniejszą umiejętnością bohatera gry platformowej jest skok pozwalający omijać przeszkody. Zależnie od produkcji, może przyjmować on różne formy i rozwinięcia (wielokrotny skok, szybowanie) i służyć różnym celom (unikanie przeszkód, eliminowanie przeciwników). Celem każdego poziomu gry jest zazwyczaj dotarcie do określonego miejsca, gdzie nastęuje ocena dokonań gracza i przeniesienie na następny poziom gry.
+
+1.4. Przykłady gier muzycznych i rytmicznych
+Guitar Hero - konsolowa gra będąca w założeniu symulatorem gry na gitarze. Wymaga dedykowanego kontrolera imitującego gitarę elektryczną, wyposażonego w pięć przycisków osadzonych na gryfie i jeden przycisk na korpusie. Zadaniem gracza jest śledzenie różnokolorowych znaczników przesuwających się po ekranie w rytm utworu muzycznego i naciskanie przycisków o odpowiadającej im barwie. Powstało wiele dodatków rozszerzających podstawowe funkcjonalności gry o obsługę kolejnych instrumentów i możliwość gry wieloosobowej.
+
+<ilustracja>
+
+Elite Beat Agents - gra rytmiczna wykorzystująca dotykowy ekran konsoli Nintendo DS. Gracz zdobywa punkty poprzez stukanie rysikiem w wyszczególnione elementy na ekranie dotykowym w rytm utworu muzycznego. Warunkiem sukcesu jest zachowanie odpowiedniej kolejności i rytmu. Zbyt duża ilość pominiętych punktów skutkuje porażką i koniecznością rozpoczęcia poziomu od nowa. Wraz z postępem gry zwiększa się ilość i częstotliwość pojawiania się punktów, spada natomiast czas dany graczowi na reakcję.
+
+<ilustracja>
+
+Rayman Legends - jest przede wszystkim grą zręcznościową, zawiera jednak zestaw poziomów, których budowa i oprawa graficzna jest ściśle związana z brzmieniem utworów odtwarzanych w tle. Ukończenie poziomów muzycznych wymaga od gracza poprawnego reagowania na wyszczególnione fragmenty utworów, na przykład wykonywanie akcji skoku przy dźwięku konkretnego instrumentu lub akcji ataku przy dźwięku talerza perkusyjnego.
