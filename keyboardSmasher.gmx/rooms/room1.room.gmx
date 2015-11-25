@@ -10,7 +10,7 @@
   <persistent>0</persistent>
   <colour>12632256</colour>
   <showcolour>0</showcolour>
-  <code></code>
+  <code>show_debug_overlay(true);</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>
@@ -51,7 +51,7 @@
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
-    <instance objName="obj_camera_controller_path" x="32" y="928" name="camera_controller_1" locked="0" code="origin_path = path_add();&#xA;path_add_point(origin_path, 10224+view_wview[0]/4, 384, 1);&#xA;path_add_point(origin_path, 127476, 384, 458);&#xA;path_set_closed(origin_path, false);&#xA;path_set_kind(origin_path, 0);&#xA;event_perform(ev_other, EVENT_INSTALL_PATH);&#xA;instance_deactivate_object(id);" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_camera_controller_path" x="32" y="928" name="camera_controller_1" locked="0" code="origin_path = path_add();&#xA;path_add_point(origin_path, 19680+view_wview[0]/4, 384, 1);&#xA;path_add_point(origin_path, 127476, 384, 458);&#xA;path_set_closed(origin_path, false);&#xA;path_set_kind(origin_path, 0);&#xA;event_perform(ev_other, EVENT_INSTALL_PATH);&#xA;instance_deactivate_object(id);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_camera_controller_follower" x="32" y="896" name="camera_controller_0" locked="0" code="followed_object = instance_find(obj_hero_controllable,0);&#xA;max_left_dist = view_wview[0]/4;&#xA;max_right_dist = -view_wview[0]/4;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_music_controller" x="96" y="928" name="music_controller_1" locked="0" code="song = msc_test;&#xA;tempo = 120;&#xA;instance_deactivate_object(id);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_time_controller" x="64" y="896" name="time_controller_0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -86,7 +86,7 @@
     <instance objName="obj_collidable" x="12968" y="320" name="inst_FEC4CD07" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="13000" y="320" name="inst_64A683DE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="13032" y="320" name="inst_3C919B8B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_collidable" x="12808" y="160" name="inst_11087CAC" locked="0" code="" scaleX="11" scaleY="7" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="12832" y="128" name="inst_11087CAC" locked="0" code="" scaleX="11" scaleY="9" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="13064" y="320" name="inst_EBF436D6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="13096" y="320" name="inst_808C00AF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="13128" y="320" name="inst_13143CBE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -800,19 +800,109 @@
     <instance objName="obj_spikes" x="2912" y="736" name="inst_D31EDC83" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="90"/>
     <instance objName="obj_spikes" x="2912" y="768" name="inst_C55227AB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="90"/>
     <instance objName="obj_smasher_room1" x="3680" y="-384" name="smasher_0" locked="0" code="" scaleX="6" scaleY="25" colour="4294967295" rotation="0"/>
-    <instance objName="obj_smasher_starter_room1" x="3104" y="416" name="inst_A7F9E439" locked="0" code="colliding_object = hero_0;&#xA;smasher = smasher_0;&#xA;" scaleX="4.25" scaleY="20" colour="4294967295" rotation="0"/>
+    <instance objName="obj_smasher_starter_room1" x="3104" y="416" name="inst_A7F9E439" locked="0" code="colliding_object = hero_0;&#xA;smasher = smasher_0;&#xA;" scaleX="4" scaleY="20" colour="4294967295" rotation="0"/>
     <instance objName="obj_dummy_starter_room1" x="3104" y="416" name="inst_FB380549" locked="0" code="colliding_object = hero_0;&#xA;dummy = dummy_0;&#xA;dummy_move_right = true;&#xA;" scaleX="4" scaleY="20" colour="4294967295" rotation="0"/>
     <instance objName="obj_hero_dummy" x="3392" y="672" name="dummy_0" locked="0" code="horizontal_direction = -1;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="8448" y="768" name="inst_B44B7E16" locked="0" code="" scaleX="211" scaleY="3" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="5664" y="512" name="inst_7ABBF284" locked="0" code="" scaleX="5" scaleY="11" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="6240" y="576" name="inst_42BCA201" locked="0" code="" scaleX="5" scaleY="9" colour="4294967295" rotation="0"/>
-    <instance objName="obj_hero_controllable" x="5344" y="512" name="hero_0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_hero_controllable" x="256" y="352" name="hero_0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_mine" x="6208" y="416" name="inst_AF31A4E9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_mine" x="6272" y="416" name="inst_27F1CB9A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_hero_dummy" x="5664" y="288" name="dummy_1" locked="0" code="horizontal_direction = -1;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_dummy_starter_room1" x="5664" y="288" name="inst_5F397A0D" locked="0" code="colliding_object = hero_0;&#xA;dummy = dummy_1;&#xA;dummy_move_right = true;&#xA;dummy_dash = true;&#xA;" scaleX="5" scaleY="3" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="5504" y="608" name="inst_C2C8350C" locked="0" code="" scaleX="5" scaleY="5" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="5952" y="128" name="inst_A32284D6" locked="0" code="" scaleX="23" scaleY="7" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="13344" y="32" name="inst_CB553F7D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="13376" y="32" name="inst_A271CC40" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="13408" y="32" name="inst_34F3A98C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="13440" y="32" name="inst_2A854BE8" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="13472" y="32" name="inst_BC588E37" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="13504" y="32" name="inst_DFC0B9F1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="13536" y="32" name="inst_1A59B5B5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="13568" y="32" name="inst_192FC0F6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_trigger_checkpoint" x="2400" y="480" name="inst_40DBDF60" locked="0" code="colliding_object = hero_0;&#xA;checkpoint_number = 10;&#xA;" scaleX="4.90322589874268" scaleY="14.6774196624756" colour="4294967295" rotation="0"/>
+    <instance objName="obj_trigger_checkpoint" x="6432" y="448" name="inst_35FE47FB" locked="0" code="colliding_object = hero_0;&#xA;checkpoint_number = 20;&#xA;" scaleX="5" scaleY="17.5" colour="4294967295" rotation="0"/>
+    <instance objName="obj_platform_type1_room1" x="6976" y="1056" name="inst_73514F99" locked="0" code="end_x = start_x;&#xA;end_y = start_y - 320;&#xA;stop_time = 1;&#xA;run_time = 1;&#xA;" scaleX="8" scaleY="21" colour="4294967295" rotation="0"/>
+    <instance objName="obj_trigger_deactivator" x="6464" y="416" name="inst_94955DB4" locked="0" code="colliding_object = hero_0;&#xA;upper_boundary = -20;&#xA;lower_height = room_height + 20;&#xA;left_boundary = 0;&#xA;right_height = 5000;&#xA;" scaleX="5" scaleY="20" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7392" y="416" name="inst_800B94A0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7424" y="416" name="inst_9E653F1B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7456" y="416" name="inst_E3153D99" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7488" y="416" name="inst_A32B7932" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7520" y="416" name="inst_0BEE83D1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7552" y="416" name="inst_142A6E24" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7584" y="416" name="inst_4C8DED57" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7616" y="416" name="inst_01013BC0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7648" y="416" name="inst_B721C6EF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7680" y="416" name="inst_AD0EBA40" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7712" y="416" name="inst_F3B080C1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7744" y="416" name="inst_B7CE825C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7776" y="416" name="inst_C26CA11F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7808" y="416" name="inst_6BBA32D8" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7840" y="416" name="inst_B211C732" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7872" y="416" name="inst_C36D1973" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7904" y="416" name="inst_069FD5C2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7936" y="416" name="inst_1D6FF855" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7968" y="416" name="inst_F54C51B7" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8000" y="416" name="inst_01BEF2CF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8032" y="416" name="inst_46D25B51" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8064" y="416" name="inst_F26CCC88" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8096" y="416" name="inst_34FCA89A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8128" y="416" name="inst_1D2C3B83" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8160" y="416" name="inst_3F8BE260" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8192" y="416" name="inst_A18CA20F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8224" y="416" name="inst_584AC6DD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="7808" y="608" name="inst_962B5D3A" locked="0" code="" scaleX="27" scaleY="11" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="7808" y="0" name="inst_BD2D51A9" locked="0" code="" scaleX="27" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7392" y="32" name="inst_1625BF45" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7424" y="32" name="inst_6AB42F92" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7456" y="32" name="inst_96CE903D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7488" y="32" name="inst_CB9D9B1E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7520" y="32" name="inst_02B08B3B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7552" y="32" name="inst_2F5B7586" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7584" y="32" name="inst_0163E129" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7616" y="32" name="inst_23896956" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7648" y="32" name="inst_AAE8ADA5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7680" y="32" name="inst_09913F9E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7712" y="32" name="inst_A4F47006" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7744" y="32" name="inst_E3421A4E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7776" y="32" name="inst_87071A11" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7808" y="32" name="inst_AEEA78AF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7840" y="32" name="inst_E30CD846" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7872" y="32" name="inst_5E550083" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7904" y="32" name="inst_8D47AA56" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7936" y="32" name="inst_801BC6E3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="7968" y="32" name="inst_30295117" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8000" y="32" name="inst_C693967A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8032" y="32" name="inst_993904E6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8064" y="32" name="inst_67DFF45D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8096" y="32" name="inst_66D3D503" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8128" y="32" name="inst_4FD0386D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8160" y="32" name="inst_EDD6C53F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8192" y="32" name="inst_2F7D277C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8224" y="32" name="inst_35445B89" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="8640" y="224" name="inst_C6A85450" locked="0" code="" scaleX="1" scaleY="15" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="32" name="inst_4ED954E7" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="64" name="inst_9D7F4132" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="96" name="inst_B9AA3C66" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="128" name="inst_1ED4D08E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="160" name="inst_24AD64C1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="192" name="inst_37040D6C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="224" name="inst_DF5CBDCF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="256" name="inst_6E2BD840" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="448" name="inst_4515CA63" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="416" name="inst_57669A39" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="384" name="inst_F489E7BA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="352" name="inst_9153B5AD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="320" name="inst_60C1CE8C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spikes" x="8608" y="288" name="inst_C3EC018F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_trigger_checkpoint" x="8736" y="448" name="inst_7CC4F92A" locked="0" code="colliding_object = hero_0;&#xA;checkpoint_number = 30;&#xA;" scaleX="5" scaleY="17.5" colour="4294967295" rotation="0"/>
+    <instance objName="obj_metronome" x="9088" y="768" name="inst_9D8CB5A7" locked="0" code="" scaleX="3" scaleY="3" colour="4294967295" rotation="0"/>
+    <instance objName="obj_metronome" x="9344" y="768" name="inst_EAC57919" locked="0" code="" scaleX="-3" scaleY="3" colour="4294967295" rotation="0"/>
+    <instance objName="obj_metronome" x="9600" y="768" name="inst_0BFD00B7" locked="0" code="play_sound = true;&#xA;" scaleX="3" scaleY="3" colour="4294967295" rotation="0"/>
+    <instance objName="obj_metronome" x="9856" y="768" name="inst_E40285FF" locked="0" code="" scaleX="-3" scaleY="3" colour="4294967295" rotation="0"/>
+    <instance objName="obj_metronome" x="10112" y="768" name="inst_4B0CE45B" locked="0" code="" scaleX="3" scaleY="3" colour="4294967295" rotation="0"/>
+    <instance objName="obj_metronome_slow" x="10048" y="-1760" name="inst_E35ADB10" locked="0" code="" scaleX="20" scaleY="-20" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="test_room" x="0" y="608" w="128" h="128" xo="0" yo="0" id="10000001" name="inst_BF560F54" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

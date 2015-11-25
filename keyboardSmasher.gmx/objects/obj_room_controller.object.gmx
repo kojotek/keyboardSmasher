@@ -36,6 +36,10 @@ beats_from_previous_song_already_added = false;
 beats = 0;
 bars = 0;
 beats_speed_factor = 0;
+
+
+hero_0.x = global.last_checkpoint_x;
+hero_0.y = global.last_checkpoint_y;
 </string>
           </argument>
         </arguments>

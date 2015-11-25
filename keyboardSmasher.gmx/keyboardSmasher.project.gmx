@@ -26,6 +26,7 @@
     </sprites>
     <sprites name="tiles">
       <sprite>sprites\spr_ghost_red</sprite>
+      <sprite>sprites\spr_ghost_blue</sprite>
       <sprite>sprites\spr_ghost_green</sprite>
       <sprite>sprites\spr_floor</sprite>
     </sprites>
@@ -97,16 +98,19 @@
     <objects name="room_1">
       <object>objects\obj_music_starter_room_1</object>
       <object>objects\obj_metronome</object>
+      <object>objects\obj_metronome_slow</object>
       <object>objects\obj_platform_type1_room1</object>
       <object>objects\obj_music_fader_room_1</object>
       <object>objects\obj_smasher_starter_room1</object>
       <object>objects\obj_smasher_room1</object>
       <object>objects\obj_dummy_starter_room1</object>
+      <object>objects\obj_trigger_mover_room1</object>
     </objects>
     <objects name="triggers">
       <object>objects\obj_trigger</object>
       <object>objects\obj_trigger_deactivator</object>
       <object>objects\obj_trigger_activator</object>
+      <object>objects\obj_trigger_checkpoint</object>
     </objects>
     <objects name="characters">
       <object>objects\obj_hero</object>
@@ -115,6 +119,7 @@
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_init</room>
     <room>rooms\room1</room>
   </rooms>
   <constants number="27">
