@@ -40,6 +40,9 @@ beats_speed_factor = 0;
 
 hero_0.x = global.last_checkpoint_x;
 hero_0.y = global.last_checkpoint_y;
+hero_0.next_x = hero_0.x;
+hero_0.next_y = hero_0.y;
+hero_start_fall(hero_0);
 </string>
           </argument>
         </arguments>
@@ -85,6 +88,9 @@ else{
 
 beats += music_controller.tempo/60 * 1 * (time_controller.frame_time/1000) * beats_speed_factor;
 bars = floor(beats/4);
+
+
+//beats += 0.01;
 </string>
           </argument>
         </arguments>

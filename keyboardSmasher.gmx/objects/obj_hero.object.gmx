@@ -63,9 +63,6 @@ slide_length = 1;
 slide_actual_length = 0;
 slide_available = true;
 
-on_ground = false;
-touch_ceiling = false;
-
 jump_input_edge = 0;
 dash_input_edge = 0;
 slide_input_edge = 0;
@@ -81,8 +78,6 @@ mask_h = MASK_BIG_HEIGHT;
 animation_start_x = 0;
 animation_start_beat = 0;
 sprite_rotation = 0;
-
-//colliding_object = noone;
 </string>
           </argument>
         </arguments>
@@ -109,23 +104,47 @@ sprite_rotation = 0;
     KOLIZJE
 ************************************************************/
 
-
+/*
 vertical_direction = sign(next_y-y);
 
 if (movement_type != DASH){
-    next_y += enviroment_vertical_speed;
-    y += enviroment_vertical_speed;
+//    next_y += enviroment_vertical_speed;
+//    y += enviroment_vertical_speed;
     //next_x += enviroment_horizontal_speed;
     //x += enviroment_horizontal_speed;
 }
 
 var shift_x = 0;    //Jeżeli przesuniecie wywolane kolizja jest zbyt duze, uznajemy, ze doszlo do zmiazdzenia posaci
 var shift_y = 0;
-
+*/
 
 /************************************************************
     KOLIZJE PIONOWE
 ************************************************************/
+/*
+if  (movement_type == RUN){
+    if (place_meeting(x,y+10, obj_collidable)){
+        var inst = instance_place(x,y+10, obj_collidable);
+        if (inst.y - y &gt; 0){
+            next_y = inst.bbox_top - mask_h/2;
+        }
+        else{
+            next_y = inst.bbox_bottom + mask_h/2;
+        }
+    }
+    
+    if (place_meeting(x,next_y-5, obj_collidable)){
+        var inst = instance_place(x,next_y-5, obj_collidable);
+        if (inst.y - y &gt; 0){
+            next_y = inst.bbox_top - mask_h/2;
+        }
+        else{
+            next_y = inst.bbox_bottom + mask_h/2;
+        }
+    }
+}
+
+
 
 if  (movement_type == DASH){
     var counter = 1;
@@ -135,16 +154,28 @@ if  (movement_type == DASH){
         sig = -sig;
         counter += 0.5;
         shift_y = counter;
+        //_debug_message(global.room_controller.beats)
     }
 }
-else{
-    while ( place_meeting(x,next_y, obj_collidable)){
-        next_y -= (vertical_direction+0.5);
-        shift_y -= (vertical_direction+0.5);
-    }
-}
+//else{
+    //while ( place_meeting(x,next_y, obj_collidable)){
+    //    next_y -= (vertical_direction+0.5);
+    //    shift_y -= (vertical_direction+0.5);
+    //}
+//}
 
 if (abs(shift_y) &gt; mask_h*1.3){
+    event_perform(ev_other, EVENT_DIE);
+}
+*/
+
+
+var shift_x = 0;    //Wywalic potem
+var shift_y = 0;
+
+
+
+if (abs(next_y-y) &gt; mask_h*1.3){
     event_perform(ev_other, EVENT_DIE);
 }
 
@@ -154,14 +185,14 @@ y = next_y;
     KOLIZJE POZIOME
 ************************************************************/
 
-while ( place_meeting(next_x,y, obj_collidable)){
+while ( place_meeting(next_x,y, obj_collidable) &amp;&amp; abs(shift_x) &lt;= mask_w){
        next_x -= sign(next_x-x)/2;
        horizontal_speed = 0;
        shift_x += 1/2;
    }
    
 if (shift_x &gt; mask_w){
-    event_perform(ev_other, EVENT_DIE);
+//    event_perform(ev_other, EVENT_DIE);
 }
    
 x = next_x;
@@ -169,7 +200,7 @@ x = next_x;
 /************************************************************
     Kontakt z gruntem
 ************************************************************/
-
+/*
 on_ground = (position_meeting(x-15, y+mask_h/2+1, obj_collidable)
             || position_meeting(x-8, y+mask_h/2+1, obj_collidable)
             || position_meeting(x+8, y+mask_h/2+1, obj_collidable)
@@ -180,7 +211,7 @@ touch_ceiling = 1 &lt;= (position_meeting(x-15, y-mask_h/2-1, obj_collidable)
             + position_meeting(x+8, y-mask_h/2-1, obj_collidable)
             + position_meeting(x+15, y-mask_h/2-1, obj_collidable));
 
-                
+*/                
 image_index = (floor(global.room_controller.beats*image_number-animation_start_beat)) mod image_number;
 
 if (sprite_index == spr_ball){
@@ -190,8 +221,7 @@ else{
     sprite_rotation = 0;
 }
 
-image_xscale = sign(horizontal_speed)*(horizontal_speed != 0) 
-            + sign(horizontal_direction)*(horizontal_speed == 0);
+image_xscale = (movement_type == SLIDE) + (movement_type != SLIDE) * (sign(horizontal_speed) + sign(horizontal_direction)*(horizontal_speed == 0));
 </string>
           </argument>
         </arguments>
@@ -264,12 +294,10 @@ if (movement_type != DASH){
     obsluga skokow
 *************************************************************************************************/
 
-
 if (jump_input_edge &gt; 0 
-    &amp;&amp; on_ground &amp;&amp; !touch_ceiling 
+    &amp;&amp; on_ground(x,y,id) &amp;&amp; !touch_ceiling(x,y,id)
     &amp;&amp; (movement_type == RUN || movement_type == SLIDE) ){
         hero_start_jump(id, short_jump_length, short_jump_height - platform_vertical_speed/4 );
-        show_debug_message(enviroment_vertical_speed*60);
 }
 
 
@@ -290,6 +318,7 @@ if (slide_input_edge &gt; 0 &amp;&amp; movement_type == RUN){
     hero_start_slide(id, slide_length);
 }
 
+show_debug_message(touch_ceiling(x,y,id))
 
 switch (movement_type)
 {
@@ -419,16 +448,7 @@ if (inst != noone){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (on_ground){
-    next_y = y;    
-}
-else{
-    movement_type = FALL;
-    fall_start_y = y;
-    fall_start_beat = global.room_controller.beats;
-}
-
-if (abs(horizontal_speed) &lt; 3){
+            <string>if (abs(horizontal_speed) &lt; 3){
     sprite_index = spr_stand;
 }
 else{
@@ -439,6 +459,13 @@ else{
     else{
         sprite_index = spr_runner;
     }
+}
+
+if (on_ground(x,y,id)){
+    next_y = y;    
+}
+else{
+    hero_start_fall(id);
 }
 </string>
           </argument>
@@ -482,7 +509,7 @@ else{
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (!on_ground){
+            <string>if (!on_ground(x,y,id)){
     hero_start_fall(id);
     slide_available = true;
 }
@@ -491,7 +518,7 @@ if (global.room_controller.beats &lt; slide_start_beat + slide_actual_length ){
     next_y = y;
 }
 else{
-    if (touch_ceiling || slide_input_constant){
+    if (touch_ceiling(x,y,id) || slide_input_constant){
         slide_actual_length += 0.2;
     }
     else{
@@ -543,20 +570,30 @@ else{
           <argument>
             <kind>1</kind>
             <string>next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(global.room_controller.beats - fall_start_beat)*(global.room_controller.beats - fall_start_beat);
-
+/*
 if( place_meeting(x,y+1, obj_collidable) ){
     var inst = instance_place(x,y+1, obj_collidable)
+    //y = inst.y - inst.sprite_height/2;
     y = inst.y - inst.sprite_height/2;
     next_y = y;
     on_ground = true;
 }
 
-if (on_ground){
-    movement_type = RUN;
-    sprite_index = spr_runner;
-    mask_index = spr_mask_big;
-    mask_h = MASK_BIG_HEIGHT;
-    animation_start_beat = global.room_controller.beats;
+
+while (place_meeting(x,next_y, obj_collidable)){
+    next_y -= 0.5;
+    on_ground = true; 
+}
+*/
+var ground_touched = false;
+
+while (on_ground(x,next_y-1, id)){
+    next_y -= 0.5;
+    ground_touched = true;
+}
+
+if (ground_touched){
+    hero_start_run(id);
 }
 </string>
           </argument>
@@ -604,21 +641,21 @@ if (on_ground){
     next_y = y;
     horizontal_max_speed = ((global.room_controller.music_controller.tempo/60)/room_speed) * 8 * 32 * 1.5;
     horizontal_speed = horizontal_max_speed*horizontal_direction;
-    var inst = instance_find(obj_camera_controller,0);
 }
 else{
-    if (touch_ceiling){
-        show_debug_message("touches!")
-        if (on_ground){
-            show_debug_message( dash_actual_length)
-            dash_actual_length += 0.2;
-        }
-        else{
-            y += MASK_SMALL_HEIGHT/2;
-            next_y = y;
-        }
+    var tc = touch_ceiling(x,y,id);
+    var og = on_ground(x,y,id);
+
+    if (tc &amp;&amp; og){
+        dash_actual_length += 0.2;
     }
     else{
+        if (og){
+            next_y -= MASK_SMALL_HEIGHT/2;
+        }
+        else{
+            next_y += MASK_SMALL_HEIGHT/2
+        }
         hero_start_fall(id);
     }
 }
@@ -670,13 +707,34 @@ else{
         - 4*(global.room_controller.beats - jump_start_beat)
             *(actual_jump_height/actual_jump_length) );
 
-if (on_ground &amp;&amp; vertical_direction == DOWNWARDS){
-    hero_start_run(id);
+if (next_y &gt; y){
+    var shift = 0;
+    while (on_ground(x,next_y+shift-1, id)){
+        shift -= sign(next_y-y) * 0.5;
+    }
+    if (shift != 0){
+        next_y += shift;
+        hero_start_run(id);   
+    }
+}
+else{
+    var shift = 0;
+    while (touch_ceiling(x,next_y-shift+1, id)){
+        shift -= sign(y-next_y) * 0.5;
+    }
+    if (shift != 0){
+        next_y -= shift;
+        hero_start_fall(id);   
+    }
 }
 
-if (touch_ceiling){
-    hero_start_fall(id);
-}
+
+
+
+/*
+if (shift &gt; 0){
+    hero_start_fall(id);  
+}*/
 </string>
           </argument>
         </arguments>
@@ -704,6 +762,8 @@ if (touch_ceiling){
 if (global.room_controller.beats - dash_start_beat &lt; sprite_get_number(spr_smoke)/10){
     draw_sprite_ext(spr_smoke, (global.room_controller.beats-dash_start_beat)*10, dash_start_x,y,1,1,0,image_blend,1);
 }
+
+draw_circle(x,y,2,2);
 </string>
           </argument>
         </arguments>
