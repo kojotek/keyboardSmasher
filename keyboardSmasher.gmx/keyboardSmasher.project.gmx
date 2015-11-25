@@ -67,6 +67,7 @@
     <script>scripts\hero_start_jump.gml</script>
     <script>scripts\set_camera_controller.gml</script>
     <script>scripts\instance_get_first.gml</script>
+    <script>scripts\on_ground.gml</script>
   </scripts>
   <objects name="objects">
     <objects name="controllers">
@@ -117,6 +118,7 @@
       <object>objects\obj_hero_controllable</object>
       <object>objects\obj_hero_dummy</object>
     </objects>
+    <object>objects\obj_temp</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_init</room>
