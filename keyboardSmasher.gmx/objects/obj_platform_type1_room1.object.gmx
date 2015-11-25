@@ -59,21 +59,23 @@ run_time = 1;
 if (step &lt;= stop_time){
     next_x = start_x;
     next_y = start_y;
-}
-
+} 
+else
 if (step &gt; stop_time &amp;&amp; step &lt;= (stop_time+run_time)){
     next_x = start_x + ((step - stop_time)/run_time) * (end_x-start_x);
     next_y = start_y + ((step - stop_time)/run_time) * (end_y-start_y);
+    vertical_distance_per_beat = (end_y-start_y) / run_time;
 }
-
+else
 if (step &gt; (stop_time+run_time) &amp;&amp; step &lt;= (2*stop_time+run_time)){
     next_x = end_x;
     next_y = end_y;
 }
-
+else
 if (step &gt; (2*stop_time+run_time)){
     next_x = end_x - ((step - (2*stop_time+run_time))/run_time) * (end_x-start_x);
     next_y = end_y - ((step - (2*stop_time+run_time))/run_time) * (end_y-start_y);
+    vertical_distance_per_beat = (start_y-end_y) / run_time;
 }
 </string>
           </argument>

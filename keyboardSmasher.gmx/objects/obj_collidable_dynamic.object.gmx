@@ -29,6 +29,7 @@
 next_y = y;
 start_x = x;
 next_x = x;
+vertical_distance_per_beat = 0;
 </string>
           </argument>
         </arguments>
@@ -77,7 +78,7 @@ next_x = x;
             <string>if (place_meeting(x,next_y, obj_hero)){
     var inst = instance_place(x,next_y, obj_hero);
     inst.enviroment_vertical_speed = next_y-y;
-    //inst.enviroment_horizontal_speed = x-last_known_x;
+    inst.platform_vertical_speed = vertical_distance_per_beat;
 }else
     if (place_meeting(x,2*y-next_y-(MASK_SMALL_HEIGHT/2)*sign(next_y-y), obj_hero)){
         var inst = instance_place(x,2*y-next_y-(MASK_SMALL_HEIGHT/2)*sign(next_y-y), obj_hero);

@@ -54,7 +54,9 @@ simulated_dash = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>left_input_constant = simulated_left;
+            <string>event_inherited();
+
+left_input_constant = simulated_left;
 right_input_constant = simulated_right;
 jump_input_edge = simulated_jump;
 dash_input_edge = simulated_dash;
@@ -64,9 +66,6 @@ slide_input_constant = simulated_slide;
 simulated_jump = false;
 simulated_slide = false;
 simulated_dash = false;
-
-
-event_inherited();
 </string>
           </argument>
         </arguments>
