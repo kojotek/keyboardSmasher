@@ -93,7 +93,6 @@
     </objects>
     <objects name="pickups">
       <object>objects\obj_pickup</object>
-      <object>objects\obj_energy_ball</object>
       <object>objects\obj_hey</object>
     </objects>
     <objects name="room_1">
@@ -118,7 +117,6 @@
       <object>objects\obj_hero_controllable</object>
       <object>objects\obj_hero_dummy</object>
     </objects>
-    <object>objects\obj_temp</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_init</room>

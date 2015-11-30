@@ -70,6 +70,8 @@ hit_ground = false;
         }
     }
 }
+
+y = next_y;
 </string>
           </argument>
         </arguments>

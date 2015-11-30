@@ -78,6 +78,8 @@ mask_h = MASK_BIG_HEIGHT;
 animation_start_x = 0;
 animation_start_beat = 0;
 sprite_rotation = 0;
+
+platform = noone;
 </string>
           </argument>
         </arguments>
@@ -100,82 +102,7 @@ sprite_rotation = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/************************************************************
-    KOLIZJE
-************************************************************/
-
-/*
-vertical_direction = sign(next_y-y);
-
-if (movement_type != DASH){
-//    next_y += enviroment_vertical_speed;
-//    y += enviroment_vertical_speed;
-    //next_x += enviroment_horizontal_speed;
-    //x += enviroment_horizontal_speed;
-}
-
-var shift_x = 0;    //Jeżeli przesuniecie wywolane kolizja jest zbyt duze, uznajemy, ze doszlo do zmiazdzenia posaci
-var shift_y = 0;
-*/
-
-/************************************************************
-    KOLIZJE PIONOWE
-************************************************************/
-/*
-if  (movement_type == RUN){
-    if (place_meeting(x,y+10, obj_collidable)){
-        var inst = instance_place(x,y+10, obj_collidable);
-        if (inst.y - y &gt; 0){
-            next_y = inst.bbox_top - mask_h/2;
-        }
-        else{
-            next_y = inst.bbox_bottom + mask_h/2;
-        }
-    }
-    
-    if (place_meeting(x,next_y-5, obj_collidable)){
-        var inst = instance_place(x,next_y-5, obj_collidable);
-        if (inst.y - y &gt; 0){
-            next_y = inst.bbox_top - mask_h/2;
-        }
-        else{
-            next_y = inst.bbox_bottom + mask_h/2;
-        }
-    }
-}
-
-
-
-if  (movement_type == DASH){
-    var counter = 1;
-    var sig = -1;
-    while(place_meeting(x,next_y,obj_collidable)){
-        next_y += sig * counter;
-        sig = -sig;
-        counter += 0.5;
-        shift_y = counter;
-        //_debug_message(global.room_controller.beats)
-    }
-}
-//else{
-    //while ( place_meeting(x,next_y, obj_collidable)){
-    //    next_y -= (vertical_direction+0.5);
-    //    shift_y -= (vertical_direction+0.5);
-    //}
-//}
-
-if (abs(shift_y) &gt; mask_h*1.3){
-    event_perform(ev_other, EVENT_DIE);
-}
-*/
-
-
-var shift_x = 0;    //Wywalic potem
-var shift_y = 0;
-
-
-
-if (abs(next_y-y) &gt; mask_h*1.3){
+            <string>if (abs(next_y-y) &gt; mask_h*1.3){
     event_perform(ev_other, EVENT_DIE);
 }
 
@@ -185,33 +112,33 @@ y = next_y;
     KOLIZJE POZIOME
 ************************************************************/
 
-while ( place_meeting(next_x,y, obj_collidable) &amp;&amp; abs(shift_x) &lt;= mask_w){
+if ( place_meeting(next_x,y, obj_collidable_dynamic)){
+    var inst = instance_place(next_x,y, obj_collidable_dynamic);
+    if (inst.x &gt; x){
+        next_x = inst.bbox_left-MASK_WIDTH/2;
+        horizontal_speed = 0;
+    }
+    else{
+        next_x = inst.bbox_right+MASK_WIDTH/2+1;
+        horizontal_speed = 0;
+    }
+}
+
+var counter = 0;
+
+while ( place_meeting(next_x,y, obj_collidable) &amp;&amp; abs(counter) &lt;= mask_w){
        next_x -= sign(next_x-x)/2;
        horizontal_speed = 0;
-       shift_x += 1/2;
+       counter += 1/2;
    }
    
-if (shift_x &gt; mask_w){
+//if (shift_x &gt; mask_w){
 //    event_perform(ev_other, EVENT_DIE);
-}
+//}
    
 x = next_x;
 
-/************************************************************
-    Kontakt z gruntem
-************************************************************/
-/*
-on_ground = (position_meeting(x-15, y+mask_h/2+1, obj_collidable)
-            || position_meeting(x-8, y+mask_h/2+1, obj_collidable)
-            || position_meeting(x+8, y+mask_h/2+1, obj_collidable)
-            || position_meeting(x+15, y+mask_h/2+1, obj_collidable));
-
-touch_ceiling = 1 &lt;= (position_meeting(x-15, y-mask_h/2-1, obj_collidable)
-            + position_meeting(x-8, y-mask_h/2-1, obj_collidable)
-            + position_meeting(x+8, y-mask_h/2-1, obj_collidable)
-            + position_meeting(x+15, y-mask_h/2-1, obj_collidable));
-
-*/                
+             
 image_index = (floor(global.room_controller.beats*image_number-animation_start_beat)) mod image_number;
 
 if (sprite_index == spr_ball){
@@ -317,8 +244,6 @@ if (dash_input_edge &gt; 0 &amp;&amp; dash_available){
 if (slide_input_edge &gt; 0 &amp;&amp; movement_type == RUN){
     hero_start_slide(id, slide_length);
 }
-
-show_debug_message(touch_ceiling(x,y,id))
 
 switch (movement_type)
 {
@@ -461,11 +386,32 @@ else{
     }
 }
 
-if (on_ground(x,y,id)){
-    next_y = y;    
+//Przelacznik w razie kontaktu z ziemia - decyduje, czy podlaczac bohatera do platformy
+if (on_ground(x,next_y,id)){
+    if (place_meeting(x,next_y,obj_collidable_dynamic)){
+        platform = instance_place(x,next_y,obj_collidable_dynamic);
+    }
+    else{
+        platform = noone;
+    }
 }
-else{
-    hero_start_fall(id);
+
+
+if (platform == noone){ //jezeli bohater NIE jest podlaczony dlo platformy
+    if (!on_ground(x,next_y,id)){
+        hero_start_fall(id);
+    }
+}
+else{           //jezeli bohater jest podlaczony dlo platformy
+    next_y = platform.bbox_top-mask_h/2-1;
+    if (bbox_left &gt; platform.bbox_right || bbox_right &lt; platform.bbox_left){
+        platform = noone;
+        hero_start_fall(id);
+    }
+}
+
+while (on_ground(x,next_y-1,id)){
+    next_y = floor(next_y - 1);
 }
 </string>
           </argument>
@@ -570,25 +516,19 @@ else{
           <argument>
             <kind>1</kind>
             <string>next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(global.room_controller.beats - fall_start_beat)*(global.room_controller.beats - fall_start_beat);
-/*
-if( place_meeting(x,y+1, obj_collidable) ){
-    var inst = instance_place(x,y+1, obj_collidable)
-    //y = inst.y - inst.sprite_height/2;
-    y = inst.y - inst.sprite_height/2;
-    next_y = y;
-    on_ground = true;
+
+if (place_meeting(x,next_y,obj_collidable_dynamic)){
+    platform = instance_place(x,next_y,obj_collidable_dynamic);
+    if (platform.y &gt; next_y){
+        next_y = platform.bbox_top-mask_h/2-1;
+        hero_start_run(id);
+    }
 }
 
-
-while (place_meeting(x,next_y, obj_collidable)){
-    next_y -= 0.5;
-    on_ground = true; 
-}
-*/
 var ground_touched = false;
 
-while (on_ground(x,next_y-1, id)){
-    next_y -= 0.5;
+while (on_ground(x,next_y-1,id)){
+    next_y = floor(next_y - 1);
     ground_touched = true;
 }
 
@@ -707,10 +647,21 @@ else{
         - 4*(global.room_controller.beats - jump_start_beat)
             *(actual_jump_height/actual_jump_length) );
 
+
+if (place_meeting(x,next_y,obj_collidable_dynamic)){
+    platform = instance_place(x,next_y,obj_collidable_dynamic);
+    if (platform.y &gt; next_y){
+        next_y = platform.bbox_top-mask_h/2-1;
+        hero_start_run(id);
+    }
+}
+
 if (next_y &gt; y){
     var shift = 0;
-    while (on_ground(x,next_y+shift-1, id)){
-        shift -= sign(next_y-y) * 0.5;
+    while (on_ground(x,next_y+shift-1,id)){
+        //shift -= sign(next_y-y);
+        shift--;
+        ground_touched = true;
     }
     if (shift != 0){
         next_y += shift;
@@ -720,21 +671,13 @@ if (next_y &gt; y){
 else{
     var shift = 0;
     while (touch_ceiling(x,next_y-shift+1, id)){
-        shift -= sign(y-next_y) * 0.5;
+        shift++;
     }
     if (shift != 0){
         next_y -= shift;
         hero_start_fall(id);   
     }
 }
-
-
-
-
-/*
-if (shift &gt; 0){
-    hero_start_fall(id);  
-}*/
 </string>
           </argument>
         </arguments>

@@ -92,8 +92,6 @@ path_delete(origin_path);
 //poprawic zmienna global beat start na global strat beat albo cos
 path_position = (global.room_controller.beats - global_beat_start - segments[segment_number].start_beat) / (segments[segment_number].end_beat - segments[segment_number].start_beat);
 
-show_debug_message(path_position);
-
 view_xview[0] = x - view_wview[0]/2;
 view_yview[0] = y - view_hview[0]/2;
 </string>

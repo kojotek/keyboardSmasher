@@ -903,7 +903,7 @@
     <instance objName="obj_metronome" x="9856" y="768" name="inst_E40285FF" locked="0" code="" scaleX="-3" scaleY="3" colour="4294967295" rotation="0"/>
     <instance objName="obj_metronome" x="10112" y="768" name="inst_4B0CE45B" locked="0" code="" scaleX="3" scaleY="3" colour="4294967295" rotation="0"/>
     <instance objName="obj_metronome_slow" x="10048" y="-1760" name="inst_E35ADB10" locked="0" code="" scaleX="20" scaleY="-20" colour="4294967295" rotation="0"/>
-    <instance objName="obj_platform_type1_room1" x="64" y="672" name="inst_7851C6E4" locked="0" code="end_x = start_x;&#xA;end_y = start_y - 320;&#xA;stop_time = 1;&#xA;run_time = 1;&#xA;" scaleX="8" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_platform_type1_room1" x="1280" y="672" name="inst_7851C6E4" locked="0" code="end_x = start_x;&#xA;end_y = start_y - 320;&#xA;stop_time = 1;&#xA;run_time = 1;&#xA;" scaleX="15" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="1536" y="640" name="inst_E6F68CA6" locked="0" code="" scaleX="35" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
