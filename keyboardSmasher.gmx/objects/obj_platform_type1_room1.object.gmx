@@ -77,6 +77,9 @@ if (step &gt; (2*stop_time+run_time)){
     next_y = end_y - ((step - (2*stop_time+run_time))/run_time) * (end_y-start_y);
     vertical_distance_per_beat = (start_y-end_y) / run_time;
 }
+
+y = next_y;
+x = next_x;
 </string>
           </argument>
         </arguments>
