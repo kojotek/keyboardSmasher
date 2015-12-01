@@ -132,9 +132,9 @@ while ( place_meeting(next_x,y, obj_collidable) &amp;&amp; abs(counter) &lt;= ma
        counter += 1/2;
    }
    
-//if (shift_x &gt; mask_w){
-//    event_perform(ev_other, EVENT_DIE);
-//}
+if (abs(next_x-x) &gt; mask_w){
+    //event_perform(ev_other, EVENT_DIE);
+}
    
 x = next_x;
 
@@ -197,7 +197,31 @@ platform_vertical_speed = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*************************************************************************************************
+            <string>switch (movement_type)
+{
+    case RUN:
+        event_perform(ev_other, EVENT_RUN);
+        break;
+
+    case JUMP:
+        event_perform(ev_other, EVENT_JUMP);
+        break;
+        
+    case DASH:
+        event_perform(ev_other, EVENT_DASH);
+        break;
+
+    case SLIDE:
+        event_perform(ev_other, EVENT_SLIDE);
+        break;
+        
+    case FALL:
+        event_perform(ev_other, EVENT_FALL);
+        break;
+}
+
+
+/*************************************************************************************************
     obsluga ruchu
 *************************************************************************************************/
 
@@ -222,7 +246,8 @@ if (movement_type != DASH){
 *************************************************************************************************/
 
 if (jump_input_edge &gt; 0 
-    &amp;&amp; on_ground(x,y,id) &amp;&amp; !touch_ceiling(x,y,id)
+    &amp;&amp; (on_ground(x,next_y,id) || on_platform(x,next_y,id))
+    &amp;&amp; !touch_ceiling(x,next_y,id) &amp;&amp; !under_platform(x,next_y,id)
     &amp;&amp; (movement_type == RUN || movement_type == SLIDE) ){
         hero_start_jump(id, short_jump_length, short_jump_height - platform_vertical_speed/4 );
 }
@@ -245,28 +270,7 @@ if (slide_input_edge &gt; 0 &amp;&amp; movement_type == RUN){
     hero_start_slide(id, slide_length);
 }
 
-switch (movement_type)
-{
-    case RUN:
-        event_perform(ev_other, EVENT_RUN);
-        break;
 
-    case JUMP:
-        event_perform(ev_other, EVENT_JUMP);
-        break;
-        
-    case DASH:
-        event_perform(ev_other, EVENT_DASH);
-        break;
-
-    case SLIDE:
-        event_perform(ev_other, EVENT_SLIDE);
-        break;
-        
-    case FALL:
-        event_perform(ev_other, EVENT_FALL);
-        break;
-}
 
 
 if (dash_start_beat + dash_length + 0.45 &lt;= global.room_controller.beats ){
@@ -403,7 +407,7 @@ if (platform == noone){ //jezeli bohater NIE jest podlaczony dlo platformy
     }
 }
 else{           //jezeli bohater jest podlaczony dlo platformy
-    next_y = platform.bbox_top-mask_h/2-1;
+    next_y = platform.bbox_top-mask_h/2;
     if (bbox_left &gt; platform.bbox_right || bbox_right &lt; platform.bbox_left){
         platform = noone;
         hero_start_fall(id);
@@ -520,8 +524,14 @@ else{
 if (place_meeting(x,next_y,obj_collidable_dynamic)){
     platform = instance_place(x,next_y,obj_collidable_dynamic);
     if (platform.y &gt; next_y){
-        next_y = platform.bbox_top-mask_h/2-1;
+        next_y = platform.bbox_top-mask_h/2;
         hero_start_run(id);
+    }
+    else{
+        while (place_meeting(x, next_y, obj_collidable_dynamic)){
+            fall_start_y++;
+            next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(global.room_controller.beats - fall_start_beat)*(global.room_controller.beats - fall_start_beat);
+        }
     }
 }
 
@@ -578,25 +588,43 @@ if (ground_touched){
           <argument>
             <kind>1</kind>
             <string>if (global.room_controller.beats &lt; dash_start_beat + dash_actual_length ){
-    next_y = y;
+    next_y = round(y);
     horizontal_max_speed = ((global.room_controller.music_controller.tempo/60)/room_speed) * 8 * 32 * 1.5;
     horizontal_speed = horizontal_max_speed*horizontal_direction;
+    
+    if (on_platform(next_x,next_y,id)){
+        platform = instance_place(next_x, next_y+1, obj_collidable_dynamic);
+        var shift = platform.bbox_top-mask_h/2;
+        if (shift &lt; next_y){
+            next_y = round(shift);
+        }
+        platform = noone;
+    }
+    
+    if (under_platform(next_x,next_y,id)){
+        platform = instance_place(next_x, next_y-1, obj_collidable_dynamic);
+        var shift = platform.bbox_bottom+mask_h/2+1;
+        if (shift &gt; next_y){
+            next_y = round(shift);
+        }
+        platform = noone;
+    }    
 }
 else{
-    var tc = touch_ceiling(x,y,id);
-    var og = on_ground(x,y,id);
+    var tc = touch_ceiling(next_x,next_y,id) || under_platform(next_x,next_y,id);
+    var og = on_ground(next_x,next_y,id) || on_platform(next_x,next_y,id);
 
     if (tc &amp;&amp; og){
         dash_actual_length += 0.2;
     }
     else{
         if (og){
-            next_y -= MASK_SMALL_HEIGHT/2;
+            next_y = round(next_y-MASK_SMALL_HEIGHT/2);
         }
         else{
-            next_y += MASK_SMALL_HEIGHT/2
+            next_y = round(next_y+MASK_SMALL_HEIGHT/2);
         }
-        hero_start_fall(id);
+        hero_start_run(id);
     }
 }
 </string>
@@ -651,15 +679,18 @@ else{
 if (place_meeting(x,next_y,obj_collidable_dynamic)){
     platform = instance_place(x,next_y,obj_collidable_dynamic);
     if (platform.y &gt; next_y){
-        next_y = platform.bbox_top-mask_h/2-1;
+        next_y = platform.bbox_top-mask_h/2;
         hero_start_run(id);
+    }
+    else{
+        next_y = platform.bbox_bottom+mask_h/2+1;
+        hero_start_fall(id);
     }
 }
 
 if (next_y &gt; y){
     var shift = 0;
     while (on_ground(x,next_y+shift-1,id)){
-        //shift -= sign(next_y-y);
         shift--;
         ground_touched = true;
     }
