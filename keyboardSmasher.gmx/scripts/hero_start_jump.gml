@@ -7,10 +7,14 @@ with(argument0){
     if (movement_type == SLIDE){
         y -= MASK_SMALL_HEIGHT/2;
     }
+    if (on_platform(next_x ,next_y, id)){
+        platform = instance_place(next_x ,next_y+1, obj_collidable_dynamic);
+        next_y = platform.bbox_top-mask_h/2;
+    }
     movement_type = JUMP;
     actual_jump_height = argument2;
     actual_jump_length = argument1;// - ((x mod 32) < 16) * (x mod 32) + ((x mod 32) > 16) * (32-(x mod 32));
-    jump_start_y = y;
+    jump_start_y = next_y;
     jump_start_beat = global.room_controller.beats;
     sprite_index = spr_jumper;
     mask_index = spr_mask_big;
