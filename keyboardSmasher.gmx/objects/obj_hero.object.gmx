@@ -588,7 +588,7 @@ if (ground_touched){
           <argument>
             <kind>1</kind>
             <string>if (global.room_controller.beats &lt; dash_start_beat + dash_actual_length ){
-    next_y = round(y);
+    next_y = y;
     horizontal_max_speed = ((global.room_controller.music_controller.tempo/60)/room_speed) * 8 * 32 * 1.5;
     horizontal_speed = horizontal_max_speed*horizontal_direction;
     
@@ -596,7 +596,7 @@ if (ground_touched){
         platform = instance_place(next_x, next_y+1, obj_collidable_dynamic);
         var shift = platform.bbox_top-mask_h/2;
         if (shift &lt; next_y){
-            next_y = round(shift);
+            next_y = shift;
         }
         platform = noone;
     }
@@ -605,7 +605,7 @@ if (ground_touched){
         platform = instance_place(next_x, next_y-1, obj_collidable_dynamic);
         var shift = platform.bbox_bottom+mask_h/2+1;
         if (shift &gt; next_y){
-            next_y = round(shift);
+            next_y = shift;
         }
         platform = noone;
     }    
@@ -619,10 +619,10 @@ else{
     }
     else{
         if (og){
-            next_y = round(next_y-MASK_SMALL_HEIGHT/2);
+            next_y = next_y-MASK_SMALL_HEIGHT/2;
         }
         else{
-            next_y = round(next_y+MASK_SMALL_HEIGHT/2);
+            next_y = next_y+MASK_SMALL_HEIGHT/2;
         }
         hero_start_run(id);
     }
