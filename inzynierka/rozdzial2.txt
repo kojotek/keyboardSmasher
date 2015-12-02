@@ -1,0 +1,32 @@
+2.1.  Pomysł projektu
+
+Celem projektu jest stworzenie gry komputerowej łączącej w sobie cechy gry platformowej oraz gry muzycznej. W ręce gracza oddane zostaje sterowanie bohaterem gry (zwanym dalej awatarem). Awatar wyposażony jest w zestaw umiejętności zwiększających jego mobilność, których odpowiednie wykorzystanie umożliwia wykonanie kolejnych zadań. 
+Świat gry stanowi zbiór dwuwymiarowych poziomów. Stopień trudności rozgrywki jest ściśle uzależniony od ich budowy. Projekt etapów zakłada występowanie wielu interaktywnych elementów, z których część ułatwia graczowi postęp w grze, część zaś stanowi przeszkody, których pokonywanie jest niezbędne do ukończenia etapu. 
+W pracy nie umieszczono listy konkretnych przeszkód i ułatwień. Zgodnie z teorią wg. któej gry to ciągi wzorców <cytat z Theory of fun>, wygląd tych elementów w świecie gry powinien wzbudzać u gracza odpowiednie skojarzenia, na przykład kolce lub rotujące ostrza powinny kojarzyć się z zagrożeniem. 
+Istotne elementem gry są tła muzyczne, które wyznaczają rytm całej rozgrywki. Tempo podkładu ma wpływ na przykład na ruch awatara, mobilność platform, czy prędkość animacji. Odpowiednia synchronizacja elementów graficznych i muzycznych ma uświadamiać graczowi znaczenie rytmu w grze i nakłonić do skupiania się w równej mierze na muzyce i na warstwie wizualnej.
+
+2.2.    zasady gry
+
+Awatar, którym kieruje gracz wyposażony jest w cztery mechanizmy ruchu:
+- bieg - podstawowy sposób poruszania się awatara w poziomie. Prędkość biegu zmienia się liniowo i jest ograniczona z góry. Bieganie możliwe jest tylko wtedy, gdy awatar znajduje się na odpowiedniej płaszczyźnie.
+- skok - umożliwia ruch awatara w pionie i poziomie. Łuk po którym porusza się awatar podczas skoku ma kształt wykresu funkcji kwadratowej o określonym maksimum i miejscach zerowych.
+- toczenie się - alternatywny dla biegu sposób poruszania się w poziomie. Podczas toczenia się awatar zmniejsza swoją wysokość, co umożliwia poruszanie się w korytarzach zbyt niskich dla awatara w jego domyślnych wymiarach. Toczenie się można przerwać skokiem w dowolnym momencie.
+- lot - jednostajny poziomy ruch o ustalonym czasie trwania. Po rozpoczęciu lotu gracz nie może go przerwać, póki ten sam się nie skończy. Nie ma też możliwości wpływania na jego kierunek ani prędkość. Pomiędzy kolejnymi wykorzystaniami akcji lotu musi upłynąć określony czas. Podczas trwania lotu awatar przyjmuje mniejszy rozmiar, tak samo jak w przypadku toczenia się. Akcję lotu można rozpocząć w trakcie trwania każdej z pozostałych akcji.
+
+W trakcie pokonywania etapu gracz może zostać ukarany utratą części punktów i cofnięciem postępu gry. Taką sytuację nazywamy śmiercią awatara.
+- śmierć następuje w przypadku kontaktu awatara z krawędzią ekranu gry.
+- śmierć następuje w przypadku kontaktu awatara z wybranymi elementami poziomu, takimi jak kolce lub obracające się ostrza.
+
+Postęp rozgrywki może być wymuszany poprzez ruch kamery. W przypadku mobilnej kamery wstrzymanie ruchu awatara oznacza szybki kontakt z krawędzią ekranu. Aby uniknąć śmierci awatara gracz zmuszony jest do pozostania w ciągłym ruchu i podążania za ruchem kamery.
+
+Gra premiuje wykonywanie akcji odpowiednich dla danej sytuacji zgodnie z rytmem i brzmieniem muzyki tła. Zbyt duże rozbieżności między odpowiednim dźwiękiem a reakcją gracza mogą skutkować śmiercią awatara w wyniku na przykład źle wymierzonego skoku, lub zbyt późno rozpoczętego lotu. Z kolei akcje wykonane w odpowiednim momencie mogą być nagradzane dodatkowymi punktami.
+
+Celem gry jest pokonanie całego poziomu zbierając możliwie dużo punktów, przy możliwie małej liczbie śmierci awatara. Ilość zgromadzonych punktów jest głównym czynnikiem wpływającym na ocenę poczynań gracza.
+
+2.3 Narzędzia
+
+2.3.1. Game Maker
+Game Maker jest środowiskiem przeznaczonym do projektowania i tworzenia gier komputerowych. Do jego podstawowych zalet należą przystępna forma, pozwalająca na łatwe opanowanie podstaw oraz duże możliwości jakie daje zaawansowanym użytkownikom. Właśnie te cechy zadecydowały o wyborze środowiska Game Maker do realizcji projektu - możliwość rozpoczęcia pracy przy niewielkiej znajomości narzędzia i perspektywa pogłębiania swej wiedzy wraz z postępem prac.
+Tworzenie aplikacji w Game Maker polega na oprogramowaniu wybranych zdarzeń metodą przeciągnij i upuść. Środowisko umożliwia początkującym użytkownikom generowanie kodu przez przypisywanie do zdarzeń ciągów predefiniowanych skryptów reprezentowanych przez ikony. Istnieje także możliwość własnoręcznego pisania kodu w języku GML (Game Maker Language) stworzonym na potrzeby środowiska.
+Sposób programowania aplikacji w Game Maker przypomina w pewnym stopniu programowanie w paradygmacie obiektowym. Podstawowym tworem środowiska są obiekty gry, rozumiane jako odrębne byty posiadające swoją graficzną reprezentację. Każdy istniejący obiekt musi być umieszczony na scenie, nie każdy natomiast musi być widoczny dla gracza. Mechanizm dziedziczenia realizowany jest poprzez obsługiwanie konkretnych zdarzeń w klasie dziedziczącej w taki sam sposób jak w klasie nadrzędnej. Nie istnieje rozróżnienie pomiędzy klasami abstrakcyjnymi, nieabstrakcyjnymi i interfejsami, dodatkowo środowisko nie wspiera wielokrotnego dziedziczenia, istnieją jednak sposoby by zasymulować jego działanie.
+Game Maker posiada również kilka wbudowanych edytorów, między innymi kodu, grafiki i narzędznie budowania sceny.
