@@ -50,16 +50,16 @@ play_sound = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (floor(global.room_controller.beats mod 16) != 15){
-    var spd = ((global.room_controller.beats mod 16) &gt;= 12);
-    image_angle = (sin(global.room_controller.beats*pi*(spd+1))) * 45 * sign(image_xscale);
+            <string>if (floor(global.room_controller.song_beats mod 16) != 15){
+    var spd = ((global.room_controller.song_beats mod 16) &gt;= 12);
+    image_angle = (sin(global.room_controller.song_beats*pi*(spd+1))) * 45 * sign(image_xscale);
     y = start_y;
 }
 else{
     image_angle = 0;
-    y = start_y + (sin(global.room_controller.beats*pi)) * 50 * image_yscale;
+    y = start_y + (sin(global.room_controller.song_beats*pi)) * 50 * image_yscale;
     if (instance_exists(hero_0) &amp;&amp; distance_to_object(hero_0) &lt; 2000){
-        if (global.room_controller.beats mod 16 &gt; 15.9){
+        if (global.room_controller.song_beats mod 16 &gt; 15.9){
             if (play_sound &amp;&amp; !audio_is_playing(snd_heavy_fall)){
                 audio_play_sound_at(snd_heavy_fall, hero_0.x-x ,hero_0.y-y, 0,200, 2000, 1, 0, 20);
                 global.room_controller.camera_controller.shake_x = 10 * max(((2000-distance_to_object(hero_0))/2000),0);

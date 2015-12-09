@@ -83,7 +83,7 @@ path_delete(origin_path);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.room_controller.beats &gt;= segments[segment_number].end_beat){
+            <string>if (global.room_controller.beats - global_beat_start &gt;= segments[segment_number].end_beat){
     path_end();
     segment_number++;
     path_start(segments[segment_number].path,0,1,true);
@@ -92,8 +92,11 @@ path_delete(origin_path);
 //poprawic zmienna global beat start na global strat beat albo cos
 path_position = (global.room_controller.beats - global_beat_start - segments[segment_number].start_beat) / (segments[segment_number].end_beat - segments[segment_number].start_beat);
 
+////view_xview[0] = ((x - view_wview[0]/2) div 32 )*32;
 view_xview[0] = x - view_wview[0]/2;
 view_yview[0] = y - view_hview[0]/2;
+
+show_debug_message(string(global.room_controller.beats - global_beat_start - segments[segment_number].start_beat) + "   " + string(path_position) );
 </string>
           </argument>
         </arguments>

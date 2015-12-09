@@ -49,8 +49,8 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_xscale = 2 - global.room_controller.beats mod 1;
-image_yscale = 2 - global.room_controller.beats mod 1;
+            <string>image_xscale = 2 - global.room_controller.song_beats mod 1;
+image_yscale = 2 - global.room_controller.song_beats mod 1;
 draw_self();
 </string>
           </argument>

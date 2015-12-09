@@ -10,7 +10,8 @@
   <persistent>0</persistent>
   <colour>255</colour>
   <showcolour>-1</showcolour>
-  <code>global.last_checkpoint_x = 100;
+  <code>global.last_checkpoint_x = 19600;
+//global.last_checkpoint_x = 100;
 global.last_checkpoint_y = 100;
 global.last_checkpoint_number = 0;
 room_goto_next();</code>

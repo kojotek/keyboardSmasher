@@ -30,10 +30,13 @@
 music_controller = -1;
 time_controller = -1;
 camera_controller = -1;
+background_controller = -1;
+particle_controller = -1;
 
 beats_from_previous_song = 0;
 beats_from_previous_song_already_added = false;
 beats = 0;
+song_beats = 0;
 bars = 0;
 beats_speed_factor = 0;
 
@@ -69,6 +72,7 @@ hero_start_fall(hero_0);
     if ( !beats_from_previous_song_already_added ){
         beats_from_previous_song = beats;
         beats_from_previous_song_already_added = true;
+        song_beats = 0;
     }
 }
 else{
@@ -87,10 +91,11 @@ else{
 }
 
 beats += music_controller.tempo/60 * 1 * (time_controller.frame_time/1000) * beats_speed_factor;
+song_beats += music_controller.tempo/60 * 1 * (time_controller.frame_time/1000) * beats_speed_factor;
 bars = floor(beats/4);
 
-
-//beats += 0.01;
+//show_debug_message( song_beats);
+//beats += 0.02;
 </string>
           </argument>
         </arguments>
