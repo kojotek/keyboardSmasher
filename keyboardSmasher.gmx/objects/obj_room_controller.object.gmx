@@ -118,9 +118,9 @@ bars = floor(beats/4);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>with(music_controller){
-    event_perform(ev_other,EVENT_PLAY_SONG);
-}
+            <string>global.last_checkpoint_x = 19600;
+global.last_checkpoint_y = 100;
+global.last_checkpoint_number = 50;
 </string>
           </argument>
         </arguments>
