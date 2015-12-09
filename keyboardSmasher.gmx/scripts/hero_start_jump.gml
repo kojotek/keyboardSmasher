@@ -4,19 +4,16 @@
 //argument2 - height
 
 with(argument0){
-    if (movement_type == SLIDE){
-        y -= MASK_SMALL_HEIGHT/2;
-    }
     movement_type = JUMP;
-    on_ground = false;
     actual_jump_height = argument2;
     actual_jump_length = argument1;// - ((x mod 32) < 16) * (x mod 32) + ((x mod 32) > 16) * (32-(x mod 32));
-    jump_start_y = y;
+    jump_start_y = next_y;
     jump_start_beat = global.room_controller.beats;
     sprite_index = spr_jumper;
     mask_index = spr_mask_big;
     mask_h = MASK_BIG_HEIGHT;
     animation_start_beat = global.room_controller.beats;
+    event_perform(ev_other, EVENT_OUT_FROM_OBJECT); 
 }
 
 #define hero_start_dash
@@ -39,6 +36,9 @@ with(argument0){
     mask_index = spr_mask_small;
     mask_h = MASK_SMALL_HEIGHT;
     animation_start_beat = global.room_controller.beats;
+    
+    event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
+    
     audio_play_sound(snd_shot,100,0);
 }
 
@@ -56,10 +56,8 @@ with(argument0){
     animation_start_beat = global.room_controller.beats;
     slide_available = false;
     
-    while (!place_meeting(x,y+1,obj_collidable)){
-        y = floor(y+1);
-        next_y = y;
-    }
+    next_y += 17;
+    event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
     
 }
 
@@ -68,24 +66,38 @@ with(argument0){
 
 with(argument0){
     movement_type = RUN;
-    sprite_index = spr_runner;
     mask_index = spr_mask_big;
     mask_h = MASK_BIG_HEIGHT;
     animation_start_beat = global.room_controller.beats;
+    
+    event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
+    
+    if (abs(horizontal_speed) < 3){
+        sprite_index = spr_stand;
+    }
+    else{
+        if (sign(horizontal_speed) == ((-1)*right_input_constant + left_input_constant)
+        || horizontal_speed != 0 && right_input_constant == left_input_constant){
+            sprite_index = spr_brake;
+        }
+        else{
+            sprite_index = spr_runner;
+        }
+    }
 }
 
 #define hero_start_fall
 //argument0 - hero_id
 
 with(argument0){
-    if (movement_type == DASH){
-        y -= MASK_SMALL_HEIGHT/2;
-    }
+    //y = next_y;
     movement_type = FALL;
-    fall_start_y = y;
+    fall_start_y = next_y;
     fall_start_beat = global.room_controller.beats;
-    sprite_index = spr_runner;
+    sprite_index = spr_jumper;
     mask_index = spr_mask_big;
     mask_h = MASK_BIG_HEIGHT;
     animation_start_beat = global.room_controller.beats;
+    
+    event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
 }

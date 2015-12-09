@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>obj_collidable</parentName>
+  <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -52,53 +52,7 @@ vertical_distance_per_beat = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>next_y = start_y + (250*sin(global.room_controller.beats));
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="3" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if (place_meeting(x,next_y, obj_hero)){
-    var inst = instance_place(x,next_y, obj_hero);
-    inst.enviroment_vertical_speed = next_y-y;
-    inst.platform_vertical_speed = vertical_distance_per_beat;
-}else
-    if (place_meeting(x,2*y-next_y-(MASK_SMALL_HEIGHT/2)*sign(next_y-y), obj_hero)){
-        var inst = instance_place(x,2*y-next_y-(MASK_SMALL_HEIGHT/2)*sign(next_y-y), obj_hero);
-        inst.enviroment_vertical_speed = (next_y-y);
-    }
-    
-/*
-if (place_meeting(x+2,y, obj_hero)){
-    var inst = instance_place(x+2,y, obj_hero);
-    inst.enviroment_horizontal_speed_speed = x-last_known_x;
-}
-
-if (place_meeting(x-2,y, obj_hero)){
-    var inst = instance_place(x-2,y, obj_hero);
-    inst.enviroment_horizontal_speed_speed = x-last_known_x;
-}
-*/
-
-y = next_y;
-x = next_x;
+            <string>y = start_y + (250*sin(global.room_controller.beats));
 </string>
           </argument>
         </arguments>

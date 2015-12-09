@@ -47,7 +47,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_angle = (sin(global.room_controller.beats*pi/4)) * 20 * sign(image_xscale);
+            <string>image_angle = (sin(global.room_controller.song_beats*pi/4)) * 20 * sign(image_xscale);
 </string>
           </argument>
         </arguments>

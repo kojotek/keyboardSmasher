@@ -25,9 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>set_music_controller(music_controller_1, true);
-set_camera_controller(camera_controller_1);
-instance_create(0,0, obj_invisible_wall);
+            <string>set_camera_controller(camera_controller_1);
+instance_activate_object(invisible_wall_0);
+set_music_controller(music_controller_1, true);
 </string>
           </argument>
         </arguments>
