@@ -25,14 +25,34 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.background = background_create_gradient(view_wport[0], view_hport[0], make_colour_rgb(50,50,50),make_colour_rgb(200,200,200),0);
-room_set_background(room, 0, true, false, global.background, 0, 0, false, false, 0,0,1);
+            <string>white_flash = 0;
+white_flash_counter = 0;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="2">
+    <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>white flash</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -49,7 +69,56 @@ room_set_background(room, 0, true, false, global.background, 0, 0, false, false,
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>background_x[0] = view_xview[0];
+            <string>white_flash = 1;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (white_flash &gt; 0){
+    draw_background_ext(bck_white_flash, view_xview[0], view_yview[0], 20, 20, 0, c_white, white_flash);
+    white_flash -= 0.03;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="13">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_perform(ev_other, ev_user0);
 </string>
           </argument>
         </arguments>

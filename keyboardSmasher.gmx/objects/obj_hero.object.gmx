@@ -28,16 +28,11 @@
             <string>start_position_beat = 0;
 
 horizontal_speed = 0;
-horizontal_max_speed = 0;
+horizontal_max_speed = 9;
 next_y = y;
 next_x = x;
 vertical_direction = DOWNWARDS;
 horizontal_direction = 1;
-
-enviroment_vertical_speed = 0;
-enviroment_horizontal_speed = 0;
-
-platform_vertical_speed = 0;
 
 movement_type = FALL;
 jump_start_y = y;
@@ -57,9 +52,10 @@ dash_start_beat = -200;
 dash_length = 1;
 dash_actual_length = 0;
 dash_available = false;
+dash_speed_multiplier = 1.2;
 
 slide_start_beat = 0;
-slide_length = 1;
+slide_length = 0.2;
 slide_actual_length = 0;
 slide_available = true;
 
@@ -228,9 +224,8 @@ platform_vertical_speed = 0;
 if (movement_type != DASH){
     if (right_input_constant != left_input_constant){
         horizontal_direction = (right_input_constant - left_input_constant);
-        horizontal_max_speed = ((global.room_controller.music_controller.tempo/60)/room_speed) * 8 * 32 * 1.2;
-        var max_speed = horizontal_max_speed*enviroment_speed_factor;
-        horizontal_speed = clamp(-max_speed,horizontal_speed+horizontal_direction/2,max_speed);
+        //horizontal_max_speed = ((global.room_controller.music_controller.tempo/60)/room_speed) * 8 * 32 * 1.2;
+        horizontal_speed = clamp(-horizontal_max_speed, horizontal_speed + horizontal_direction/2, horizontal_max_speed);
     }
     else{
         if (abs(horizontal_speed) &lt; 1)
@@ -407,7 +402,8 @@ if (platform == noone){ //jezeli bohater NIE jest podlaczony dlo platformy
     }
 }
 else{           //jezeli bohater jest podlaczony dlo platformy
-    next_y = platform.bbox_top-mask_h/2;
+    //next_y = platform.bbox_top-mask_h/2;
+    next_y = y_stand_on(next_x, next_y, platform);
     if (bbox_left &gt; platform.bbox_right || bbox_right &lt; platform.bbox_left){
         platform = noone;
         hero_start_fall(id);
@@ -459,21 +455,35 @@ while (on_ground(x,next_y-1,id)){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (!on_ground(x,y,id)){
-    hero_start_fall(id);
-    slide_available = true;
+            <string>if (on_ground(x,next_y,id)){
+    if (place_meeting(x,next_y,obj_collidable_dynamic)){
+        platform = instance_place(x,next_y,obj_collidable_dynamic);
+    }
+    else{
+        platform = noone;
+    }
 }
 
-if (global.room_controller.beats &lt; slide_start_beat + slide_actual_length ){
-    next_y = y;
+if (platform == noone){ //jezeli bohater NIE jest podlaczony dlo platformy
+    if (!on_ground(x,next_y,id)){
+        hero_start_fall(id);
+    }
 }
-else{
-    if (touch_ceiling(x,y,id) || slide_input_constant){
+else{           //jezeli bohater jest podlaczony dlo platformy
+    next_y = y_stand_on(next_x, next_y, platform);
+    //event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
+    if (bbox_left &gt; platform.bbox_right || bbox_right &lt; platform.bbox_left){
+        platform = noone;
+        hero_start_fall(id);
+    }
+}
+
+
+if (global.room_controller.beats &gt; slide_start_beat + slide_actual_length ){
+    if (touch_ceiling(next_x,next_y,id) || under_platform(next_x,next_y,id) || slide_input_constant){
         slide_actual_length += 0.2;
     }
     else{
-        y -= MASK_SMALL_HEIGHT/2;
-        next_y -= MASK_SMALL_HEIGHT/2;
         hero_start_run(id);
     }
 }
@@ -521,25 +531,23 @@ else{
             <kind>1</kind>
             <string>next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(global.room_controller.beats - fall_start_beat)*(global.room_controller.beats - fall_start_beat);
 
-if (place_meeting(x,next_y,obj_collidable_dynamic)){
-    platform = instance_place(x,next_y,obj_collidable_dynamic);
-    if (platform.y &gt; next_y){
-        next_y = platform.bbox_top-mask_h/2;
-        hero_start_run(id);
-    }
-    else{
-        while (place_meeting(x, next_y, obj_collidable_dynamic)){
-            fall_start_y++;
-            next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(global.room_controller.beats - fall_start_beat)*(global.room_controller.beats - fall_start_beat);
-        }
-    }
+if (on_platform(next_x, next_y, id)){
+    platform = instance_place(next_x,next_y+1,obj_collidable_dynamic);
+    next_y = y_stand_on(next_x,next_y,platform);
+    hero_start_run(id);
+}
+
+while (under_platform(next_x, next_y, id)){
+    fall_start_y++;
+    next_y = fall_start_y + 4*(fall_height/(fall_length*fall_length))*(global.room_controller.beats - fall_start_beat)*(global.room_controller.beats - fall_start_beat);
 }
 
 var ground_touched = false;
 
-while (on_ground(x,next_y-1,id)){
-    next_y = floor(next_y - 1);
-    ground_touched = true;
+if (on_ground(next_x, next_y, id)){
+    var inst = instance_place(next_x,next_y+1,obj_collidable);
+    next_y = y_stand_on(next_x,next_y,inst);
+    hero_start_run(id);
 }
 
 if (ground_touched){
@@ -589,42 +597,51 @@ if (ground_touched){
             <kind>1</kind>
             <string>if (global.room_controller.beats &lt; dash_start_beat + dash_actual_length ){
     next_y = y;
-    horizontal_max_speed = ((global.room_controller.music_controller.tempo/60)/room_speed) * 8 * 32 * 1.5;
-    horizontal_speed = horizontal_max_speed*horizontal_direction;
-    
-    if (on_platform(next_x,next_y,id)){
-        platform = instance_place(next_x, next_y+1, obj_collidable_dynamic);
-        var shift = platform.bbox_top-mask_h/2;
-        if (shift &lt; next_y){
-            next_y = shift;
-        }
-        platform = noone;
-    }
-    
-    if (under_platform(next_x,next_y,id)){
-        platform = instance_place(next_x, next_y-1, obj_collidable_dynamic);
-        var shift = platform.bbox_bottom+mask_h/2+1;
-        if (shift &gt; next_y){
-            next_y = shift;
-        }
-        platform = noone;
-    }    
+    //horizontal_max_speed = ((global.room_controller.music_controller.tempo/60)/room_speed) * 8 * 32 * 1.5;
+    horizontal_speed = horizontal_max_speed*horizontal_direction*dash_speed_multiplier;    
+    event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
 }
 else{
-    var tc = touch_ceiling(next_x,next_y,id) || under_platform(next_x,next_y,id);
-    var og = on_ground(next_x,next_y,id) || on_platform(next_x,next_y,id);
+    event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
+    
+    var tc = touch_ceiling(next_x,next_y,id);
+    var up = under_platform(next_x,next_y,id);
+    var og = on_ground(next_x,next_y,id);
+    var op = on_platform(next_x,next_y,id);
 
-    if (tc &amp;&amp; og){
+    if ((tc || up) &amp;&amp; (og || op)){
         dash_actual_length += 0.2;
     }
     else{
+        mask_index = spr_mask_big;
+        
         if (og){
-            next_y = next_y-MASK_SMALL_HEIGHT/2;
+            var inst = instance_place(x,next_y+1,obj_collidable);
+            next_y = y_stand_on(next_x, next_y, inst);
+        }
+        if (tc){
+            var inst = instance_place(x,next_y-1,obj_collidable);
+            next_y = y_stand_under(next_x, next_y, inst);
+        }
+        if (op){
+            platform = instance_place(x,next_y+1,obj_collidable_dynamic);
+            next_y = y_stand_on(next_x, next_y, platform);
+        }
+        if (up){
+            platform = instance_place(x,next_y-1,obj_collidable_dynamic);
+            next_y = y_stand_under(next_x, next_y, platform);
+            platform = noone;
+        }
+
+        og = on_ground(next_x,next_y,id);
+        op = on_platform(next_x,next_y,id);
+
+        if (og || op){
+            hero_start_run(id);
         }
         else{
-            next_y = next_y+MASK_SMALL_HEIGHT/2;
+            hero_start_fall(id);  
         }
-        hero_start_run(id);
     }
 }
 </string>
@@ -675,39 +692,60 @@ else{
         - 4*(global.room_controller.beats - jump_start_beat)
             *(actual_jump_height/actual_jump_length) );
 
-
-if (place_meeting(x,next_y,obj_collidable_dynamic)){
-    platform = instance_place(x,next_y,obj_collidable_dynamic);
-    if (platform.y &gt; next_y){
-        next_y = platform.bbox_top-mask_h/2;
-        hero_start_run(id);
-    }
-    else{
-        next_y = platform.bbox_bottom+mask_h/2+1;
-        hero_start_fall(id);
-    }
+if (on_ground(next_x, next_y, id) || on_platform(next_x, next_y, id)){
+    event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
+    hero_start_run(id);
+}
+else if (touch_ceiling(next_x, next_y, id) || under_platform(next_x, next_y, id)){
+    event_perform(ev_other, EVENT_OUT_FROM_OBJECT);
+    hero_start_fall(id);
 }
 
-if (next_y &gt; y){
-    var shift = 0;
-    while (on_ground(x,next_y+shift-1,id)){
-        shift--;
-        ground_touched = true;
-    }
-    if (shift != 0){
-        next_y += shift;
-        hero_start_run(id);   
-    }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (on_platform(next_x, next_y,id)){
+    platform = instance_place(next_x, next_y+1, obj_collidable_dynamic);
+    next_y = y_stand_on(0,0,platform);
 }
-else{
-    var shift = 0;
-    while (touch_ceiling(x,next_y-shift+1, id)){
-        shift++;
-    }
-    if (shift != 0){
-        next_y -= shift;
-        hero_start_fall(id);   
-    }
+
+if (under_platform(next_x, next_y,id)){
+    var inst = instance_place(next_x, next_y-1, obj_collidable_dynamic);
+    next_y = y_stand_under(0,0,inst);
+}
+
+if (on_ground(next_x, next_y,id)){
+    var inst = instance_place(next_x, next_y+1, obj_collidable);
+    next_y = y_stand_on(0,0,inst);
+}
+
+if (touch_ceiling(next_x, next_y,id)){
+    var inst = instance_place(next_x, next_y-1, obj_collidable);
+    next_y = y_stand_under(0,0,inst);
+}
+
+if (place_meeting(next_x, next_y, obj_collidable)
+    || place_meeting(next_x, next_y, obj_collidable_dynamic)){
+    event_perform(ev_other, EVENT_DIE);
 }
 </string>
           </argument>
