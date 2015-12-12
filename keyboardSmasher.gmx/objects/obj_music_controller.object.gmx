@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>tempo = 120; //tempo utworu
+            <string>instance_deactivate_object(id);
+tempo = 120; //tempo utworu
 shift = 0; //przesuniecie poczatka utworu
 last_known_head_position = 0; //poprzednia pozycja glowicy na tasmie
 head_position = 0; //pozycja glowicy na tasmie

@@ -10,7 +10,7 @@ instance_activate_object(argument0);
 global.room_controller.music_controller = argument0;
 
 if (argument1 == true){
-    with(argument0){
+    with(global.room_controller.music_controller){
         event_perform(ev_other, EVENT_PLAY_SONG);
     }
 }

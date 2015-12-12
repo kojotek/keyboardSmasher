@@ -29,6 +29,7 @@
 animation_start = 0;
 animation_step = 0;
 firing_other_mines = false;
+propagation_time = 0.2;
 </string>
           </argument>
         </arguments>
@@ -65,7 +66,8 @@ firing_other_mines = false;
         if (inst.firing_other_mines){
             touched = true;
             animation_start = global.room_controller.beats;
-            audio_play_sound(snd_mine,80,false);
+            if (!audio_is_playing(snd_mine))
+                audio_play_sound(snd_mine,80,false);
             mask_index = spr_explosion;
             event_inherited();
         }
@@ -74,15 +76,14 @@ firing_other_mines = false;
 else{
     
     if (!firing_other_mines
-    &amp;&amp; global.room_controller.beats - animation_start &gt;= 0.5 
-    &amp;&amp; (global.room_controller.beats mod 1) &gt;= 0.1){
+    &amp;&amp; global.room_controller.beats - animation_start &gt;= propagation_time){
         firing_other_mines = true;
         mask_index = spr_explosion;
     }
-    if (animation_step &gt;= sprite_get_number(spr_explosion) - 3){
+    if (animation_step &gt;= sprite_get_number(spr_explosion) - 2){
         instance_destroy();
     }   
-}   
+}
 </string>
           </argument>
         </arguments>
@@ -111,7 +112,7 @@ else{
 }
 else{
     animation_step = (global.room_controller.beats-animation_start)*20;
-    draw_sprite_ext(spr_explosion, animation_step, x,y, 1,1, 0, image_blend,1);
+    draw_sprite_ext(spr_explosion, animation_step, x,y, 1,1, image_angle, image_blend,1);
 }
 </string>
           </argument>

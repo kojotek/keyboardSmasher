@@ -28,6 +28,7 @@
             <string>event_inherited();
 new_horizontal_max_speed = 8;
 new_dash_speed_multiplier = 1.2;
+new_animation_speed = 1;
 target = noone;
 </string>
           </argument>
@@ -53,6 +54,7 @@ target = noone;
             <kind>1</kind>
             <string>target.horizontal_max_speed = new_horizontal_max_speed;
 target.dash_speed_multiplier = new_dash_speed_multiplier;
+target.animation_speed = new_animation_speed;
 </string>
           </argument>
         </arguments>

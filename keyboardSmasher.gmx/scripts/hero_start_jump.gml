@@ -5,8 +5,8 @@
 
 with(argument0){
     movement_type = JUMP;
-    actual_jump_height = argument2;
-    actual_jump_length = argument1;// - ((x mod 32) < 16) * (x mod 32) + ((x mod 32) > 16) * (32-(x mod 32));
+    jump_actual_height = argument2;
+    jump_actual_length = argument1;// - ((x mod 32) < 16) * (x mod 32) + ((x mod 32) > 16) * (32-(x mod 32));
     jump_start_y = next_y;
     jump_start_beat = global.room_controller.beats;
     sprite_index = spr_jumper;
@@ -92,6 +92,8 @@ with(argument0){
 with(argument0){
     //y = next_y;
     movement_type = FALL;
+    fall_actual_length = argument1;
+    fall_actual_height = argument2;
     fall_start_y = next_y;
     fall_start_beat = global.room_controller.beats;
     sprite_index = spr_jumper;

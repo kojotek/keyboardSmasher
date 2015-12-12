@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>shake_x = 0;
+            <string>instance_deactivate_object(id);
+shake_x = 0;
 shake_y = 0;
 shake_shift_x = 0;
 shake_shift_y = 0;

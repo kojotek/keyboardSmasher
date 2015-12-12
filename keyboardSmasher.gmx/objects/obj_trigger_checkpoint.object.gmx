@@ -51,7 +51,7 @@ checkpoint_number = -1;
             <kind>1</kind>
             <string>if (global.last_checkpoint_number div 10  == (checkpoint_number div 10) - 1 
     || global.last_checkpoint_number div 10  == (checkpoint_number div 10)){
-    
+
     global.last_checkpoint_x = x;
     global.last_checkpoint_y = y;
     global.last_checkpoint_number = checkpoint_number;
