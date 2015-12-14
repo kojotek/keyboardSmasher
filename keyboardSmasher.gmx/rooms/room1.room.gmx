@@ -3,8 +3,8 @@
   <caption></caption>
   <width>999999</width>
   <height>768</height>
-  <vsnap>32</vsnap>
-  <hsnap>32</hsnap>
+  <vsnap>16</vsnap>
+  <hsnap>16</hsnap>
   <isometric>0</isometric>
   <speed>60</speed>
   <persistent>0</persistent>
@@ -145,8 +145,8 @@
     <instance objName="obj_platform_type1_room1" x="18240" y="736" name="inst_99BACB9A" locked="0" code="end_y = 256+64;&#xA;" scaleX="49" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_platform_type1_room1" x="18240" y="672" name="inst_B3872493" locked="0" code="end_y = 256;&#xA;" scaleX="49" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_hey" x="19072" y="288" name="inst_43DB9B9F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_music_fader_room_1" x="19552" y="352" name="inst_3910B616" locked="0" code="colliding_object = hero_0;&#xA;" scaleX="10" scaleY="23" colour="4294967295" rotation="0"/>
-    <instance objName="obj_trigger_deactivator" x="19552" y="352" name="inst_1DAEE097" locked="0" code="colliding_object = hero_0;&#xA;left_boundary = 0;&#xA;right_height = 17390;&#xA;" scaleX="10" scaleY="23" colour="4294967295" rotation="0"/>
+    <instance objName="obj_music_fader_room_1" x="19456" y="352" name="inst_3910B616" locked="0" code="colliding_object = hero_0;" scaleX="27" scaleY="27" colour="4294967295" rotation="0"/>
+    <instance objName="obj_trigger_deactivator" x="19488" y="416" name="inst_1DAEE097" locked="0" code="colliding_object = hero_0;&#xA;left_boundary = 0;&#xA;right_height = 17390;" scaleX="5" scaleY="17" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="17376" y="736" name="inst_B5FE55AB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="17408" y="736" name="inst_1DA4DBCD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="17440" y="736" name="inst_0BEF23D1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -154,11 +154,11 @@
     <instance objName="obj_collidable" x="19200" y="544" name="inst_1978AEFD" locked="0" code="" scaleX="11" scaleY="15" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="17344" y="320" name="inst_475CD2D8" locked="0" code="" scaleX="7" scaleY="23" colour="4294967295" rotation="0"/>
     <instance objName="obj_saw" x="19424" y="384" name="inst_A4A89B2E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_saw" x="19456" y="448" name="inst_4F2D7A45" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_saw" x="19488" y="512" name="inst_8828029A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_saw" x="19488" y="576" name="inst_1C4FC759" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_saw" x="19488" y="640" name="inst_1271B082" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_saw" x="19488" y="704" name="inst_ED953ED3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_saw" x="19424" y="448" name="inst_4F2D7A45" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_saw" x="19424" y="512" name="inst_8828029A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_saw" x="19424" y="576" name="inst_1C4FC759" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_saw" x="19424" y="640" name="inst_1271B082" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_saw" x="19424" y="704" name="inst_ED953ED3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="16192" y="544" name="inst_925B1580" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="16192" y="256" name="inst_1720196F" locked="0" code="" scaleX="1" scaleY="15" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="512" y="704" name="inst_7C0A32ED" locked="0" code="" scaleX="2" scaleY="1" colour="4294967295" rotation="0"/>
@@ -355,7 +355,6 @@
     <instance objName="obj_spikes" x="25216" y="704" name="inst_1683E6EB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="25248" y="704" name="inst_003C5810" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="8608" y="32" name="inst_C9135F21" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="90"/>
-    <instance objName="obj_trigger_deactivator" x="19552" y="352" name="inst_F36595AD" locked="0" code="colliding_object = hero_0;&#xA;&#xA;left_boundary = 0;&#xA;right_boundary = x-800;&#xA;" scaleX="10" scaleY="23" colour="4294967295" rotation="0"/>
     <instance objName="obj_hey" x="22272" y="672" name="inst_A6A99BC3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="24224" y="704" name="inst_513EF0F2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="24192" y="704" name="inst_CC93F83F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -465,7 +464,7 @@
     <instance objName="obj_saw" x="14272" y="256" name="inst_EA577F1B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_saw" x="14176" y="256" name="inst_B23A4694" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="14176" y="96" name="inst_0E5C0F66" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="180"/>
-    <instance objName="obj_trigger_checkpoint" x="19584" y="384" name="inst_541CA788" locked="0" code="colliding_object = hero_0;&#xA;checkpoint_number = 50;&#xA;" scaleX="9" scaleY="21" colour="4294967295" rotation="0"/>
+    <instance objName="obj_trigger_checkpoint" x="19488" y="416" name="inst_541CA788" locked="0" code="colliding_object = hero_0;&#xA;checkpoint_number = 50;&#xA;" scaleX="3" scaleY="17" colour="4294967295" rotation="0"/>
     <instance objName="obj_wood" x="27232" y="512" name="inst_2DBDD81D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_wood" x="27264" y="512" name="inst_B0CBF754" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_wood" x="27296" y="512" name="inst_63620451" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -484,7 +483,7 @@
     <instance objName="obj_wood" x="27264" y="416" name="inst_A1947948" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_wood" x="27264" y="384" name="inst_20D9A08D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_wood" x="27296" y="384" name="inst_D034BF8C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_trigger_character_modifier" x="19520" y="416" name="inst_2C0747BB" locked="0" code="colliding_object = hero_0;&#xA;target = hero_0;&#xA;new_horizontal_max_speed = 8;&#xA;new_dash_speed_multiplier = 1;&#xA;" scaleX="9" scaleY="25" colour="4294967295" rotation="0"/>
+    <instance objName="obj_trigger_character_modifier" x="19488" y="416" name="inst_2C0747BB" locked="0" code="colliding_object = hero_0;&#xA;target = hero_0;&#xA;new_horizontal_max_speed = 8;&#xA;new_dash_speed_multiplier = 1;&#xA;" scaleX="5" scaleY="17" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="27328" y="704" name="inst_F0236351" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="27360" y="704" name="inst_FA6D9509" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_spikes" x="27392" y="704" name="inst_4D4571D9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -650,6 +649,10 @@
     <instance objName="obj_saw" x="34048" y="352" name="inst_E78D3DB3" locked="0" code="depth = 5;&#xA;" scaleX="6" scaleY="6" colour="4294967295" rotation="0"/>
     <instance objName="obj_collidable" x="34176" y="704" name="inst_E9C2A5F8" locked="0" code="" scaleX="39" scaleY="9" colour="4294967295" rotation="0"/>
     <instance objName="obj_saw" x="34528" y="608" name="inst_112A43C6" locked="0" code="" scaleX="6" scaleY="6" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="19552" y="288" name="inst_33A5BEBB" locked="0" code="" scaleX="1" scaleY="21" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="19632" y="640" name="inst_3B0B9DF2" locked="0" code="" scaleX="1" scaleY="9" colour="4294967295" rotation="0"/>
+    <instance objName="obj_collidable" x="19712" y="288" name="inst_C819A6E5" locked="0" code="" scaleX="1" scaleY="21" colour="4294967295" rotation="0"/>
+    <instance objName="obj_platform_type1_room1" x="19632" y="336" name="inst_AA9F8C48" locked="0" code="start_x = x;&#xA;start_y = y;&#xA;end_x = x;&#xA;end_y = y-352;&#xA;stop_time = 1;&#xA;run_time = 1;&#xA;" scaleX="4" scaleY="10" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="test_room" x="0" y="608" w="128" h="128" xo="0" yo="0" id="10000001" name="inst_BF560F54" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

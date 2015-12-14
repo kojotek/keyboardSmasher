@@ -143,8 +143,8 @@ global.last_checkpoint_number = 60;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.last_checkpoint_x = 19600;
-global.last_checkpoint_y = 100;
+            <string>global.last_checkpoint_x = 19500;
+global.last_checkpoint_y = 300;
 global.last_checkpoint_number = 50;
 </string>
           </argument>

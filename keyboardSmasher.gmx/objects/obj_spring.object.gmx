@@ -60,7 +60,7 @@ touched = false;
             <string>if (place_meeting(x,y-10*sign(179-image_angle),obj_hero)){
     var inst = instance_place(x,y-10*sign(179-image_angle),obj_hero);
     
-    if (!touched){
+    if (!touched || (inst.movement_type != JUMP &amp;&amp; inst.movement_type != FALL)){
     
         if (sound_pitch == -1){
             audio_sound_pitch(snd_spring, random_range(1.1, 1.3));
