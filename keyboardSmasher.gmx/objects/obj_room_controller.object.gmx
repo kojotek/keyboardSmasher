@@ -46,6 +46,11 @@ hero_0.y = global.last_checkpoint_y;
 hero_0.next_x = hero_0.x;
 hero_0.next_y = hero_0.y;
 hero_start_fall(hero_0, hero_0.fall_length, hero_0.fall_height);
+
+
+
+
+computed_beats = 0;
 </string>
           </argument>
         </arguments>
@@ -82,7 +87,7 @@ else{
 if ( music_controller.paused == false ){
     if (music_controller.head_position != music_controller.last_known_head_position){
         //tykniecia = _wielkosc kafla_ * BPS * _szybkosc obiektu_ * (pozycja glowicy + przesuniecie tasmy);
-        var computed_beats = 1 * (music_controller.tempo / 60) * 1 * (music_controller.head_position + music_controller.shift) + beats_from_previous_song;
+        computed_beats = 1 * (music_controller.tempo / 60) * 1 * (music_controller.head_position + music_controller.shift) + beats_from_previous_song;
         beats_speed_factor = 1 - (beats - computed_beats)/5;
     }
 }
@@ -94,7 +99,7 @@ beats += music_controller.tempo/60 * 1 * (time_controller.frame_time/1000) * bea
 song_beats += music_controller.tempo/60 * 1 * (time_controller.frame_time/1000) * beats_speed_factor;
 bars = floor(beats/4);
 
-show_debug_message( song_beats);
+show_debug_message( string(computed_beats) + "    " + string(beats));
 //beats += 0.02;
 </string>
           </argument>
