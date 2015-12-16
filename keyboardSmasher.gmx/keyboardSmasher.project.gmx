@@ -125,6 +125,7 @@
     <objects name="room_1">
       <object>objects\obj_music_starter_room_1</object>
       <object>objects\obj_metronome</object>
+      <object>objects\obj_metronome_global_clock</object>
       <object>objects\obj_metronome_slow</object>
       <object>objects\obj_platform_type1_room1</object>
       <object>objects\obj_platform_sinusoidal</object>

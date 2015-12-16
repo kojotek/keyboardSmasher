@@ -94,12 +94,18 @@ if ( music_controller.paused == false ){
 else{
     beats_speed_factor = 1;
 }
+/*
+beats += music_controller.tempo/60 * (time_controller.frame_time/1000)// * beats_speed_factor;
+song_beats += music_controller.tempo/60 * (time_controller.frame_time/1000)// * beats_speed_factor;
+bars = floor(beats/4);
+*/
 
-beats += music_controller.tempo/60 * 1 * (time_controller.frame_time/1000) * beats_speed_factor;
-song_beats += music_controller.tempo/60 * 1 * (time_controller.frame_time/1000) * beats_speed_factor;
+beats += music_controller.tempo/60 * 0.0166666 * beats_speed_factor;
+song_beats += music_controller.tempo/60 * 0.0166666 * beats_speed_factor;
 bars = floor(beats/4);
 
-show_debug_message( string(computed_beats) + "    " + string(beats));
+
+show_debug_message( string(computed_beats) + "    " + string(beats) + "    " + string(beats_speed_factor));
 //beats += 0.02;
 </string>
           </argument>
