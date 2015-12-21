@@ -63,7 +63,7 @@ sound_played = false;
         y = y_start + (y_end-y_start) * ((global.room_controller.beats - beat_start)/ run_time);
     }
     else{
-        if (place_meeting(x,y+1,obj_collidable) || place_meeting(x,y+1,obj_collidable_dynamic)){
+        if (place_meeting(x,y+16,obj_collidable) || place_meeting(x,y+1,obj_collidable_dynamic)){
             hit_ground = true;
             if (!sound_played){
                 global.room_controller.camera_controller.shake_y = 9;

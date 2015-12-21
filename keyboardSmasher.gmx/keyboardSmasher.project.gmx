@@ -17,9 +17,9 @@
     <sound>sound\snd_whoa</sound>
     <sound>sound\snd_wood_crack</sound>
     <sound>sound\snd_spring</sound>
-    <sound>sound\snd_heavy_crash</sound>
     <sound>sound\snd_tom</sound>
     <sound>sound\snd_snare</sound>
+    <sound>sound\snd_bottle</sound>
   </sounds>
   <sprites name="sprites">
     <sprites name="hero">
@@ -54,6 +54,7 @@
       <sprite>sprites\spr_room</sprite>
       <sprite>sprites\spr_music</sprite>
       <sprite>sprites\spr_time</sprite>
+      <sprite>sprites\spr_points_background</sprite>
     </sprites>
     <sprites name="hazard">
       <sprite>sprites\spr_spikes</sprite>
@@ -90,9 +91,11 @@
     <script>scripts\instance_get_first.gml</script>
     <script>scripts\on_ground.gml</script>
     <script>scripts\y_stand_on.gml</script>
+    <script>scripts\add_points.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font_debug</font>
+    <font>fonts\font_points</font>
   </fonts>
   <objects name="objects">
     <objects name="controllers">
@@ -106,6 +109,7 @@
       <object>objects\obj_path_controller</object>
       <object>objects\obj_background_controller</object>
       <object>objects\obj_particle_controller</object>
+      <object>objects\obj_points_controller</object>
     </objects>
     <objects name="collidables">
       <object>objects\obj_invisible_wall</object>
@@ -121,6 +125,7 @@
     <objects name="pickups">
       <object>objects\obj_pickup</object>
       <object>objects\obj_hey</object>
+      <object>objects\obj_ball</object>
     </objects>
     <objects name="room_1">
       <object>objects\obj_music_starter_room_1</object>

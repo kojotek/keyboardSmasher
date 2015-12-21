@@ -61,6 +61,7 @@ if (place_meeting(x-1,y, obj_hero) ){
 if (hero != noone){
     if (hero.movement_type == DASH){
         event_perform(ev_other, ev_user0);
+        add_points(10);
     }
 }
 
@@ -102,7 +103,7 @@ if (hazard != noone){
 audio_sound_gain(snd_wood_crack,0.3,0);
 if (!audio_is_playing(snd_wood_crack))
     audio_play_sound(snd_wood_crack,1,false);
-part_particles_create(global.room_controller.particle_controller.particle_system,x,y, global.room_controller.particle_controller.part_wood, 64);
+part_particles_create(global.room_controller.particle_controller.particle_system_global,x,y, global.room_controller.particle_controller.part_wood, 64);
 instance_destroy();
 </string>
           </argument>

@@ -32,12 +32,14 @@ time_controller = noone;
 camera_controller = noone;
 background_controller = noone;
 particle_controller = noone;
+points_controller = noone;
 
 beats_from_previous_song = 0;
 beats_from_previous_song_already_added = false;
 beats = 0;
 song_beats = 0;
 bars = 0;
+song_bars = 0;
 beats_speed_factor = 0;
 
 
@@ -102,10 +104,10 @@ bars = floor(beats/4);
 
 beats += music_controller.tempo/60 * 0.0166666 * beats_speed_factor;
 song_beats += music_controller.tempo/60 * 0.0166666 * beats_speed_factor;
-bars = floor(beats/4);
+bars = beats/4;
+song_bars = song_beats/4;
 
-
-show_debug_message( string(computed_beats) + "    " + string(beats) + "    " + string(beats_speed_factor));
+//show_debug_message( string(computed_beats) + "    " + string(beats) + "    " + string(beats_speed_factor));
 //beats += 0.02;
 </string>
           </argument>

@@ -50,6 +50,7 @@ target_mine = noone;
           <argument>
             <kind>1</kind>
             <string>target_mine.touched = true;
+add_points(100);
 </string>
           </argument>
         </arguments>
