@@ -25,7 +25,7 @@ with(argument0){
     dash_actual_length = argument1;
     //obliczamy wysokosc rozpoczecia szybowania
     //var dash_alititude = ((y div 32) + (vertical_direction==DOWNWARDS)) * 32;
-    var dash_alititude = ((y-1) div 32) * 32;
+    var dash_alititude = ((y+1) div 32) * 32;
     y = dash_alititude;
     next_y = y;
     movement_type = DASH;

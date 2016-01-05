@@ -38,6 +38,7 @@
       <sprite>sprites\spr_floor</sprite>
       <sprite>sprites\spr_block</sprite>
       <sprite>sprites\spr_wood_broken</sprite>
+      <sprite>sprites\spr_white_block</sprite>
     </sprites>
     <sprites name="effects">
       <sprite>sprites\spr_smoke</sprite>
@@ -60,6 +61,7 @@
       <sprite>sprites\spr_spikes</sprite>
       <sprite>sprites\spr_saw</sprite>
       <sprite>sprites\spr_mine</sprite>
+      <sprite>sprites\spr_sword</sprite>
     </sprites>
     <sprites name="pickups">
       <sprite>sprites\spr_energy_ball</sprite>
@@ -115,10 +117,12 @@
       <object>objects\obj_invisible_wall</object>
       <object>objects\obj_collidable_dynamic</object>
       <object>objects\obj_collidable</object>
+      <object>objects\obj_color_propagating_collidable</object>
     </objects>
     <objects name="hazard">
       <object>objects\obj_hazard</object>
       <object>objects\obj_spikes</object>
+      <object>objects\obj_sword</object>
       <object>objects\obj_saw</object>
       <object>objects\obj_mine</object>
     </objects>
@@ -129,10 +133,12 @@
     </objects>
     <objects name="room_1">
       <object>objects\obj_music_starter_room_1</object>
+      <object>objects\obj_music_starter_room_1_5</object>
       <object>objects\obj_metronome</object>
       <object>objects\obj_metronome_global_clock</object>
       <object>objects\obj_metronome_slow</object>
       <object>objects\obj_platform_type1_room1</object>
+      <object>objects\obj_platform_player_position_dependent</object>
       <object>objects\obj_platform_sinusoidal</object>
       <object>objects\obj_music_fader_room_1</object>
       <object>objects\obj_smasher_starter_room1</object>

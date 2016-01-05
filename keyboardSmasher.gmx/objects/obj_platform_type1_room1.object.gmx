@@ -32,6 +32,7 @@ end_x = x;
 end_y = y;
 stop_time = 1;
 run_time = 1;
+shift = 0;
 </string>
           </argument>
         </arguments>
@@ -54,7 +55,7 @@ run_time = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var step = global.room_controller.beats mod ((stop_time+run_time)*2);
+            <string>var step = (global.room_controller.song_beats-shift) mod ((stop_time+run_time)*2);
 
 if (step &lt;= stop_time){
     next_x = start_x;

@@ -107,8 +107,33 @@ song_beats += music_controller.tempo/60 * 0.0166666 * beats_speed_factor;
 bars = beats/4;
 song_bars = song_beats/4;
 
-//show_debug_message( string(computed_beats) + "    " + string(beats) + "    " + string(beats_speed_factor));
+show_debug_message(song_beats);
 //beats += 0.02;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="100">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>global.last_checkpoint_x = 32542;
+global.last_checkpoint_y = 100;
+global.last_checkpoint_number = 70;
 </string>
           </argument>
         </arguments>
