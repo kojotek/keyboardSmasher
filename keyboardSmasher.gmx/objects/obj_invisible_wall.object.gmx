@@ -54,7 +54,7 @@ camera = noone;
             <string>x = camera.x-view_wview[0]/4 + sprite_width/2;
 y = camera.y;
 
-if (place_meeting(x,y,obj_hero)){
+while (place_meeting(x,y,obj_hero)){
     var hero = instance_place(x,y,obj_hero);
     while(place_meeting(x,y,hero)){
         hero.x -= 0.5;

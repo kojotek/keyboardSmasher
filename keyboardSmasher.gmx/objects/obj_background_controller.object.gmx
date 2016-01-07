@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>obj_controller</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -26,7 +26,67 @@
           <argument>
             <kind>1</kind>
             <string>white_flash = 0;
+color_flash = 0;
+color_changed = false;
+color = 0;
 white_flash_counter = 0;
+color_flash_counter = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (global.room_controller.beats mod 1 &gt; 0.1){
+    if (!color_changed){
+        event_perform(ev_other, ev_user1);
+        color_changed = true;
+    }
+}
+else{
+     color_changed = false;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>color = make_colour_rgb(random_range(150,220),random_range(150,220),random_range(150,220));
+var intensity = min(global.room_controller.points_controller.rotation_speed, 300) / 3000;
+color_flash = intensity;
 </string>
           </argument>
         </arguments>
@@ -95,6 +155,11 @@ white_flash_counter = 0;
             <string>if (white_flash &gt; 0){
     draw_background_ext(bck_white_flash, view_xview[0], view_yview[0], 20, 20, 0, c_white, white_flash);
     white_flash -= 0.03;
+}
+
+if (color_flash &gt; 0){
+    draw_background_ext(bck_white_flash, view_xview[0], view_yview[0], 20, 20, 0, color, color_flash);
+    color_flash -= 0.02;
 }
 </string>
           </argument>

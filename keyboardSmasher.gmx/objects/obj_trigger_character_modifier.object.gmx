@@ -52,7 +52,10 @@ target = noone;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>target.horizontal_max_speed = new_horizontal_max_speed;
+            <string>if (target == noone){
+    target = colliding_instance;
+}
+target.horizontal_max_speed = new_horizontal_max_speed;
 target.dash_speed_multiplier = new_dash_speed_multiplier;
 target.animation_speed = new_animation_speed;
 </string>

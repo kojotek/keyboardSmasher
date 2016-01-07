@@ -111,7 +111,8 @@ audio_play_sound(snd_badum,80,0);
 var inst = instance_get_first(obj_hero_controllable);
 if (inst == noone){
     with(global.room_controller.music_controller){
-        //event_perform(ev_other, EVENT_STOP_SONG);
+        event_perform(ev_other, EVENT_STOP_SONG);
+        global.last_checkpoint_deaths++;
     }
 }
 </string>

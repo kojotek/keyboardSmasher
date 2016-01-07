@@ -31,8 +31,12 @@ second_color = make_colour_rgb(35,200,65);
 touched = false;
 propagating = false;
 touch_beat = 0;
-propagation_time = 0.1;
+propagation_time = 0.12;
 sprite_size = 1;
+left = noone;
+right = noone;
+up = noone;
+down = noone;
 </string>
           </argument>
         </arguments>
@@ -66,47 +70,43 @@ sprite_size = 1;
         touch_beat = global.room_controller.beats;
     }
     
-    if (place_meeting(x+1,y,obj_color_propagating_collidable)){
-        var neighbour = instance_place(x+1,y,obj_color_propagating_collidable);
-        if (neighbour.propagating){
+    if (up != noone){
+        if (up.propagating){
             touched = true;
-            second_color = neighbour.second_color;
+            second_color = up.second_color;
             touch_beat = global.room_controller.beats;
         }
     }
     
-     if (place_meeting(x-1,y,obj_color_propagating_collidable)){
-        var neighbour = instance_place(x-1,y,obj_color_propagating_collidable);
-        if (neighbour.propagating){
+    if (down != noone){
+        if (down.propagating){
             touched = true;
-            second_color = neighbour.second_color;
-            touch_beat = global.room_controller.beats;
-        }
-    }
-
-    if (place_meeting(x,y-1,obj_color_propagating_collidable)){
-        var neighbour = instance_place(x,y-1,obj_color_propagating_collidable);
-        if (neighbour.propagating){
-            touched = true;
-            second_color = neighbour.second_color;
+            second_color = down.second_color;
             touch_beat = global.room_controller.beats;
         }
     }
     
-    if (place_meeting(x,y+1,obj_color_propagating_collidable)){
-        var neighbour = instance_place(x,y+1,obj_color_propagating_collidable);
-        if (neighbour.propagating){
+    if (left != noone){
+        if (left.propagating){
             touched = true;
-            second_color = neighbour.second_color;
+            second_color = left.second_color;
             touch_beat = global.room_controller.beats;
         }
     }
     
+    if (right != noone){
+        if (right.propagating){
+            touched = true;
+            second_color = right.second_color;
+            touch_beat = global.room_controller.beats;
+        }
+    }
     
     if (touched){
         image_blend = second_color;
+        part_particles_create(global.room_controller.particle_controller.particle_system_global, x, y, global.room_controller.particle_controller.part_rainbow, 20);
     }
-    
+       
 }
 </string>
           </argument>
@@ -137,6 +137,39 @@ sprite_size = 1;
 }
 
 sprite_size = max(1, touch_beat + propagation_time + 1.3 - global.room_controller.beats);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (place_meeting(x+1,y,obj_color_propagating_collidable))
+    right = instance_place(x+1,y,obj_color_propagating_collidable);
+    
+ if (place_meeting(x-1,y,obj_color_propagating_collidable))
+    left = instance_place(x-1,y,obj_color_propagating_collidable);
+
+if (place_meeting(x,y-1,obj_color_propagating_collidable))
+    up = instance_place(x,y-1,obj_color_propagating_collidable);
+    
+if (place_meeting(x,y+1,obj_color_propagating_collidable))
+    down = instance_place(x,y+1,obj_color_propagating_collidable);
 </string>
           </argument>
         </arguments>

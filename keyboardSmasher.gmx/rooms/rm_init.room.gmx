@@ -16,6 +16,8 @@ show_debug_overlay(true);
 global.last_checkpoint_x = 100;
 global.last_checkpoint_y = 100;
 global.last_checkpoint_number = 0;
+global.last_checkpoint_points = 0;
+global.last_checkpoint_deaths = 0;
 room_goto_next();</code>
   <enableViews>0</enableViews>
   <clearViewBackground>-1</clearViewBackground>

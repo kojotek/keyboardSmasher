@@ -28,8 +28,8 @@
             <string>event_inherited();
 upper_boundary = 0;
 lower_boundary = room_height;
-left_boundary = 0;
-right_boundary = 0;
+left_boundary = x - 200;
+right_boundary = x + 200;
 </string>
           </argument>
         </arguments>
@@ -52,7 +52,16 @@ right_boundary = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>instance_activate_region(left_boundary, upper_boundary, right_boundary-left_boundary, lower_boundary-upper_boundary, true);
+            <string>instance_deactivate_region(0, 0, room_width, room_height, true, true);
+instance_activate_region(left_boundary, upper_boundary, right_boundary-left_boundary, lower_boundary-upper_boundary, true);
+instance_deactivate_object(obj_controller);
+instance_activate_object(global.room_controller);
+instance_activate_object(global.room_controller.camera_controller);
+instance_activate_object(global.room_controller.music_controller);
+instance_activate_object(global.room_controller.time_controller);
+instance_activate_object(global.room_controller.background_controller);
+instance_activate_object(global.room_controller.particle_controller);
+instance_activate_object(global.room_controller.points_controller);
 </string>
           </argument>
         </arguments>

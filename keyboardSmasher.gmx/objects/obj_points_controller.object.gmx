@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>obj_controller</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -25,14 +25,17 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>points = 0;
-rotation_speed = 1;
+            <string>rotation_speed = 1;
 rotation = 0;
 scale_back = 0.8;
 scale_front = 1;
 color_front = c_black;
 color_back = c_white;
 brake = 0.02;
+multiplyer_brake = 0.02;
+multiplyer = 1;
+
+points = global.last_checkpoint_points;
 </string>
           </argument>
         </arguments>
@@ -57,12 +60,24 @@ brake = 0.02;
             <kind>1</kind>
             <string>if (rotation_speed &gt; 1){
     rotation_speed -= brake;
-    brake = brake * 1.005;
+    brake = brake * 1.01;
 }
 else{
     rotation_speed = 1;
     brake = 0.2;
+    
+    if (multiplyer &gt; 1){
+        multiplyer -= multiplyer_brake;
+        multiplyer_brake = multiplyer_brake * 1.05;
+    }
+    else{
+        multiplyer = 1;
+        multiplyer_brake = 0.1;
+    }
 }
+
+if (rotation_speed &gt; 1000)
+    rotation_speed = 1000;
 
 rotation += rotation_speed/4;
 scale_back = 0.8 + rotation_speed/360 + (1-(global.room_controller.beats mod 1))*(0.3+rotation_speed/100);
@@ -90,14 +105,20 @@ scale_front = 0.8 + rotation_speed/360;
           <argument>
             <kind>1</kind>
             <string>part_type_speed(global.room_controller.particle_controller.part_points, 3*scale_back, 6*scale_back, -0.1*scale_back, false);
-part_particles_create(global.room_controller.particle_controller.particle_system_gui, 65, 65, global.room_controller.particle_controller.part_points, rotation_speed);
+part_particles_create(global.room_controller.particle_controller.particle_system_gui, 900, 65, global.room_controller.particle_controller.part_points, rotation_speed);
 part_system_drawit(global.room_controller.particle_controller.particle_system_gui);
 draw_set_font(font_points);
-draw_sprite_ext(spr_points_background, 0, 65, 65, scale_back, scale_back, rotation, color_back, 1);
 draw_set_halign(fa_center);
 draw_set_valign(fa_center);
-var sh = string_height(string(points));
-draw_text_ext_transformed_colour(65, 60-(sh*scale_front)/2,points, 1, 10000, scale_front, scale_front, 0, color_front, color_front, color_front, color_front, 1);
+draw_sprite_ext(spr_points_background, 0, 900, 65, scale_back, scale_back, rotation, color_back, 1);
+var str = string(points);
+var sh = string_height(str);
+draw_text_ext_transformed_colour(900, 60-(sh*scale_front)/2,str, 1, 10000, scale_front, scale_front, 0, color_front, color_front, color_front, color_front, 1);
+
+draw_sprite_ext(spr_points_background, 0, 940, 40-(sh*scale_front/2.5)/2, scale_back/3, scale_back/3, rotation, color_back-50, 1);
+var str2 = "x" + string(round(multiplyer));
+var sh2 = string_height(str2);
+draw_text_ext_transformed_colour(940, 25-(sh*scale_front/2.5)/2,str2, 1, 10000, scale_front/2.5, scale_front/2.5, 0, color_front-50, color_front-50, color_front-50, color_front-50, 1);
 
 //show_debug_message(rotation_speed)
 </string>

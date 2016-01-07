@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>colliding_object = noone;
+colliding_instance = noone;
 touched = false;
 
 image_speed = 0.2;
@@ -79,6 +80,7 @@ image_speed = 0.2;
             <string>if (colliding_object != noone){
     if (place_meeting(x,y, colliding_object)){
         touched = true;
+        colliding_instance = instance_place(x,y, colliding_object);
     }
 
 }

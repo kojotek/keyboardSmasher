@@ -29,9 +29,6 @@
 origin_path = 0;
 segment_number = 0;
 segments[0] = 0;
-global_beat_start = 0;
-//poprawic zmienna global beat start na global strat beat albo cos
-
 stop_at = -1;
 </string>
           </argument>
@@ -91,7 +88,7 @@ path_delete(origin_path);
     path_start(segments[segment_number].path,0,1,true);
     path_position = 0;
 }
-//poprawic zmienna global beat start na global strat beat albo cos
+
 path_position = (global.room_controller.beats - global_beat_start - segments[segment_number].start_beat) / (segments[segment_number].end_beat - segments[segment_number].start_beat);
 
 if (stop_at != -1){

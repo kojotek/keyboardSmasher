@@ -34,7 +34,7 @@ next_x = x;
 vertical_direction = DOWNWARDS;
 horizontal_direction = 1;
 
-movement_type = FALL;
+movement_type = RUN;
 jump_start_y = y;
 jump_start_beat = 0;
 short_jump_height = 224;

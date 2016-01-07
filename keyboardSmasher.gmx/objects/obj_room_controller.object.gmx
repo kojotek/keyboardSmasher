@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>obj_controller</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -47,8 +47,7 @@ hero_0.x = global.last_checkpoint_x;
 hero_0.y = global.last_checkpoint_y;
 hero_0.next_x = hero_0.x;
 hero_0.next_y = hero_0.y;
-hero_start_fall(hero_0, hero_0.fall_length, hero_0.fall_height);
-
+//hero_start_run(hero_0);
 
 
 
@@ -107,8 +106,33 @@ song_beats += music_controller.tempo/60 * 0.0166666 * beats_speed_factor;
 bars = beats/4;
 song_bars = song_beats/4;
 
-show_debug_message(song_beats);
+//show_debug_message(song_beats);
 //beats += 0.02;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="101">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>global.last_checkpoint_x = 52832;
+global.last_checkpoint_y = 160;
+global.last_checkpoint_number = 80;
 </string>
           </argument>
         </arguments>
@@ -206,7 +230,7 @@ global.last_checkpoint_number = 50;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.last_checkpoint_x = 15500;
+            <string>global.last_checkpoint_x = 6688;
 global.last_checkpoint_y = 400;
 global.last_checkpoint_number = 40;
 </string>
