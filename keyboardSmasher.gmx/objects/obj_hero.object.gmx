@@ -800,8 +800,6 @@ if (place_meeting(next_x, next_y, obj_collidable)
 if (global.room_controller.beats - dash_start_beat &lt; sprite_get_number(spr_smoke)/10){
     draw_sprite_ext(spr_smoke, (global.room_controller.beats-dash_start_beat)*10, dash_start_x,y,1,1,0,image_blend,1);
 }
-
-draw_circle(x,y,2,2);
 </string>
           </argument>
         </arguments>

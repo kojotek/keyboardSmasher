@@ -65,14 +65,14 @@
     <option_android_use_test_ads>0</option_android_use_test_ads>
     <option_argumenterrors>True</option_argumenterrors>
     <option_audioGroupCount>1</option_audioGroupCount>
-    <option_author></option_author>
+    <option_author>Przemysław Nowaczyk</option_author>
     <option_backimage>nil</option_backimage>
     <option_borderless>False</option_borderless>
     <option_changed>false</option_changed>
     <option_changeresolution>false</option_changeresolution>
     <option_closeesc>true</option_closeesc>
     <option_colordepth>0</option_colordepth>
-    <option_display_name>GameMaker: Studio</option_display_name>
+    <option_display_name>Keyboard Smasher</option_display_name>
     <option_displayerrors>True</option_displayerrors>
     <option_facebook_app_display_name></option_facebook_app_display_name>
     <option_facebook_appid></option_facebook_appid>
@@ -272,7 +272,7 @@
     <option_screenkey>True</option_screenkey>
     <option_screenshotkey>true</option_screenshotkey>
     <option_shortcircuit>True</option_shortcircuit>
-    <option_showcursor>True</option_showcursor>
+    <option_showcursor>False</option_showcursor>
     <option_showprogress>1</option_showprogress>
     <option_sizeable>False</option_sizeable>
     <option_stayontop>false</option_stayontop>
@@ -305,13 +305,13 @@
     <option_tizen_usesplash>False</option_tizen_usesplash>
     <option_use_new_audio>True</option_use_new_audio>
     <option_variableerrors>False</option_variableerrors>
-    <option_version>100</option_version>
+    <option_version>0.2</option_version>
     <option_version_build>0</option_version_build>
     <option_version_company></option_version_company>
     <option_version_copyright></option_version_copyright>
     <option_version_description></option_version_description>
-    <option_version_major>1</option_version_major>
-    <option_version_minor>0</option_version_minor>
+    <option_version_major>0</option_version_major>
+    <option_version_minor>2</option_version_minor>
     <option_version_product></option_version_product>
     <option_version_release>0</option_version_release>
     <option_win8_advertising_appid></option_win8_advertising_appid>
@@ -358,8 +358,8 @@
     <option_windows_enable_steam>0</option_windows_enable_steam>
     <option_windows_game_icon>Configs\Default\windows\runner_icon.ico</option_windows_game_icon>
     <option_windows_license>Configs\Default\windows\License.txt</option_windows_license>
-    <option_windows_mainor_version>0</option_windows_mainor_version>
-    <option_windows_major_version>1</option_windows_major_version>
+    <option_windows_mainor_version>2</option_windows_mainor_version>
+    <option_windows_major_version>0</option_windows_major_version>
     <option_windows_nsis_file>Configs\Default\windows\RunnerInstaller.nsi</option_windows_nsis_file>
     <option_windows_product_info></option_windows_product_info>
     <option_windows_release_version>0</option_windows_release_version>
@@ -370,7 +370,7 @@
     <option_windows_splash_screen>Configs\Default\windows\splash.png</option_windows_splash_screen>
     <option_windows_steam_app_id>0</option_windows_steam_app_id>
     <option_windows_texture_page>2048</option_windows_texture_page>
-    <option_windows_use_splash>-1</option_windows_use_splash>
+    <option_windows_use_splash>0</option_windows_use_splash>
     <option_winphone_480_splash_image>Configs\Default\WinPhone\SplashScreenImage480.jpg</option_winphone_480_splash_image>
     <option_winphone_720_splash_image>Configs\Default\WinPhone\SplashScreenImage720.jpg</option_winphone_720_splash_image>
     <option_winphone_768_splash_image>Configs\Default\WinPhone\SplashScreenImage.jpg</option_winphone_768_splash_image>

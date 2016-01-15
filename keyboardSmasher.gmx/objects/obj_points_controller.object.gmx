@@ -105,22 +105,20 @@ scale_front = 0.8 + rotation_speed/360;
           <argument>
             <kind>1</kind>
             <string>part_type_speed(global.room_controller.particle_controller.part_points, 3*scale_back, 6*scale_back, -0.1*scale_back, false);
-part_particles_create(global.room_controller.particle_controller.particle_system_gui, 900, 65, global.room_controller.particle_controller.part_points, rotation_speed);
+part_particles_create(global.room_controller.particle_controller.particle_system_gui, view_wport[0]-150, 65, global.room_controller.particle_controller.part_points, rotation_speed);
 part_system_drawit(global.room_controller.particle_controller.particle_system_gui);
 draw_set_font(font_points);
 draw_set_halign(fa_center);
 draw_set_valign(fa_center);
-draw_sprite_ext(spr_points_background, 0, 900, 65, scale_back, scale_back, rotation, color_back, 1);
+draw_sprite_ext(spr_points_background, 0, view_wport[0]-150, 65, scale_back, scale_back, rotation, color_back, 1);
 var str = string(points);
 var sh = string_height(str);
-draw_text_ext_transformed_colour(900, 60-(sh*scale_front)/2,str, 1, 10000, scale_front, scale_front, 0, color_front, color_front, color_front, color_front, 1);
+draw_text_ext_transformed_colour(view_wport[0]-150, 60-(sh*scale_front)/2,str, 1, 10000, scale_front, scale_front, 0, color_front, color_front, color_front, color_front, 1);
 
-draw_sprite_ext(spr_points_background, 0, 940, 40-(sh*scale_front/2.5)/2, scale_back/3, scale_back/3, rotation, color_back-50, 1);
+draw_sprite_ext(spr_points_background, 0, view_wport[0]-110, 40-(sh*scale_front/2.5)/2, scale_back/3, scale_back/3, rotation, color_back-50, 1);
 var str2 = "x" + string(round(multiplyer));
 var sh2 = string_height(str2);
-draw_text_ext_transformed_colour(940, 25-(sh*scale_front/2.5)/2,str2, 1, 10000, scale_front/2.5, scale_front/2.5, 0, color_front-50, color_front-50, color_front-50, color_front-50, 1);
-
-//show_debug_message(rotation_speed)
+draw_text_ext_transformed_colour(view_wport[0]-110, 25-(sh*scale_front/2.5)/2,str2, 1, 10000, scale_front/2.5, scale_front/2.5, 0, color_front-50, color_front-50, color_front-50, color_front-50, 1);
 </string>
           </argument>
         </arguments>

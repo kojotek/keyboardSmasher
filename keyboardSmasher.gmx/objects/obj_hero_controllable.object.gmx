@@ -113,6 +113,7 @@ if (inst == noone){
     with(global.room_controller.music_controller){
         event_perform(ev_other, EVENT_STOP_SONG);
         global.last_checkpoint_deaths++;
+        instance_create(x, y, obj_death_screen);
     }
 }
 </string>

@@ -11,7 +11,6 @@
   <colour>255</colour>
   <showcolour>-1</showcolour>
   <code>display_reset(0, true);
-show_debug_overlay(true);
 
 global.last_checkpoint_x = 100;
 global.last_checkpoint_y = 100;

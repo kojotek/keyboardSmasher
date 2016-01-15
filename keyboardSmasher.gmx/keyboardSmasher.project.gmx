@@ -184,6 +184,7 @@
     </objects>
     <objects name="GUI">
       <object>objects\obj__final_screen</object>
+      <object>objects\obj_death_screen</object>
     </objects>
   </objects>
   <rooms name="rooms">
